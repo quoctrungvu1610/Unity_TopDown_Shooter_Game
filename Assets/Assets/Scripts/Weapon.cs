@@ -5,8 +5,10 @@ using Unity.VisualScripting;
 public class Weapon
 {
     public WeaponType weaponType;
-    public int ammo;
-    public int maxAmmo;
+    public int bulletsInMagazine;
+    public int magazineCapacity;
+
+    public int totalReserveAmmo;
 
     public bool CanShoot() 
     {
@@ -15,13 +17,46 @@ public class Weapon
 
     private bool HaveEnoughBullets()
     {
-        if (ammo > 0)
+        if (bulletsInMagazine > 0)
         {
-            ammo--;
+            bulletsInMagazine--;
             return true;
         }
 
         return false;
+    }
+
+    public bool CanReload() 
+    {
+        if(bulletsInMagazine == magazineCapacity) 
+        {
+            return false;
+        }
+
+        if (totalReserveAmmo > 0) 
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void RefillBullets() 
+    {
+        int bulletToReload = magazineCapacity;
+
+        if (bulletToReload > totalReserveAmmo) 
+        {
+            bulletToReload = totalReserveAmmo;
+        }
+
+        totalReserveAmmo -= bulletToReload;
+        bulletsInMagazine = bulletToReload;
+
+        if(totalReserveAmmo < 0) 
+        {
+            totalReserveAmmo = 0;
+        }
     }
 }
 public enum WeaponType

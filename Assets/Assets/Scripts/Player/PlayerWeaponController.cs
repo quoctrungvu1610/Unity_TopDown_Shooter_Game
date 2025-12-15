@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerWeaponController : MonoBehaviour
@@ -30,14 +31,35 @@ public class PlayerWeaponController : MonoBehaviour
         AsignInputEvents();
 
         currentWeapon = weaponSlots[0];
-        currentWeapon.ammo = currentWeapon.maxAmmo;
+        //currentWeapon.bulletsInMagazine = currentWeapon.magazineCapacity;
+    }
+    public bool HasOnlyOneWeapon() 
+    {
+        return weaponSlots.Count <= 1;
     }
 
+    public Weapon CurrentWeapon()
+    {
+        return currentWeapon;
+    }
+
+    public Weapon BackupWeapon() 
+    {
+        foreach (Weapon weapon in weaponSlots) 
+        {
+            if( weapon != currentWeapon) 
+            {
+                return weapon;
+            }
+        }
+        return null;
+    }
 
     #region Slots management - Pickup/Equip/Drop
     private void EquipWeapon(int i) 
     {
         currentWeapon = weaponSlots[i];
+        player.weaponVisual.PlayWeaponEquipAnimation();
     }
 
     public void PickupWeapon(Weapon newWeapon) 
@@ -48,17 +70,18 @@ public class PlayerWeaponController : MonoBehaviour
             return;
         }
         weaponSlots.Add(newWeapon);
+        player.weaponVisual.SwitchOnBackupWeaponModel();
     }
 
     private void DropWeapon() 
     {
-        if (weaponSlots.Count <= 1) 
+        if (HasOnlyOneWeapon()) 
         {
             return;
         }
 
         weaponSlots.Remove(currentWeapon);
-        currentWeapon = weaponSlots[0];
+        EquipWeapon(0);
     }
     #endregion
 
@@ -102,6 +125,13 @@ public class PlayerWeaponController : MonoBehaviour
         player.controls.Character.EquipSlot1.performed += context => EquipWeapon(0);
         player.controls.Character.EquipSlot2.performed += context => EquipWeapon(1);
         player.controls.Character.DropCurrentWeapon.performed += context => DropWeapon();
+        player.controls.Character.Reload.performed += context =>
+        {
+            if(currentWeapon.CanReload())
+            {
+                player.weaponVisual.PlayReloadAnimation();
+            }
+        };
     }
     #endregion
 }

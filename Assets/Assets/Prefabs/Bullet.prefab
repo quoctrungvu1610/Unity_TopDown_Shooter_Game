@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 1479792290806866601}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.02, y: 0.03, z: 0.2}
+  m_LocalScale: {x: 0.01, y: 0.03, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -128,7 +128,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a7ea68713750014d939fb6708340d33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cd: {fileID: 1479193890630465695}
+  rb: {fileID: 7799940995442430196}
+  trailRenderer: {fileID: 47567377977186642}
+  meshRenderer: {fileID: 4205899811407734319}
   bulletImpactFX: {fileID: 1520587846284062876, guid: e19a7a72c42216c499e18e109be190ea, type: 3}
+  bulletDisabled: 0
 --- !u!96 &47567377977186642
 TrailRenderer:
   serializedVersion: 2

@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: '@Back Weapon Grab (Not Read-Only)'
+  m_Name: '@Back Weapon Equip (Not Read-Only)'
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -44094,7 +44094,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 1.5666667
-    functionName: WeaponGrabIsOver
+    functionName: WeaponEquipingIsOver
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

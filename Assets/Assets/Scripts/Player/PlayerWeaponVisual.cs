@@ -9,7 +9,6 @@ public class PlayerWeaponVisual : MonoBehaviour
 {
     private Rig rig;
     private Animator anim;
-    private bool isGrabbingWeapon = false;
     private Player player;
 
     [SerializeField] private WeaponModel[] weaponModels;
@@ -41,7 +40,7 @@ public class PlayerWeaponVisual : MonoBehaviour
         UpdateLeftHandIKWeight();
     }
 
-    private WeaponModel CurrentWeaponModel()
+    public WeaponModel CurrentWeaponModel()
     {
         WeaponModel weaponModel = null;
 
@@ -56,34 +55,38 @@ public class PlayerWeaponVisual : MonoBehaviour
         }
 
         return weaponModel;
+    }
 
+    public void PlayFireAnimation()
+    {
+        anim.SetTrigger("Fire");
     }
 
     public void PlayReloadAnimation()
     {
-        if(isGrabbingWeapon) return;
+        //if(isEquipingWeapon) return;
 
+        float reloadSpeed = player.weapon.CurrentWeapon().reloadSpeed;
+        
+        anim.SetFloat("ReloadSpeed", reloadSpeed);
         anim.SetTrigger("Reload");
         ReduceRigWeight();
     }
 
 
-
     public void PlayWeaponEquipAnimation()
     {
-        GrabType grabType = CurrentWeaponModel().grabType; 
+        EquipType equipType = CurrentWeaponModel().equipAnimationType; 
         
+        float equipmentSpeed = player.weapon.CurrentWeapon().equipmentSpeed;
+
         leftHandIK.weight = 0;
         ReduceRigWeight();
-        anim.SetFloat("WeaponGrabType", (float)grabType);
-        anim.SetTrigger("WeaponGrab");
-        SetBusyGrabbingWeaponTo(true);
-    }
 
-    public void SetBusyGrabbingWeaponTo(bool busy)
-    {
-        isGrabbingWeapon = busy;
-        anim.SetBool("BusyGrabbingWeapon", isGrabbingWeapon);
+        anim.SetTrigger("EquipWeapon");
+        anim.SetFloat("EquipType", (float)equipType);
+        anim.SetFloat("EquipSpeed", equipmentSpeed);
+
     }
 
 
@@ -107,23 +110,44 @@ public class PlayerWeaponVisual : MonoBehaviour
     {
         foreach(BackupWeaponModel backupModel in backupWeaponModels) 
         {
-            backupModel.gameObject.SetActive(false);
+            backupModel.Activate(false);
         }
     }
 
     public void SwitchOnBackupWeaponModel() 
     {
-        if(player.weapon.BackupWeapon() == null) 
+        SwitchOffBackupWeaponModels();
+
+        BackupWeaponModel lowHangWeapon = null;
+        BackupWeaponModel backHangWeapon = null;
+        BackupWeaponModel sideHangWeapon = null;
+
+        foreach (BackupWeaponModel backupModel in backupWeaponModels) 
         {
-            return;
-        }
-        WeaponType weaponType = player.weapon.BackupWeapon().weaponType;
-        foreach(BackupWeaponModel backupModel in backupWeaponModels) 
-        {
-            if(backupModel.weaponType == weaponType) 
+            if(backupModel.weaponType == player.weapon.CurrentWeapon().weaponType) 
             {
-                backupModel.gameObject.SetActive(true);
+                continue;
             }
+
+            if (player.weapon.WeaponInSlots(backupModel.weaponType) != null) 
+            {
+                if(backupModel.HangTypeIs(HangType.LowBackHang)) 
+                {
+                    lowHangWeapon = backupModel;
+                }
+                else if(backupModel.HangTypeIs(HangType.BackHang)) 
+                {
+                    backHangWeapon = backupModel;
+                }
+                else if(backupModel.HangTypeIs(HangType.SideHang)) 
+                {
+                    sideHangWeapon = backupModel;
+                }
+            }
+
+            lowHangWeapon?.Activate(true);
+            backHangWeapon?.Activate(true);
+            sideHangWeapon?.Activate(true);
         }   
     }
 

@@ -45,34 +45,38 @@ public class Weapon
     public float cameraDistance { get; private set; }
     #endregion
 
-    public Weapon(Weapon_Data weapnData) 
+    public Weapon_Data weaponData { get; private set; } //Serve as default data reference
+
+    public Weapon(Weapon_Data weaponData) 
     {
-        bulletsInMagazine = weapnData.bulletsInMagazine;
-        magazineCapacity = weapnData.magazineCapacity;
-        totalReserveAmmo = weapnData.totalReserveAmmo;
+        bulletsInMagazine = weaponData.bulletsInMagazine;
+        magazineCapacity = weaponData.magazineCapacity;
+        totalReserveAmmo = weaponData.totalReserveAmmo;
 
-        fireRate = weapnData.fireRate;
-        weaponType = weapnData.weaponType;
+        fireRate = weaponData.fireRate;
+        weaponType = weaponData.weaponType;
 
-        bulletsPerShot = weapnData.bulletPerShot;
-        shootType = weapnData.shootType;
+        bulletsPerShot = weaponData.bulletPerShot;
+        shootType = weaponData.shootType;
 
-        burstAvailable = weapnData.burstAvailable;
-        burstActive = weapnData.burstActive;
-        burstBulletPerShot = weapnData.burstBulletPerShot;
-        burstFireRate = weapnData.burstFireRate;
-        burstFireDelay = weapnData.burstFireDelay;
+        burstAvailable = weaponData.burstAvailable;
+        burstActive = weaponData.burstActive;
+        burstBulletPerShot = weaponData.burstBulletPerShot;
+        burstFireRate = weaponData.burstFireRate;
+        burstFireDelay = weaponData.burstFireDelay;
 
-        baseSpread = weapnData.baseSpread;
-        maximumSpread = weapnData.maxSpread;
-        spreadIncreaseRate = weapnData.spreadIncreaseRate;
+        baseSpread = weaponData.baseSpread;
+        maximumSpread = weaponData.maxSpread;
+        spreadIncreaseRate = weaponData.spreadIncreaseRate;
 
-        reloadSpeed = weapnData.reloadSpeed;
-        equipmentSpeed = weapnData.equipmentSpeed;
-        gunDistance = weapnData.gunDistance;
-        cameraDistance = weapnData.cameraDistance;
+        reloadSpeed = weaponData.reloadSpeed;
+        equipmentSpeed = weaponData.equipmentSpeed;
+        gunDistance = weaponData.gunDistance;
+        cameraDistance = weaponData.cameraDistance;
 
         defaultFireRate = fireRate;
+
+        this.weaponData = weaponData;
     }
 
 

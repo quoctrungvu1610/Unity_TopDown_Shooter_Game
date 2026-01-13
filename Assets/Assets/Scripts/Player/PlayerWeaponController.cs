@@ -26,6 +26,8 @@ public class PlayerWeaponController : MonoBehaviour
     [SerializeField] private int maxSlots = 2;
     [SerializeField] private List<Weapon> weaponSlots;
 
+    [SerializeField] private GameObject weaponPickupPrefab;
+
     private void Start()
     {
         player = GetComponent<Player>();
@@ -86,27 +88,49 @@ public class PlayerWeaponController : MonoBehaviour
         EquipWeapon(0);
     }
 
-    public void PickupWeapon(Weapon_Data newWeaponData) 
+    public void PickupWeapon(Weapon newWeapon) 
     {
-        if(weaponSlots.Count >= maxSlots) 
+
+        //If weapon already in slots, just add ammo
+        if (WeaponInSlots(newWeapon.weaponType) != null) 
         {
-            Debug.Log("No Slots Avalible ");
+            Debug.Log("Weapon already in slots ");
+            WeaponInSlots(newWeapon.weaponType).totalReserveAmmo += newWeapon.bulletsInMagazine;
             return;
         }
-        Weapon newWeapon = new Weapon(newWeaponData);
+           
+        if (weaponSlots.Count >= maxSlots && newWeapon.weaponType != currentWeapon.weaponType) 
+        {
+            int weaponIndex = weaponSlots.IndexOf(currentWeapon);
+            player.weaponVisuals.SwitchOffWeaponModels();
+            weaponSlots[weaponIndex] = newWeapon;
+
+            CreateWeaponOnTheGround();
+            EquipWeapon(weaponIndex);
+            return;
+        }
+
         weaponSlots.Add(newWeapon);
         player.weaponVisuals.SwitchOnBackupWeaponModel();
     }
 
-    private void DropWeapon() 
+    private void DropWeapon()
     {
-        if (HasOnlyOneWeapon()) 
+        if (HasOnlyOneWeapon())
         {
             return;
         }
 
+        CreateWeaponOnTheGround();
+
         weaponSlots.Remove(currentWeapon);
         EquipWeapon(0);
+    }
+
+    private void CreateWeaponOnTheGround()
+    {
+        GameObject droppedWeapon = ObjectPool.instance.GetObject(weaponPickupPrefab);
+        droppedWeapon.GetComponent<Pickup_Weapon>()?.SetupPickupWeapon(currentWeapon, transform);
     }
 
     public void SetWeaponReady(bool ready)

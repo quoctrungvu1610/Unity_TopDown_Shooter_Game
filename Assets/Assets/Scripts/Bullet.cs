@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public float impactForce;
+
     private BoxCollider cd;
     private Rigidbody rb;
     private TrailRenderer trailRenderer;
@@ -23,8 +25,10 @@ public class Bullet : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
     }
 
-    public void BulletSetup(float flyDistance)
+    public void BulletSetup(float flyDistance, float impactForce)
     {
+        this.impactForce = impactForce;
+
         bulletDisabled = false;
         cd.enabled = true;
         meshRenderer.enabled = true;
@@ -75,6 +79,15 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
+        if (enemy != null) 
+        {
+            Vector3 force = rb.velocity.normalized * impactForce;
+            Rigidbody hitRigidBody = collision.collider.attachedRigidbody;
+
+            enemy.GetHit();
+            enemy.HitImpact(force, collision.contacts[0].point, hitRigidBody);
+        }
         CreateImpactFX(collision);
         ReturnBulletToPool();
     }

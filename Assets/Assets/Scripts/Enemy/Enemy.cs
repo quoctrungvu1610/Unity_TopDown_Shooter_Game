@@ -5,20 +5,16 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public float turnSpeed;
-    public float aggressionRange;
-
-    [Header("Attack data")]
-    public float attackRange;
-    public float attackMoveSpeed;
-
     [Header("Idle data")]
     public float idleTime;
+    public float aggressionRange;
 
     [Header("Move data")]
     public float moveSpeed;
     public float chaseSpeed;
     private bool manualMovement;
+    public float turnSpeed;
+    private bool manualRotation;
 
     [SerializeField] private Transform[] patrolPoints;
 
@@ -76,26 +72,47 @@ public class Enemy : MonoBehaviour
         return Vector3.Distance(transform.position, player.position) < aggressionRange;
     }
 
-    public bool PlayerInAttackRange()
-    {
-        return Vector3.Distance(transform.position, player.position) < attackRange;
-    }
-
     public void ActivateManualMovement(bool manualMovement) 
     {
         this.manualMovement = manualMovement;   
     }
+
     public bool ManualMovementActive() 
     {
         return manualMovement;
     }
 
-    private void OnDrawGizmos()
+    public void ActivateManualRotation(bool manualRotation)
+    {
+        this.manualRotation = manualRotation;
+    }
+
+    public bool ManualRotationActive()
+    {
+        return manualRotation;
+    }
+
+    public virtual void GetHit() 
+    {
+       
+    }
+
+    public virtual void HitImpact(Vector3 force, Vector3 hitPoint, Rigidbody rb) 
+    {
+        StartCoroutine(HitImpactCoroutine(force, hitPoint, rb));
+    }
+
+    private IEnumerator HitImpactCoroutine(Vector3 force, Vector3 hitPoint, Rigidbody rb) 
+    {
+        yield return new WaitForSeconds(0.1f);
+        rb.AddForceAtPosition(force, hitPoint, ForceMode.Impulse);
+    }
+
+    protected virtual void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, aggressionRange);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
+
     public Quaternion FaceTarget(Vector3 target) 
     {
         Quaternion targetRotation = Quaternion.LookRotation(target - transform.position);

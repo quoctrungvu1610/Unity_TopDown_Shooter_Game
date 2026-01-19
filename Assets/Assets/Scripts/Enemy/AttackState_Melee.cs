@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class AttackState_Melee : EnemyState
 {
     private Enemy_Melee enemy;
     private Vector3 attackDirection;
+    private float attackMoveSpeed;
 
     private const float MAX_ATTACK_DISTANCE = 50f;
 
@@ -18,29 +20,87 @@ public class AttackState_Melee : EnemyState
     {
         base.Enter();
 
+        enemy.PullWeapon();
+
+        attackMoveSpeed = enemy.attackData.moveSpeed;
+        enemy.anim.SetFloat("AttackAnimationSpeed", enemy.attackData.animationSpeed);
+        enemy.anim.SetFloat("AttackIndex", enemy.attackData.attackIndex);
+        enemy.anim.SetFloat("SlashAttackIndex", Random.Range(0, 5));
+
         enemy.agent.isStopped = true;
         enemy.agent.velocity = Vector3.zero;
 
         attackDirection = enemy.transform.position + (enemy.transform.forward * MAX_ATTACK_DISTANCE);
+        Debug.Log("Enter State Attack With AttackIndex : " + enemy.attackData.attackIndex);
     }
 
     public override void Exit()
     {
-        base.Exit();
+        base.Exit(); 
+        SetupNextAttack();
+    }
+
+    private void SetupNextAttack()
+    {
+        int recoveryindex = PlayerClose() ? 1 : 0;
+
+        enemy.anim.SetFloat("RecoveryIndex", recoveryindex);
+        enemy.attackData = UpdateAttackData();
     }
 
     public override void Update()
     {
         base.Update();
 
-        if(enemy.ManualMovementActive()) 
+        if (enemy.ManualRotationActive())
         {
-            enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, attackDirection, enemy.attackMoveSpeed * Time.deltaTime);
+            enemy.transform.rotation = enemy.FaceTarget(enemy.player.position);
+            attackDirection = enemy.transform.position + (enemy.transform.forward * MAX_ATTACK_DISTANCE);
+        }
+
+
+        if (enemy.ManualMovementActive()) 
+        {
+            enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, attackDirection, attackMoveSpeed * Time.deltaTime);
         }
 
         if (triggerCalled) 
         {
-            stateMachine.ChangeState(enemy.recoveryState);
+            if (enemy.PlayerInAttackRange())
+            {
+                Debug.Log("Attack to Attack");
+                stateMachine.ChangeState(enemy.recoveryState);
+            }
+            else 
+            {
+                Debug.Log("Attack to Chase");
+                stateMachine.ChangeState(enemy.chaseState);
+            }    
         }
+
+        //if (enemy.PlayerInAttackRange() != false) 
+        //{
+        //    Debug.Log("Called");
+        //    stateMachine.ChangeState(enemy.chaseState);
+        //}
+    }
+
+    private bool PlayerClose() 
+    {
+        return Vector3.Distance(enemy.transform.position, enemy.player.position) <= 1;
+    }
+
+    private AttackData UpdateAttackData() 
+    {
+        List<AttackData> validAttacks = new List<AttackData>(enemy.attackList);
+
+        if(PlayerClose()) 
+        {
+            // Remove charge attacks if player is close
+            validAttacks.RemoveAll(attack => attack.attackType == AttackType_Melee.Charge);
+        }
+        int random = Random.Range(0, validAttacks.Count);
+
+        return validAttacks[random];
     }
 }

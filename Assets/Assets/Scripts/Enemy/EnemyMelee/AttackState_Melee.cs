@@ -31,7 +31,6 @@ public class AttackState_Melee : EnemyState
         enemy.agent.velocity = Vector3.zero;
 
         attackDirection = enemy.transform.position + (enemy.transform.forward * MAX_ATTACK_DISTANCE);
-        Debug.Log("Enter State Attack With AttackIndex : " + enemy.attackData.attackIndex);
     }
 
     public override void Exit()
@@ -54,7 +53,7 @@ public class AttackState_Melee : EnemyState
 
         if (enemy.ManualRotationActive())
         {
-            enemy.transform.rotation = enemy.FaceTarget(enemy.player.position);
+            enemy.FaceTarget(enemy.player.position);
             attackDirection = enemy.transform.position + (enemy.transform.forward * MAX_ATTACK_DISTANCE);
         }
 
@@ -68,12 +67,10 @@ public class AttackState_Melee : EnemyState
         {
             if (enemy.PlayerInAttackRange())
             {
-                Debug.Log("Attack to Attack");
                 stateMachine.ChangeState(enemy.recoveryState);
             }
             else 
             {
-                Debug.Log("Attack to Chase");
                 stateMachine.ChangeState(enemy.chaseState);
             }    
         }

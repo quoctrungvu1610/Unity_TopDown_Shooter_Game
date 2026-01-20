@@ -7,13 +7,12 @@ public class Enemy_Ragdoll : MonoBehaviour
     [SerializeField] private Transform ragdollParent;
 
     private Collider[] ragdollColliders;
-    private Rigidbody[] ragdollRigidbodies;
+    [SerializeField] private Rigidbody[] ragdollRigidbodies;
 
     private void Awake()
     {
         ragdollColliders = ragdollParent.GetComponentsInChildren<Collider>(true);
         ragdollRigidbodies = ragdollParent.GetComponentsInChildren<Rigidbody>(true);
-
         RagdollActive(false);
     }
 

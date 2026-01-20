@@ -40,7 +40,7 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        FadeTrailIfNeeded();
+        //FadeTrailIfNeeded();
         DisableBulletIfNeeded();
         ReturnToPoolIfNeeded();
     }
@@ -79,17 +79,26 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        CreateImpactFX(collision);
+        ReturnBulletToPool();
+
         Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
+        Enemy_Shield shield = collision.gameObject.GetComponent<Enemy_Shield>();
+
+        if (shield != null) 
+        {
+            shield.ReduceDurability();
+            return;
+        }
+
         if (enemy != null) 
         {
             Vector3 force = rb.velocity.normalized * impactForce;
             Rigidbody hitRigidBody = collision.collider.attachedRigidbody;
 
             enemy.GetHit();
-            enemy.HitImpact(force, collision.contacts[0].point, hitRigidBody);
+            enemy.DeathImpact(force, collision.contacts[0].point, hitRigidBody);
         }
-        CreateImpactFX(collision);
-        ReturnBulletToPool();
     }
 
     private void CreateImpactFX(Collision collision)

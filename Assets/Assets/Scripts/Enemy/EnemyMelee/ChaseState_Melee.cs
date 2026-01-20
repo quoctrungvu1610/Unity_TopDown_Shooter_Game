@@ -35,7 +35,7 @@ public class ChaseState_Melee : EnemyState
             stateMachine.ChangeState(enemy.attackState);
         }
 
-        enemy.transform.rotation = enemy.FaceTarget(GetNextPathPoint());
+        enemy.FaceTarget(GetNextPathPoint());
 
         if (CanUpdateDestination()) 
         {

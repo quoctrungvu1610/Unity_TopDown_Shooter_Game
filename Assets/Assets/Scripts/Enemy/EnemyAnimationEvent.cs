@@ -35,4 +35,9 @@ public class EnemyAnimationEvent : MonoBehaviour
     {
         enemy.ActivateManualRotation(false);
     }
+
+    public void AbilityEvent() 
+    {
+        enemy.AbilityTrigger();
+    }
 }

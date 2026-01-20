@@ -36,11 +36,16 @@ public class DeadState_Melee : EnemyState
     public override void Update()
     {
         base.Update();
-        //if(stateTimer < 0f && interactionDisabled == false) 
-        //{
-        //    interactionDisabled = true;
-        //    ragdoll.RagdollActive(false);
-        //    ragdoll.CollidersActive(false);
-        //}
+        //DisableInteractionIfShould();
+    }
+
+    private void DisableInteractionIfShould()
+    {
+        if (stateTimer < 0f && interactionDisabled == false)
+        {
+            interactionDisabled = true;
+            ragdoll.RagdollActive(false);
+            ragdoll.CollidersActive(false);
+        }
     }
 }

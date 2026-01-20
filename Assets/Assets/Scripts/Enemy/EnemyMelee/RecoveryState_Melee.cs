@@ -25,18 +25,22 @@ public class RecoveryState_Melee : EnemyState
     public override void Update()
     {
         base.Update();
-        enemy.transform.rotation = enemy.FaceTarget(enemy.player.position);
+        enemy.FaceTarget(enemy.player.position);
 
         if (triggerCalled)
         {
-            if (enemy.PlayerInAttackRange())
+            if (enemy.canThrowAxe()) 
+            {
+                stateMachine.ChangeState(enemy.abilityState);
+            }
+            else if (enemy.PlayerInAttackRange())
             {
                 stateMachine.ChangeState(enemy.attackState);
             }
-            else 
+            else
             {
                 stateMachine.ChangeState(enemy.chaseState);
-            }     
+            }
         }
     }
 }

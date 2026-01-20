@@ -13,7 +13,6 @@ public class IdleState_Melee : EnemyState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("Reset State Timer");
         stateTimer = enemyBase.idleTime;
     }
 
@@ -25,12 +24,6 @@ public class IdleState_Melee : EnemyState
     public override void Update()
     {
         base.Update();
-
-        if (enemy.PlayerInAggressionRange())
-        {
-            stateMachine.ChangeState(enemy.recoveryState);
-            return;
-        }
 
         if (stateTimer < 0f)
         {

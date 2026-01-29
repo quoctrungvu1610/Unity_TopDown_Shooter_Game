@@ -2,17 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CoverPerk { Unavailable, CanTakeCover, CanTakeAndChangeCover }
+public enum CoverPerk 
+{ 
+    Unavailable,
+    CanTakeCover,
+    CanTakeAndChangeCover 
+}
+
+public enum UnstoppablePerk 
+{
+    Unavailable,
+    Unstoppable,
+}
+
 
 public class Enemy_Range : Enemy
 {
     [Header("Enemy Perks")]
     public CoverPerk coverPerk;
+    public UnstoppablePerk unStoppablePerk;
 
     [Header("Advance Perk")]
     public float advanceSpeed;
     public float advanceStoppingDistance;
-    public float advanceTime = 2.5f;
+    public float advanceDuration = 2.5f;
 
     [Header("Cover System")]
     public float safeDistance;
@@ -22,6 +35,7 @@ public class Enemy_Range : Enemy
 
 
     [Header("Weapon Details")]
+    public float attackDelay;
     public Enemy_RangeWeaponType weaponType;
     public Enemy_RangeWeaponData weaponData;
 
@@ -67,6 +81,8 @@ public class Enemy_Range : Enemy
         playerBody = player.GetComponent<Player>().playerBody;
         aim.parent = null;
 
+        InitializePerk();
+
         stateMachine.Initialize(idleState);
         visuals.SetupLook();
         SetupWeapon();
@@ -77,6 +93,14 @@ public class Enemy_Range : Enemy
         base.Update();
 
         stateMachine.currentState.Update();
+    }
+    protected override void InitializePerk()
+    {
+        if (IsUnstoppable()) 
+        {
+            advanceSpeed = 1;
+            anim.SetFloat("AdvanceAnimIndex", 1);
+        }
     }
 
     #region Cover System
@@ -251,5 +275,11 @@ public class Enemy_Range : Enemy
     }
 
     #endregion
+
+    public bool IsUnstoppable() 
+    {
+        return unStoppablePerk == UnstoppablePerk.Unstoppable;
+    
+    }
 
 }

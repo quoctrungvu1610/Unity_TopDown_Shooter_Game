@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float impactForce;
+    private float impactForce;
 
     private BoxCollider cd;
     private Rigidbody rb;
@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour
     private float flyDistance;
     public bool bulletDisabled = false;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         cd = GetComponent<BoxCollider>();
         rb = GetComponent<Rigidbody>();
@@ -25,7 +25,7 @@ public class Bullet : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
     }
 
-    public void BulletSetup(float flyDistance, float impactForce)
+    public void BulletSetup(float flyDistance = 100, float impactForce = 100)
     {
         this.impactForce = impactForce;
 
@@ -38,28 +38,27 @@ public class Bullet : MonoBehaviour
         this.flyDistance = flyDistance;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         //FadeTrailIfNeeded();
         DisableBulletIfNeeded();
         ReturnToPoolIfNeeded();
     }
 
-    private void ReturnToPoolIfNeeded()
+    protected void ReturnToPoolIfNeeded()
     {
         if (trailRenderer.time < 0f)
         {
-            trailRenderer.time = 0f;
             ReturnBulletToPool();
         }
     }
 
-    private void ReturnBulletToPool()
+    protected void ReturnBulletToPool()
     {
         ObjectPool.instance.ReturnObject(gameObject);
     }
 
-    private void DisableBulletIfNeeded()
+    protected void DisableBulletIfNeeded()
     {
         if (Vector3.Distance(startPosition, transform.position) > flyDistance && !bulletDisabled)
         {
@@ -77,7 +76,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    protected virtual void OnCollisionEnter(Collision collision)
     {
         CreateImpactFX(collision);
         ReturnBulletToPool();
@@ -101,7 +100,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void CreateImpactFX(Collision collision)
+    protected void CreateImpactFX(Collision collision)
     {
         if (collision.contacts.Length > 0) 
         {

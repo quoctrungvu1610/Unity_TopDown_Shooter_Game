@@ -12,8 +12,8 @@ public class Enemy : MonoBehaviour
     public float aggressionRange;
 
     [Header("Move data")]
-    public float moveSpeed;
-    public float chaseSpeed;
+    public float walkSpeed = 1.5f;
+    public float runSpeed = 3f;
     private bool manualMovement;
     public float turnSpeed;
     private bool manualRotation;
@@ -29,12 +29,15 @@ public class Enemy : MonoBehaviour
     public NavMeshAgent agent { get; private set; }
     public EnemyStateMachine stateMachine { get; private set; }
 
+    public Enemy_Visual visuals { get; private set; }
+
     protected virtual void Awake()
     {
         stateMachine = new EnemyStateMachine();
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        visuals = GetComponent<Enemy_Visual>();
     }
 
     protected virtual void Start()
@@ -44,13 +47,16 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Update()
     {
-
+        if (ShouldEnterBattleMode())
+        {
+            EnterBattleMode();
+        }
     }
 
     protected bool ShouldEnterBattleMode() 
     {
-        bool inAgresstionRange = Vector3.Distance(transform.position, player.position) < aggressionRange;
-        if (inAgresstionRange && !inBattleMode)
+       
+        if (IsPlayerInAgrresionRange() && !inBattleMode)
         {
             EnterBattleMode();
             return true;
@@ -149,6 +155,11 @@ public class Enemy : MonoBehaviour
         float yRotation = Mathf.LerpAngle(currentEulerAngles.y, targetRotation.eulerAngles.y, turnSpeed * Time.deltaTime);
 
         transform.rotation = Quaternion.Euler(currentEulerAngles.x, yRotation, currentEulerAngles.z);
+    }
+
+    public bool IsPlayerInAgrresionRange() 
+    {
+        return Vector3.Distance(transform.position, player.position) < aggressionRange;
     }
 
     protected virtual void OnDrawGizmos()

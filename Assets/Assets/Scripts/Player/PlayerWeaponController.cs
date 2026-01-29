@@ -95,7 +95,6 @@ public class PlayerWeaponController : MonoBehaviour
         //If weapon already in slots, just add ammo
         if (WeaponInSlots(newWeapon.weaponType) != null) 
         {
-            Debug.Log("Weapon already in slots ");
             WeaponInSlots(newWeapon.weaponType).totalReserveAmmo += newWeapon.bulletsInMagazine;
             return;
         }
@@ -220,6 +219,13 @@ public class PlayerWeaponController : MonoBehaviour
 
         rbNewBullet.mass = REFERENCE_BULLET_SPEED / bulletSpeed;
         rbNewBullet.velocity = bulletDirection * bulletSpeed;
+
+        if(currentWeapon.bulletsInMagazine <= 0) 
+        {
+            Reload();
+        }
+
+
     }
 
     private void Reload()

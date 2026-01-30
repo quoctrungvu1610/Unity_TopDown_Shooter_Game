@@ -158,7 +158,7 @@ GameObject:
   - component: {fileID: 774099113921446162}
   - component: {fileID: 1026415306818019586}
   m_Layer: 0
-  m_Name: Enemy's Axe
+  m_Name: Enemy's_Axe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

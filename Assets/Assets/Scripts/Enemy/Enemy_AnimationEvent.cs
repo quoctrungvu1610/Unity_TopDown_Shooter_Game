@@ -40,4 +40,15 @@ public class Enemy_AnimationEventp : MonoBehaviour
     {
         enemy.AbilityTrigger();
     }
+
+    public void EnableIK() 
+    {
+        enemy.visuals.EnableIK(true, true, 1.5f);
+    }
+
+    public void EnableWeaponModel() 
+    {
+        enemy.visuals.EnableWeaponModel(true);
+        enemy.visuals.EnableSecondaryWeaponModel(false);
+    }
 }

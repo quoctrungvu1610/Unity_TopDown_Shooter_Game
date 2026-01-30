@@ -6,7 +6,7 @@ public enum CoverPerk
 { 
     Unavailable,
     CanTakeCover,
-    CanTakeAndChangeCover 
+    CanTakeAndChangeCover,
 }
 
 public enum UnstoppablePerk 
@@ -15,17 +15,28 @@ public enum UnstoppablePerk
     Unstoppable,
 }
 
+public enum GrenadePerk 
+{
+    Unavailable,
+    CanThrowGrenade,
+}
+
 
 public class Enemy_Range : Enemy
 {
     [Header("Enemy Perks")]
     public CoverPerk coverPerk;
     public UnstoppablePerk unStoppablePerk;
+    public GrenadePerk grenadePerk;
 
     [Header("Advance Perk")]
     public float advanceSpeed;
     public float advanceStoppingDistance;
     public float advanceDuration = 2.5f;
+
+    [Header("Grenade Perk")]
+    public float grenadeCooldown;
+    private float lastTimeGrenadeThrown = -10;
 
     [Header("Cover System")]
     public float safeDistance;
@@ -62,6 +73,7 @@ public class Enemy_Range : Enemy
     public BattleState_Range battleState { get; private set; }
     public RunToCoverState_Range runToCoverState { get; private set; }
     public AdvancePlayerState_Range advancePlayerState { get; private set; }
+    public ThrowGrenadeState_Range throwGrenadeState { get; private set; }
 
     protected override void Awake()
     {
@@ -72,6 +84,7 @@ public class Enemy_Range : Enemy
         battleState = new BattleState_Range(this, stateMachine, "Battle");
         runToCoverState = new RunToCoverState_Range(this, stateMachine, "Run");
         advancePlayerState = new AdvancePlayerState_Range(this, stateMachine, "Advance");
+        throwGrenadeState = new ThrowGrenadeState_Range(this, stateMachine, "ThrowGrenade");
     }
 
     protected override void Start()
@@ -94,12 +107,59 @@ public class Enemy_Range : Enemy
 
         stateMachine.currentState.Update();
     }
+
+    public bool CanThrowGrenade() 
+    {
+        if (grenadePerk == GrenadePerk.Unavailable) 
+        {
+            return false;
+        }
+
+        if (Vector3.Distance(player.transform.position, transform.position) < safeDistance) 
+        {
+            return false;
+        }
+
+        if (Time.time > grenadeCooldown + lastTimeGrenadeThrown) 
+        {
+            return true;
+        }
+
+        return false;
+         
+    }
+
+    public void ThrowGrenade() 
+    {
+        lastTimeGrenadeThrown = Time.time;
+        Debug.Log("Throw Nade");
+    }
+
     protected override void InitializePerk()
     {
         if (IsUnstoppable()) 
         {
             advanceSpeed = 1;
             anim.SetFloat("AdvanceAnimIndex", 1);
+        }
+    }
+
+    public override void EnterBattleMode()
+    {
+        if (inBattleMode)
+        {
+            return;
+        }
+        base.EnterBattleMode();
+
+        if (CanGetCover())
+        {
+            stateMachine.ChangeState(runToCoverState);
+
+        }
+        else
+        {
+            stateMachine.ChangeState(battleState);
         }
     }
 
@@ -199,25 +259,7 @@ public class Enemy_Range : Enemy
 
     }
 
-    public override void EnterBattleMode()
-    {
-        if (inBattleMode)
-        {
-            return;
-        }
-        base.EnterBattleMode();
-
-        if (CanGetCover())
-        {
-            stateMachine.ChangeState(runToCoverState);
-
-        }
-        else 
-        {
-            stateMachine.ChangeState(battleState);
-        }
-    }
-
+    
     private void SetupWeapon() 
     {
         List<Enemy_RangeWeaponData> filteredData = new List<Enemy_RangeWeaponData>();

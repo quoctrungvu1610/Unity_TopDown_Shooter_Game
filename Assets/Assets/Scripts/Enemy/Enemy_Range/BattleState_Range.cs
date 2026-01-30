@@ -41,6 +41,11 @@ public class BattleState_Range : EnemyState
             enemy.FaceTarget(enemy.aim.position);
         }
 
+        if (enemy.CanThrowGrenade()) 
+        {
+            stateMachine.ChangeState(enemy.throwGrenadeState);
+        }
+
         if (MustAdvancePlayer()) 
         {
             stateMachine.ChangeState(enemy.advancePlayerState);

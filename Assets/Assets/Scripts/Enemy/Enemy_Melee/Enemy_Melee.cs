@@ -142,7 +142,7 @@ public class Enemy_Melee : Enemy
     public override void GetHit()
     {
         base.GetHit();
-        if (healthPoints <= 0) 
+        if (healthPoints <= 0 && stateMachine.currentState != deadState) 
         {
             stateMachine.ChangeState(deadState);
         } 

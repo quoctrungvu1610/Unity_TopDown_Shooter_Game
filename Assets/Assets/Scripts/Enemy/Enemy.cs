@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    protected int healthPoints = 20;
+    public int healthPoints = 20;
 
     [Header("Idle data")]
     public float idleTime;
@@ -31,8 +31,11 @@ public class Enemy : MonoBehaviour
 
     public Enemy_Visual visuals { get; private set; }
 
+    public Enemy_Ragdoll ragdoll { get; private set; }
+
     protected virtual void Awake()
     {
+        ragdoll = GetComponent<Enemy_Ragdoll>();
         stateMachine = new EnemyStateMachine();
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();

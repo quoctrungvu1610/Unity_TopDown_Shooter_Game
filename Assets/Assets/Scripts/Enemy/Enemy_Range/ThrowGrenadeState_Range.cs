@@ -5,6 +5,8 @@ using UnityEngine;
 public class ThrowGrenadeState_Range : EnemyState
 {
     private Enemy_Range enemy;
+    public bool finishedThrowingGrenade { get; private set; }
+
     public ThrowGrenadeState_Range(Enemy enemyBase, EnemyStateMachine stateMachine, string animBoolName) : base(enemyBase, stateMachine, animBoolName)
     {
         enemy = enemyBase as Enemy_Range;
@@ -13,10 +15,13 @@ public class ThrowGrenadeState_Range : EnemyState
     public override void Enter()
     {
         base.Enter();
+        
+        finishedThrowingGrenade = false;
 
         enemy.visuals.EnableWeaponModel(false);
         enemy.visuals.EnableIK(false, false);
         enemy.visuals.EnableSecondaryWeaponModel(true);
+        enemy.visuals.EnableGrenadeModel(true);
     }
 
     public override void Exit()
@@ -44,7 +49,7 @@ public class ThrowGrenadeState_Range : EnemyState
     public override void AbilityTrigger()
     {
         base.AbilityTrigger();
-
+        finishedThrowingGrenade = true;
         enemy.ThrowGrenade();
         
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : MonoBehaviour
 {
     public int healthPoints = 20;
@@ -155,10 +156,15 @@ public class Enemy : MonoBehaviour
         rb.AddForceAtPosition(force, hitPoint, ForceMode.Impulse);
     }
     
-    public void FaceTarget(Vector3 target) 
+    public void FaceTarget(Vector3 target, float turnSpeed = 0) 
     {
         Quaternion targetRotation = Quaternion.LookRotation(target - transform.position);
         Vector3 currentEulerAngles = transform.rotation.eulerAngles;
+
+        if (turnSpeed == 0) 
+        {
+            turnSpeed = this.turnSpeed;
+        }
 
         float yRotation = Mathf.LerpAngle(currentEulerAngles.y, targetRotation.eulerAngles.y, turnSpeed * Time.deltaTime);
 

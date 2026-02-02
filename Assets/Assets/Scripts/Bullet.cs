@@ -32,6 +32,8 @@ public class Bullet : MonoBehaviour
         bulletDisabled = false;
         cd.enabled = true;
         meshRenderer.enabled = true;
+
+        trailRenderer.Clear();
         trailRenderer.time = 0.2f;
 
         startPosition = transform.position;
@@ -78,7 +80,7 @@ public class Bullet : MonoBehaviour
 
     protected virtual void OnCollisionEnter(Collision collision)
     {
-        CreateImpactFX(collision);
+        CreateImpactFX();
         ReturnBulletToPool();
 
         Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
@@ -100,19 +102,9 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    protected void CreateImpactFX(Collision collision)
+    protected void CreateImpactFX()
     {
-        if (collision.contacts.Length > 0) 
-        {
-            ContactPoint contact = collision.contacts[0];
-            //Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
-            //Vector3 pos = contact.point;
-            //GameObject impactFX = Instantiate(bulletImpactFX, pos, rot);
-
-            GameObject impactFX = ObjectPool.instance.GetObject(bulletImpactFX);
-            impactFX.transform.position = contact.point;
-            
+            GameObject impactFX = ObjectPool.instance.GetObject(bulletImpactFX, transform);
             ObjectPool.instance.ReturnObject(impactFX, 1f);
-        }
     }
 }

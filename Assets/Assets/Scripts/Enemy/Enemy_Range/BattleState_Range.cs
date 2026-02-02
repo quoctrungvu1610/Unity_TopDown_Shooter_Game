@@ -51,14 +51,13 @@ public class BattleState_Range : EnemyState
             stateMachine.ChangeState(enemy.advancePlayerState);
         }
 
-        enemy.FaceTarget(enemy.player.position);
+        ChangeCoverIfShould();
 
         if (stateTimer > 0)
         {
             return;
         }
 
-        ChangeCoverIfShould();
 
         if (WeaponOutOfBullets())
         {
@@ -117,9 +116,9 @@ public class BattleState_Range : EnemyState
 
         if (coverCheckTimer < 0) 
         {
-            coverCheckTimer = 0.1f; //Check Rate
+            coverCheckTimer = 0.5f; //Check Rate
 
-            if (ReadyToChangeCover())
+            if (ReadyToChangeCover() && ReadyToLeaveCover())
             {
                 if (enemy.CanGetCover())
                 {
@@ -149,7 +148,10 @@ public class BattleState_Range : EnemyState
 
         if (Physics.Raycast(enemy.transform.position, directionToPlayer, out RaycastHit hit)) 
         {
-            return hit.collider.gameObject.GetComponentInParent<Player>();
+            if (hit.transform == enemy.player || hit.transform.parent == enemy.player) 
+            {
+                return true;
+            }
         }
 
         return false;

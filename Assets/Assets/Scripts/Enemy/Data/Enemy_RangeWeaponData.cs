@@ -21,7 +21,7 @@ public class Enemy_RangeWeaponData : ScriptableObject
 
     public int GetBulletsPerAttack()
     {
-        return Random.Range(minBulletsPerAttack, maxBulletsPerAttack);
+        return Random.Range(minBulletsPerAttack, maxBulletsPerAttack + 1);
     }
 
     public float GetWeaponCooldown()

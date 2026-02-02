@@ -43,7 +43,7 @@ ModelImporter:
       name: Slow Walk Rifle
       takeName: mixamo.com
       internalID: -203655887218126122
-      firstFrame: 1.5
+      firstFrame: 0
       lastFrame: 39
       wrapMode: 0
       orientationOffsetY: 0

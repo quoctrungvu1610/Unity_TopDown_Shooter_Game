@@ -35,9 +35,8 @@ public class Enemy_Grenade : MonoBehaviour
 
     private void Explode() 
     {
-        GameObject newFx = ObjectPool.instance.GetObject(explosionFx);
-        newFx.transform.position = transform.position;
-
+        GameObject newFx = ObjectPool.instance.GetObject(explosionFx, transform);
+        
         ObjectPool.instance.ReturnObject(newFx, 1);
         ObjectPool.instance.ReturnObject(gameObject);
 

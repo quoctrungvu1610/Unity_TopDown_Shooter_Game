@@ -16,7 +16,7 @@ public class DeadState_Range : EnemyState
     {
         base.Enter();
 
-        if (enemy.throwGrenadeState.finishedThrowingGrenade == false) 
+        if (enemy.throwGrenadeState.finishedThrowingGrenade == false && enemy.grenadePerk == GrenadePerk.CanThrowGrenade) 
         {
             enemy.ThrowGrenade();
         }
@@ -24,23 +24,23 @@ public class DeadState_Range : EnemyState
         interactionDisabled = false;
 
         enemy.anim.enabled = false;
-        enemy.agent.isStopped = false;
+        enemy.agent.isStopped = true;
 
         enemy.ragdoll.RagdollActive(true);
 
         stateTimer = 1.5f;
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-    }
+    //public override void Exit()
+    //{
+    //    base.Exit();
+    //}
 
     public override void Update()
     {
         base.Update();
 
-        DisableInteractionIfShould();
+        //DisableInteractionIfShould();
 
     }
     private void DisableInteractionIfShould()

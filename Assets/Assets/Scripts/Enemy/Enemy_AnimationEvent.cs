@@ -59,7 +59,7 @@ public class Enemy_AnimationEventp : MonoBehaviour
             enemy_Boss = GetComponentInParent<Enemy_Boss>();
         }
 
-        enemy_Boss.JumpImpact();
+        enemy_Boss?.JumpImpact();
 
     }
 }

@@ -85,14 +85,15 @@ public class MoveState_Boss : EnemyState
     private void PerformRandomAction() 
     {
         actionTimer = enemy.actionCooldown;
+
         if (Random.Range(0, 2) == 0)
         {
             if (enemy.CanDoAbility())
-            {
-                stateMachine.ChangeState(enemy.abilityState);
-            }
+        {
+            stateMachine.ChangeState(enemy.abilityState);
         }
-        else 
+    }
+        else
         {
             if (enemy.CanDoJumpAttack())
             {

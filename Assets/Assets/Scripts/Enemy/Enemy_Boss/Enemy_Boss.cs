@@ -4,21 +4,32 @@ using System.Xml;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
 
+public enum BossWeaponType 
+{
+    Flamethrower,
+    Hammer
+}
 public class Enemy_Boss : Enemy
 {
     [Header("Boss Details")]
+    public BossWeaponType bossWeaponType;
     public float actionCooldown = 10;
     public float attackRange;
 
     [Header("Ability")]
-    public ParticleSystem flamethrower;
+    public float minAbilityDistance;
     public float abilityCooldown;
     private float lastTimeUsedAbility;
+
+    [Header("Flamethrower")]
     public float flamethrowDuration;
+    public ParticleSystem flamethrower;
     public bool flamethrowActive { get; private set; }
 
+    [Header("Hammer")]
+    public GameObject activationPrefab;
+
     [Header("Jump Attack")]
-    
     public float jumpAttackCooldown = 10;
     private float lastTimeJumped;
     public float travelTimeToTarget = 1;
@@ -26,6 +37,7 @@ public class Enemy_Boss : Enemy
     [Space]
     public float impactRadius = 2.5f;
     public float impactPower = 10;
+    public Transform impactPoint;
     [SerializeField] private float upforceMultiplier = 1;
 
     [Space]
@@ -115,9 +127,23 @@ public class Enemy_Boss : Enemy
         flamethrower.Play();
     }
 
+    public void ActivateHammer() 
+    {
+        GameObject newActivation = ObjectPool.instance.GetObject(activationPrefab, impactPoint);
+
+        ObjectPool.instance.ReturnObject(newActivation, 1);
+    }
+
     public bool CanDoAbility() 
     {
-        if (Time.time > lastTimeUsedAbility + abilityCooldown) 
+        bool playerWithinDistance = Vector3.Distance(transform.position, player.position) < minAbilityDistance;
+
+        if (playerWithinDistance == false)
+        {
+            return false;
+        }
+
+        if (Time.time > lastTimeUsedAbility + abilityCooldown && playerWithinDistance) 
         {
             return true;
         }
@@ -132,7 +158,13 @@ public class Enemy_Boss : Enemy
 
     public void JumpImpact() 
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, impactRadius);
+        Transform impactPoint = this.impactPoint;
+
+        if (impactPoint == null) 
+        {
+            impactPoint = transform;
+        }
+        Collider[] colliders = Physics.OverlapSphere(impactPoint.position, impactRadius);
 
         foreach (Collider hit in colliders)
         {
@@ -212,6 +244,9 @@ public class Enemy_Boss : Enemy
 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, impactRadius);
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, minAbilityDistance);
 
     }
 }

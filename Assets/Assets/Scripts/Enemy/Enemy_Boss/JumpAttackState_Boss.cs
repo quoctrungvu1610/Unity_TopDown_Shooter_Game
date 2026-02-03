@@ -23,6 +23,8 @@ public class JumpAttackState_Boss : EnemyState
         enemy.agent.isStopped = true;
         enemy.agent.velocity = Vector3.zero;
 
+        enemy.bossVisual.PlaceLandingZone(lastPlayerPos);
+
         float distanceToPlayer = Vector3.Distance(lastPlayerPos, enemy.transform.position);
 
         jumpAttackMovementSpeed = distanceToPlayer / enemy.travelTimeToTarget;
@@ -41,11 +43,15 @@ public class JumpAttackState_Boss : EnemyState
         base.Update();
         Vector3 myPos = enemy.transform.position;
         enemy.agent.enabled = !enemy.ManualMovementActive();
+    
 
         if (enemy.ManualMovementActive()) 
         {
+            Debug.Log("After : " + lastPlayerPos);
+            enemy.agent.velocity = Vector3.zero;   
             enemy.transform.position = Vector3.MoveTowards(myPos, lastPlayerPos, jumpAttackMovementSpeed * Time.deltaTime);
-        
+
+
         }
         if (triggerCalled) 
         {

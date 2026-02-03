@@ -1,0 +1,88 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Enemy_BossVisual : MonoBehaviour
+{
+    private Enemy_Boss enemy;
+    [SerializeField] private ParticleSystem landingZoneFx;
+    [SerializeField] private float landingOffset = 1.4f;
+    [Header("Batteries")]
+    [SerializeField] private GameObject[] batteries;
+    [SerializeField] private float initialatteryScaleY = 0.2f;
+
+    private float dischargeSpeed;
+    private float rechargeSpeed;
+
+    private bool isRecharging;
+
+    private void Awake()
+    {
+        enemy = GetComponent<Enemy_Boss>();
+
+        landingZoneFx.transform.parent = null;
+        landingZoneFx.Stop();
+
+        ResetBatteries();
+    }
+
+    private void Update() 
+    {
+        UpdateBatteriesScale();
+    }
+
+    public void PlaceLandingZone(Vector3 target) 
+    {
+        //Vector3 dir = target - transform.position;
+        //Vector3 offset = dir.normalized * landingOffset;
+        landingZoneFx.transform.position = target;
+        landingZoneFx.Clear();
+
+        var mainModule = landingZoneFx.main;
+        mainModule.startLifetime = enemy.travelTimeToTarget * 2;
+
+        landingZoneFx.Play();
+    }
+
+
+    private void UpdateBatteriesScale() 
+    {
+        if (batteries.Length <= 0) 
+        {
+            return;
+        }
+
+        foreach (GameObject battery in batteries) 
+        {
+            if (battery.activeSelf) 
+            {
+                float scaleChange = (isRecharging ? rechargeSpeed : -dischargeSpeed) * Time.deltaTime;
+                float newScaleY = Mathf.Clamp(battery.transform.localScale.y + scaleChange, 0, initialatteryScaleY);
+
+                battery.transform.localScale = new Vector3(battery.transform.localScale.x, newScaleY, battery.transform.localScale.z);
+
+                if(battery.transform.localScale.y <= 0) 
+                {
+                    battery.gameObject.SetActive(false);
+                }
+            }
+        }
+    }
+
+    public void ResetBatteries() 
+    {
+        isRecharging = true;
+        rechargeSpeed = initialatteryScaleY / enemy.abilityCooldown;
+        dischargeSpeed = initialatteryScaleY / (enemy.flamethrowDuration * 0.75f);
+
+        foreach (GameObject battery in batteries) 
+        {
+            battery.gameObject.SetActive(true);
+        }
+    }
+
+    public void DischargeBatteries() 
+    {
+        isRecharging = false;
+    }
+}

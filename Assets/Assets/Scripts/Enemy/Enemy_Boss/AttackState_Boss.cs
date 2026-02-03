@@ -23,10 +23,6 @@ public class AttackState_Boss : EnemyState
 
     public override void Exit()
     {
-        if (stateTimer > 0) 
-        {
-            enemy.FaceTarget(enemy.player.position, 50);
-        }
         base.Exit();
         lastTimeAttacked = Time.time;
     }
@@ -34,6 +30,11 @@ public class AttackState_Boss : EnemyState
     public override void Update()
     {
         base.Update();
+
+        if (stateTimer > 0)
+        {
+            enemy.FaceTarget(enemy.player.position, 20);
+        }
 
         if (triggerCalled) 
         {

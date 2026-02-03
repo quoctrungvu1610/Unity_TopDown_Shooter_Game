@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class Enemy_Boss : Enemy
 {
@@ -16,10 +18,15 @@ public class Enemy_Boss : Enemy
     public bool flamethrowActive { get; private set; }
 
     [Header("Jump Attack")]
+    
     public float jumpAttackCooldown = 10;
     private float lastTimeJumped;
     public float travelTimeToTarget = 1;
     public float minJumpDistanceRequired;
+    [Space]
+    public float impactRadius = 2.5f;
+    public float impactPower = 10;
+    [SerializeField] private float upforceMultiplier = 1;
 
     [Space]
     [SerializeField] private LayerMask whatToIgnore;
@@ -29,16 +36,21 @@ public class Enemy_Boss : Enemy
     public AttackState_Boss attackState { get; private set; }
     public JumpAttackState_Boss jumpAttackState { get; private set; }
     public AbilityState_Boss abilityState { get; private set; }
+    public DeadState_Boss deadState { get; private set; }
+    public Enemy_BossVisual bossVisual;
 
     protected override void Awake()
     {
         base.Awake();
+
+        bossVisual = GetComponent<Enemy_BossVisual>();
 
         idleState = new IdleState_Boss(this, stateMachine, "Idle");
         moveState = new MoveState_Boss(this, stateMachine, "Move");
         attackState = new AttackState_Boss(this, stateMachine, "Attack");
         jumpAttackState = new JumpAttackState_Boss(this, stateMachine, "JumpAttack");
         abilityState = new AbilityState_Boss(this, stateMachine, "Ability");
+        deadState = new DeadState_Boss(this, stateMachine, "Idle");
     }
 
     protected override void Start()
@@ -60,8 +72,22 @@ public class Enemy_Boss : Enemy
         }
     }
 
+    public override void GetHit()
+    {
+        base.GetHit();
+
+        if (healthPoints <= 0 && stateMachine.currentState != deadState)
+        {
+            stateMachine.ChangeState(deadState);
+        }
+    }
+
     public override void EnterBattleMode()
     {
+        if(inBattleMode) 
+        {
+            return;
+        }
         base.EnterBattleMode();
         stateMachine.ChangeState(moveState);
     }
@@ -102,6 +128,22 @@ public class Enemy_Boss : Enemy
     {
         Debug.Log("Set Cool Down Ability");
         lastTimeUsedAbility = Time.time;
+    }
+
+    public void JumpImpact() 
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, impactRadius);
+
+        foreach (Collider hit in colliders)
+        {
+
+            Rigidbody rb = hit.GetComponent<Rigidbody>();
+
+            if (rb != null)
+            {
+                rb.AddExplosionForce(impactPower, transform.position, impactRadius, upforceMultiplier, ForceMode.Impulse);
+            }
+        }
     }
 
     public bool CanDoJumpAttack() 
@@ -167,6 +209,9 @@ public class Enemy_Boss : Enemy
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, minJumpDistanceRequired);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, impactRadius);
 
     }
 }

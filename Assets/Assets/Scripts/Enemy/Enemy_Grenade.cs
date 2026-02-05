@@ -7,9 +7,12 @@ public class Enemy_Grenade : MonoBehaviour
     [SerializeField] private GameObject explosionFx;
     [SerializeField] private float impactRadius;
     [SerializeField] private float upwardMultiplier = 1;
-    private float impactPower;
     private Rigidbody rb;
     private float timer;
+    private float impactPower;
+
+    private LayerMask allyLayerMask;
+    private bool canExplode;
 
     private void Awake()
     {
@@ -19,39 +22,87 @@ public class Enemy_Grenade : MonoBehaviour
     private void Update()
     {
         timer -= Time.deltaTime;
-        if (timer < 0) 
+        if (timer < 0 && canExplode) 
         {
             Explode();
         }
     }
 
-    public void SetupGrenade(Vector3 target, float timeToTarget, float countdown, float impactPower) 
+    public void SetupGrenade(LayerMask allyLayerMask, Vector3 target, float timeToTarget, float countdown, float impactPower) 
     {
+        canExplode = true;
+
+        this.allyLayerMask = allyLayerMask;
         rb.velocity = CalculateLaunchVelocity(target, timeToTarget);
         timer = countdown + timeToTarget;
 
         this.impactPower = impactPower;
     }
 
-    private void Explode() 
+    private bool IsTargetValid(Collider collider) 
     {
-        GameObject newFx = ObjectPool.instance.GetObject(explosionFx, transform);
+        if (GameManager.instance.friendlyFire) 
+        {
+            return true;
+        }
+        //If Collider is in ally layer mask, return false
+        if ((allyLayerMask.value & (1 << collider.gameObject.layer)) > 0)
+        {
+            return false;
+        }
+        return true;
         
-        ObjectPool.instance.ReturnObject(newFx, 1);
-        ObjectPool.instance.ReturnObject(gameObject);
+    }
+
+    private void Explode()
+    {
+        canExplode = false;
+
+        PlayExplosionFx();
+
+        HashSet<GameObject> uniqueEntities = new HashSet<GameObject>();
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, impactRadius);
 
         foreach (Collider hit in colliders)
         {
-
-            Rigidbody rb = hit.GetComponent<Rigidbody>();
-
-            if (rb != null)
+            if (IsTargetValid(hit) == false)
             {
-                rb.AddExplosionForce(impactPower, transform.position, impactRadius, upwardMultiplier, ForceMode.Impulse);
+                continue;
             }
+
+            GameObject rootEntitiy = hit.transform.root.gameObject;
+            if (uniqueEntities.Add(rootEntitiy) == false)
+            {
+                continue;
+            }
+
+            ApplyDamageTo(hit);
+            ApplyPhysicalForceTo(hit);
         }
+    }
+
+    private void ApplyPhysicalForceTo(Collider hit)
+    {
+        Rigidbody rb = hit.GetComponent<Rigidbody>();
+
+        if (rb != null)
+        {
+            rb.AddExplosionForce(impactPower, transform.position, impactRadius, upwardMultiplier, ForceMode.Impulse);
+        }
+    }
+
+    private static void ApplyDamageTo(Collider hit)
+    {
+        IDamageable damageable = hit.GetComponent<IDamageable>();
+        damageable?.TakeDamage();
+    }
+
+    private void PlayExplosionFx()
+    {
+        GameObject newFx = ObjectPool.instance.GetObject(explosionFx, transform);
+        ObjectPool.instance.ReturnObject(newFx, 1);
+        ObjectPool.instance.ReturnObject(gameObject);
     }
 
     private Vector3 CalculateLaunchVelocity(Vector3 target, float timeToTarget) 

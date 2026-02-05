@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1479193890630465695}
   - component: {fileID: 7799940995442430196}
   - component: {fileID: 47567377977186642}
-  - component: {fileID: 5013641531918578666}
+  - component: {fileID: 6717348541178421936}
   m_Layer: 12
   m_Name: Enemy's_Bullet
   m_TagString: Untagged
@@ -248,7 +248,7 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 0
---- !u!114 &5013641531918578666
+--- !u!114 &6717348541178421936
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -257,8 +257,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1479792290806866601}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cb695bca533a0e43967c612ae8630e4, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a7ea68713750014d939fb6708340d33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletImpactFX: {fileID: 1520587846284062876, guid: e19a7a72c42216c499e18e109be190ea, type: 3}
+  bulletImpactFX: {fileID: 100000, guid: d5ee775b8b5556040a494dbbd2f81e48, type: 3}
   bulletDisabled: 0

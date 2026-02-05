@@ -115,11 +115,11 @@ public class Enemy_Range : Enemy
         stateMachine.currentState.Update();
     }
 
-    public override void GetHit()
+    public override void Die()
     {
-        base.GetHit();
+        base.Die();
 
-        if (healthPoints <= 0 && stateMachine.currentState != deadState) 
+        if (stateMachine.currentState != deadState) 
         {
             stateMachine.ChangeState(deadState);
         }
@@ -157,11 +157,11 @@ public class Enemy_Range : Enemy
 
         if (stateMachine.currentState == deadState) 
         {
-            newGrenadeScript.SetupGrenade(transform.position, 1, explosionTimer, impactPower);
+            newGrenadeScript.SetupGrenade(whatIsAlly, transform.position, 1, explosionTimer, impactPower);
             return;
         }
 
-        newGrenadeScript.SetupGrenade(player.transform.position, timeToTarget, explosionTimer, impactPower);
+        newGrenadeScript.SetupGrenade(whatIsAlly, player.transform.position, timeToTarget, explosionTimer, impactPower);
 
 
     }
@@ -279,7 +279,7 @@ public class Enemy_Range : Enemy
 
         newBullet.transform.rotation = Quaternion.LookRotation(gunPoint.forward);
 
-        newBullet.GetComponent<Enemy_Bullet>().BulletSetup();
+        newBullet.GetComponent<Bullet>().BulletSetup(whatIsAlly);
 
         Rigidbody rbNewBullet = newBullet.GetComponent<Rigidbody>();
 

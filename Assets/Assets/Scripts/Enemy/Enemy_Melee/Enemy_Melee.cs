@@ -139,13 +139,14 @@ public class Enemy_Melee : Enemy
         }
     }
 
-    public override void GetHit()
+    public override void Die()
     {
-        base.GetHit();
-        if (healthPoints <= 0 && stateMachine.currentState != deadState) 
+        base.Die();
+
+        if(stateMachine.currentState != deadState) 
         {
             stateMachine.ChangeState(deadState);
-        } 
+        }
     }
 
     public bool PlayerInAttackRange()

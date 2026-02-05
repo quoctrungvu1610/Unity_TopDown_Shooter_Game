@@ -6,6 +6,9 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : MonoBehaviour
 {
+    public LayerMask whatIsAlly;
+    public LayerMask whatIsPlayer;
+    [Space]
     public int healthPoints = 20;
 
     [Header("Idle data")]
@@ -32,11 +35,13 @@ public class Enemy : MonoBehaviour
 
     public Enemy_Visual visuals { get; private set; }
 
-    public Enemy_Ragdoll ragdoll { get; private set; }
+    public Ragdoll ragdoll { get; private set; }
+    public Enemy_Health health { get; private set; }
 
     protected virtual void Awake()
     {
-        ragdoll = GetComponent<Enemy_Ragdoll>();
+        ragdoll = GetComponent<Ragdoll>();
+        health = GetComponent<Enemy_Health>();
         stateMachine = new EnemyStateMachine();
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
@@ -141,11 +146,21 @@ public class Enemy : MonoBehaviour
 
     public virtual void GetHit() 
     {
+        health.ReduceHealth();
+        if(health.ShouldDie()) 
+        {
+            Die();
+            return;
+        }
         EnterBattleMode();
-        healthPoints--;
     }
 
-    public virtual void DeathImpact(Vector3 force, Vector3 hitPoint, Rigidbody rb) 
+    public virtual void Die() 
+    {
+   
+    }
+
+    public virtual void BulletImpact(Vector3 force, Vector3 hitPoint, Rigidbody rb) 
     {
         StartCoroutine(DeathImpactCoroutine(force, hitPoint, rb));
     }

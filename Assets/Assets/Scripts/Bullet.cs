@@ -17,6 +17,9 @@ public class Bullet : MonoBehaviour
     private float flyDistance;
     public bool bulletDisabled = false;
 
+
+    private LayerMask allyLayerMask;
+
     protected virtual void Awake()
     {
         cd = GetComponent<BoxCollider>();
@@ -25,9 +28,10 @@ public class Bullet : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
     }
 
-    public void BulletSetup(float flyDistance = 100, float impactForce = 100)
+    public void BulletSetup(LayerMask allyLayer, float flyDistance = 100, float impactForce = 100)
     {
         this.impactForce = impactForce;
+        this.allyLayerMask = allyLayer;
 
         bulletDisabled = false;
         cd.enabled = true;
@@ -55,9 +59,9 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    protected void ReturnBulletToPool()
+    protected void ReturnBulletToPool(float delay = 0)
     {
-        ObjectPool.instance.ReturnObject(gameObject);
+        ObjectPool.instance.ReturnObject(gameObject, delay);
     }
 
     protected void DisableBulletIfNeeded()
@@ -80,25 +84,42 @@ public class Bullet : MonoBehaviour
 
     protected virtual void OnCollisionEnter(Collision collision)
     {
+        if (FriendlyFireEnabled() == false)
+        {
+            if((allyLayerMask.value & (1 << collision.gameObject.layer)) > 0)
+            {
+                ReturnBulletToPool(10);
+                return;
+            }
+        }
+
         CreateImpactFX();
         ReturnBulletToPool();
 
-        Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
+        IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+        damageable?.TakeDamage();
+
         Enemy_Shield shield = collision.gameObject.GetComponent<Enemy_Shield>();
 
-        if (shield != null) 
+        if (shield != null)
         {
             shield.ReduceDurability();
             return;
         }
 
-        if (enemy != null) 
+        ApplyBulletImpactToEnemy(collision);
+    }
+
+    private void ApplyBulletImpactToEnemy(Collision collision)
+    {
+        Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
+
+        if (enemy != null)
         {
             Vector3 force = rb.velocity.normalized * impactForce;
             Rigidbody hitRigidBody = collision.collider.attachedRigidbody;
 
-            enemy.GetHit();
-            enemy.DeathImpact(force, collision.contacts[0].point, hitRigidBody);
+            enemy.BulletImpact(force, collision.contacts[0].point, hitRigidBody);
         }
     }
 
@@ -106,5 +127,10 @@ public class Bullet : MonoBehaviour
     {
             GameObject impactFX = ObjectPool.instance.GetObject(bulletImpactFX, transform);
             ObjectPool.instance.ReturnObject(impactFX, 1f);
+    }
+
+    private bool FriendlyFireEnabled()
+    {
+        return GameManager.instance.friendlyFire;
     }
 }

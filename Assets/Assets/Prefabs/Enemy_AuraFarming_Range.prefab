@@ -1955,9 +1955,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5669494812709524314}
   - component: {fileID: 2159428790284667110}
-  - component: {fileID: 1477390868104682659}
   - component: {fileID: 2032770347566714564}
   - component: {fileID: 9061758759195046539}
+  - component: {fileID: 2514565052690491015}
   m_Layer: 11
   m_Name: Enemy_AuraFarming_Range
   m_TagString: Untagged
@@ -2005,20 +2005,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1477390868104682659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2111614314548217254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc188c0d4e1d4f84c8562d15e538c33f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ragdollParent: {fileID: 7905097972951000366}
-  ragdollRigidbodies: []
 --- !u!114 &2032770347566714564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2056,6 +2042,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29920cc411fe81a459e9cad64added6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  whatIsAlly:
+    serializedVersion: 2
+    m_Bits: 0
   healthPoints: 100
   idleTime: 2
   aggressionRange: 10
@@ -2102,6 +2091,20 @@ MonoBehaviour:
   fireRate: 20
   bulletToShoot: 10
   weaponCooldown: 1.5
+--- !u!114 &2514565052690491015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111614314548217254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a431c8180a29654bb336ac787ca1217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ragdollParent: {fileID: 7905097972951000366}
+  ragdollRigidbodies: []
 --- !u!1 &2147403376928249367
 GameObject:
   m_ObjectHideFlags: 0

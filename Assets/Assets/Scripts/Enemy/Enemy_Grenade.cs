@@ -66,18 +66,23 @@ public class Enemy_Grenade : MonoBehaviour
 
         foreach (Collider hit in colliders)
         {
-            if (IsTargetValid(hit) == false)
-            {
-                continue;
-            }
+            IDamageable damageable = hit.GetComponent<IDamageable>();
 
-            GameObject rootEntitiy = hit.transform.root.gameObject;
-            if (uniqueEntities.Add(rootEntitiy) == false)
+            if(damageable != null) 
             {
-                continue;
-            }
+                if (IsTargetValid(hit) == false)
+                {
+                    continue;
+                }
 
-            ApplyDamageTo(hit);
+                GameObject rootEntitiy = hit.transform.root.gameObject;
+                if (uniqueEntities.Add(rootEntitiy) == false)
+                {
+                    continue;
+                }
+                damageable.TakeDamage();
+            }
+           
             ApplyPhysicalForceTo(hit);
         }
     }
@@ -92,11 +97,11 @@ public class Enemy_Grenade : MonoBehaviour
         }
     }
 
-    private static void ApplyDamageTo(Collider hit)
-    {
-        IDamageable damageable = hit.GetComponent<IDamageable>();
-        damageable?.TakeDamage();
-    }
+    //private static void ApplyDamageTo(Collider hit)
+    //{
+    //    IDamageable damageable = hit.GetComponent<IDamageable>();
+    //    damageable?.TakeDamage();
+    //}
 
     private void PlayExplosionFx()
     {

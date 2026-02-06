@@ -14694,7 +14694,7 @@ GameObject:
   - component: {fileID: 3959603302049406118}
   - component: {fileID: 7780952325183077266}
   m_Layer: 0
-  m_Name: Star hit
+  m_Name: MeleeAttack_Fx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

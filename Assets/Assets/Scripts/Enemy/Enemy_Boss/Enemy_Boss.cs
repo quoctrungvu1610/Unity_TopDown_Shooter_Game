@@ -43,13 +43,18 @@ public class Enemy_Boss : Enemy
     [Space]
     [SerializeField] private LayerMask whatToIgnore;
 
+    [Header("Attack")]
+    [SerializeField] private Transform[] damagePoints;
+    [SerializeField] private float attackCheckRadius;
+    [SerializeField] private GameObject meleeAttackFx;
+
     public IdleState_Boss idleState { get; private set; }
     public MoveState_Boss moveState { get; private set; }
     public AttackState_Boss attackState { get; private set; }
     public JumpAttackState_Boss jumpAttackState { get; private set; }
     public AbilityState_Boss abilityState { get; private set; }
     public DeadState_Boss deadState { get; private set; }
-    public Enemy_BossVisual bossVisual;
+    public Enemy_BossVisual bossVisual { get; private set; }
 
     protected override void Awake()
     {
@@ -82,13 +87,16 @@ public class Enemy_Boss : Enemy
         {
             EnterBattleMode();
         }
+
+        MeleeAttackCheck(damagePoints, attackCheckRadius, meleeAttackFx);
     }
 
-    public override void GetHit()
+  
+    public override void Die()
     {
-        base.GetHit();
+        base.Die();
 
-        if (healthPoints <= 0 && stateMachine.currentState != deadState)
+        if (stateMachine.currentState != deadState)
         {
             stateMachine.ChangeState(deadState);
         }
@@ -239,7 +247,7 @@ public class Enemy_Boss : Enemy
             Gizmos.DrawLine(myPos, playerPos);
         }
 
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, minJumpDistanceRequired);
 
         Gizmos.color = Color.blue;
@@ -247,6 +255,15 @@ public class Enemy_Boss : Enemy
 
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, minAbilityDistance);
+
+        if (damagePoints.Length > 0) 
+        {
+            foreach (var damagePoint in damagePoints) 
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(damagePoint.position, attackCheckRadius);
+            }
+        }
 
     }
 }

@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     public LayerMask whatIsAlly;
     public LayerMask whatIsPlayer;
     [Space]
-    public int healthPoints = 20;
+    //public int healthPoints = 20;
 
     [Header("Idle data")]
     public float idleTime;
@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour
     private int currentPatrolIndex;
 
     public bool inBattleMode { get; private set; }
+    protected bool isMeleeAttackReady;
 
     public Transform player { get; private set; }
     public Animator anim { get; private set; }
@@ -158,6 +159,39 @@ public class Enemy : MonoBehaviour
     public virtual void Die() 
     {
    
+    }
+
+    public virtual void MeleeAttackCheck(Transform[] damagePoints, float attackCheckRadius, GameObject fx )
+    {
+        if (isMeleeAttackReady == false)
+        {
+            return;
+        }
+
+        foreach (Transform attackPoint in damagePoints)
+        {
+
+            Collider[] detectedHits = Physics.OverlapSphere(attackPoint.position, attackCheckRadius, whatIsPlayer);
+
+            for (int i = 0; i < detectedHits.Length; i++)
+            {
+                IDamageable damageable = detectedHits[i].GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    damageable.TakeDamage();
+                    isMeleeAttackReady = false;
+                    GameObject newAttackFx = ObjectPool.instance.GetObject(fx, attackPoint);
+
+                    ObjectPool.instance.ReturnObject(newAttackFx, 1f);
+                    return;
+                }
+            }
+        }
+    }
+
+    public void EnableMeleeAttackCheck(bool enable)
+    {
+        isMeleeAttackReady = enable;
     }
 
     public virtual void BulletImpact(Vector3 force, Vector3 hitPoint, Rigidbody rb) 

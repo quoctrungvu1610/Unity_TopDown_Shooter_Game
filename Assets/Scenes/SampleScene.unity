@@ -3452,6 +3452,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Melee
       objectReference: {fileID: 0}
+    - target: {fileID: 1887622400672492732, guid: a2e4376897ea2f941b3bd4224f72443f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8650396544442732007, guid: a2e4376897ea2f941b3bd4224f72443f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.99
@@ -6672,7 +6676,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7825161440400715699, guid: 271e7e5f301a36147a003c1b085d7054, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11391,7 +11395,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 944254102834440801, guid: 37e692b91a1e8ab47b5b93235cb40e8b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4208845961743581754, guid: 37e692b91a1e8ab47b5b93235cb40e8b, type: 3}
       propertyPath: m_LocalPosition.x

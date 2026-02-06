@@ -98,14 +98,7 @@ public class Bullet : MonoBehaviour
 
         IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
         damageable?.TakeDamage();
-
-        Enemy_Shield shield = collision.gameObject.GetComponent<Enemy_Shield>();
-
-        if (shield != null)
-        {
-            shield.ReduceDurability();
-            return;
-        }
+        Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
 
         ApplyBulletImpactToEnemy(collision);
     }

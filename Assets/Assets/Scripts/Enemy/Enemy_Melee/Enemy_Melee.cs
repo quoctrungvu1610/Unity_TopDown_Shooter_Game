@@ -40,8 +40,13 @@ public class Enemy_Melee : Enemy
 
     [Header("Enemy Settings")]
     public EnemyMelee_Type meleeType;
-    [SerializeField] private Transform shieldTranform;
     public Enemy_MeleeWeaponType weaponType;
+
+    [Header("Shield")]
+    public int shieldDurability;
+    [SerializeField] private Transform shieldTranform;
+
+    [Header("Dodge")]
     public float dodgeCooldown;
     private float lastTimeDodge = -10f;
 
@@ -56,6 +61,10 @@ public class Enemy_Melee : Enemy
     [Header("Atack Data")]
     public AttackData_EnemyMelee attackData;
     public List<AttackData_EnemyMelee> attackList;
+    private Enemy_WeaponModel currentWeapon;
+    private bool isAttackReady;
+    [Space]
+    [SerializeField] private GameObject meleeAttackFx;
 
     protected override void Awake()
     {
@@ -83,7 +92,43 @@ public class Enemy_Melee : Enemy
     {
         base.Update();
         stateMachine.currentState.Update();
+
+        AttackCheck();
     }
+
+    public void AttackCheck() 
+    {
+        if (isAttackReady == false) 
+        {
+            return;
+        }
+
+        foreach (Transform attackPoint in currentWeapon.damagePoints) 
+        {
+
+            Collider[] detectedHits = Physics.OverlapSphere(attackPoint.position, currentWeapon.attackRadius, whatIsPlayer);
+
+            for(int i = 0; i < detectedHits.Length; i++) 
+            {
+                IDamageable damageable = detectedHits[i].GetComponent<IDamageable>();
+                if (damageable != null) 
+                {
+                    damageable.TakeDamage();
+                    isAttackReady = false;
+                    GameObject newAttackFx = ObjectPool.instance.GetObject(meleeAttackFx, attackPoint);
+
+                    ObjectPool.instance.ReturnObject(newAttackFx, 1f);
+                    return;
+                }
+            }
+        }
+    }
+
+    public void EnableAttackCheck(bool enable) 
+    {
+        isAttackReady = enable;
+    }
+
 
     public override void EnterBattleMode()
     {
@@ -104,9 +149,11 @@ public class Enemy_Melee : Enemy
         visuals.EnableWeaponModel(false);
     }
 
+
+
     public void UpdateAttackData() 
     {
-        Enemy_WeaponModel currentWeapon = visuals.currentWeaponModel.GetComponent<Enemy_WeaponModel>();
+        currentWeapon = visuals.currentWeaponModel.GetComponent<Enemy_WeaponModel>();
         if (currentWeapon.weaponData != null)
         {
             attackList = new List<AttackData_EnemyMelee>(currentWeapon.weaponData.attackData);

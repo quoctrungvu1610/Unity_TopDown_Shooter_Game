@@ -31,24 +31,23 @@ public class Enemy_Axe : MonoBehaviour
             direction = player.position + Vector3.up - transform.position;
         }
 
-        rb.velocity = direction.normalized * flySpeed;
         transform.forward = rb.velocity;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void FixedUpdate()
     {
-        Bullet bullet = other.GetComponent<Bullet>();
-        Player player = other.GetComponent<Player>();
-
-        if (bullet != null || player != null) 
-        {
-            GameObject newFx = ObjectPool.instance.GetObject(impactFx, transform);
-            newFx.transform.position = transform.position;
-
-            ObjectPool.instance.ReturnObject(gameObject);
-            ObjectPool.instance.ReturnObject(newFx, 1);
-
-        }
+        rb.velocity = direction.normalized * flySpeed;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+        damageable?.TakeDamage();
+
+        GameObject newFx = ObjectPool.instance.GetObject(impactFx, transform);
+        newFx.transform.position = transform.position;
+
+        ObjectPool.instance.ReturnObject(gameObject);
+        ObjectPool.instance.ReturnObject(newFx, 1);
+    }
 }

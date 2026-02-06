@@ -168,7 +168,8 @@ public class Enemy : MonoBehaviour
     private IEnumerator DeathImpactCoroutine(Vector3 force, Vector3 hitPoint, Rigidbody rb) 
     {
         yield return new WaitForSeconds(0.1f);
-        rb.AddForceAtPosition(force, hitPoint, ForceMode.Impulse);
+        if(rb != null)
+            rb.AddForceAtPosition(force, hitPoint, ForceMode.Impulse);
     }
     
     public void FaceTarget(Vector3 target, float turnSpeed = 0) 

@@ -22,6 +22,7 @@ public class Enemy_Boss : Enemy
     private float lastTimeUsedAbility;
 
     [Header("Flamethrower")]
+    public float flameDamageCooldown;
     public float flamethrowDuration;
     public ParticleSystem flamethrower;
     public bool flamethrowActive { get; private set; }
@@ -172,17 +173,39 @@ public class Enemy_Boss : Enemy
         {
             impactPoint = transform;
         }
-        Collider[] colliders = Physics.OverlapSphere(impactPoint.position, impactRadius);
+        
+        MassDamage(impactPoint.position, impactRadius);
+    }
+
+    private void MassDamage(Vector3 impactPoint, float impactRadius) 
+    {
+        HashSet<GameObject> uniqueEntities = new HashSet<GameObject>();
+        Collider[] colliders = Physics.OverlapSphere(impactPoint, impactRadius, ~whatIsAlly);
 
         foreach (Collider hit in colliders)
         {
-
-            Rigidbody rb = hit.GetComponent<Rigidbody>();
-
-            if (rb != null)
+            IDamageable damageable = hit.GetComponent<IDamageable>();
+            if (damageable != null)
             {
-                rb.AddExplosionForce(impactPower, transform.position, impactRadius, upforceMultiplier, ForceMode.Impulse);
+                GameObject rootEntity = hit.transform.root.gameObject;
+                if (uniqueEntities.Add(rootEntity) == false)
+                {
+                    continue;
+                }
+                damageable?.TakeDamage();
             }
+
+            ApplyPhysicalForceTo(impactPoint, impactRadius, hit);
+        }
+    }
+
+    private void ApplyPhysicalForceTo(Vector3 impactPoint, float impactRadius, Collider hit)
+    {
+        Rigidbody rb = hit.GetComponent<Rigidbody>();
+
+        if (rb != null)
+        {
+            rb.AddExplosionForce(impactPower, impactPoint, impactRadius, upforceMultiplier, ForceMode.Impulse);
         }
     }
 

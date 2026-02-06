@@ -5,6 +5,7 @@ using UnityEngine;
 public class AbilityState_Boss : EnemyState
 {
     private Enemy_Boss enemy;
+    private bool isEvenCalled = false;
     public AbilityState_Boss(Enemy enemyBase, EnemyStateMachine stateMachine, string animBoolName) : base(enemyBase, stateMachine, animBoolName)
     {
         enemy = enemyBase as Enemy_Boss;
@@ -13,7 +14,7 @@ public class AbilityState_Boss : EnemyState
     public override void Enter()
     {
         base.Enter();
-
+        isEvenCalled = false;
         stateTimer = enemy.flamethrowDuration;
 
         enemy.agent.isStopped = true;
@@ -33,9 +34,11 @@ public class AbilityState_Boss : EnemyState
 
         enemy.FaceTarget(enemy.player.position);
 
-        if (ShouldDisabledFlamethrower())
+        if (ShouldDisabledFlamethrower() && isEvenCalled == false)
         {
+            Debug.Log("Disable Flamethrower from Ability State");
             DisableFlamethrower();
+            isEvenCalled = true;
         }
 
         if (triggerCalled)
@@ -51,7 +54,7 @@ public class AbilityState_Boss : EnemyState
 
     public void DisableFlamethrower()
     {
-        if (enemy.bossWeaponType == BossWeaponType.Flamethrower) 
+        if (enemy.bossWeaponType == BossWeaponType.Hammer) 
         {
             return;
         }

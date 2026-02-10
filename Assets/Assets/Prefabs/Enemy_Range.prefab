@@ -3074,7 +3074,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4743786673600588884
 Transform:
   m_ObjectHideFlags: 0
@@ -3158,7 +3158,6 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 0
-  healthPoints: 2
   idleTime: 2
   aggressionRange: 10
   walkSpeed: 1.5
@@ -3168,9 +3167,9 @@ MonoBehaviour:
   - {fileID: 1999065869350326447}
   - {fileID: 3188713153201538616}
   - {fileID: 7313563007929394207}
-  coverPerk: 2
+  coverPerk: 0
   unStoppablePerk: 0
-  grenadePerk: 0
+  grenadePerk: 1
   advanceSpeed: 3
   advanceStoppingDistance: 5
   advanceDuration: 2.5

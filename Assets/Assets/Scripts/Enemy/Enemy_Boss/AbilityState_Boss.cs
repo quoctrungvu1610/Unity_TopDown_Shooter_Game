@@ -63,7 +63,7 @@ public class AbilityState_Boss : EnemyState
         {
             return;
         }
-        enemy.ActivateFlamethrower(false);
+        enemy.ActivateFlamethrower(false, true);
     }
 
     public override void AbilityTrigger()
@@ -72,7 +72,17 @@ public class AbilityState_Boss : EnemyState
 
         if (enemy.bossWeaponType == BossWeaponType.Flamethrower) 
         {
-            enemy.ActivateFlamethrower(true);
+            //int randomAbility = Random.Range(0, 2);
+            int randomAbility = 1;
+            if (randomAbility == 0)
+            {
+                enemy.ActivateFlamethrower(true, true);
+            }
+            else
+            {
+                enemy.FireRainMissile();
+                enemy.ActivateFlamethrower(true, false);
+            }
             enemy.bossVisual.DischargeBatteries();
         }
         if (enemy.bossWeaponType == BossWeaponType.Hammer)

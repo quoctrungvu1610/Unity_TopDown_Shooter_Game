@@ -53,7 +53,7 @@ public class Bullet : MonoBehaviour
 
     protected void ReturnToPoolIfNeeded()
     {
-        if (trailRenderer.time < 0f)
+        if (trailRenderer.time <= 0f)
         {
             ReturnBulletToPool();
         }
@@ -88,7 +88,7 @@ public class Bullet : MonoBehaviour
         {
             if((allyLayerMask.value & (1 << collision.gameObject.layer)) > 0)
             {
-                ReturnBulletToPool(10);
+                ReturnBulletToPool(1);
                 return;
             }
         }

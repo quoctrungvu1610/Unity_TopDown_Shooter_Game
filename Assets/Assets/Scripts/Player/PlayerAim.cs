@@ -13,6 +13,7 @@ public class PlayerAim : MonoBehaviour
 
     [Header("Aim Control")]
     [SerializeField] private Transform aim;
+    [SerializeField] private LayerMask layerToIgnore;
     [SerializeField] private bool isAimingPrecisely = false;
     [SerializeField] private bool isLockingToTarget = false;
 
@@ -81,7 +82,7 @@ public class PlayerAim : MonoBehaviour
 
         Vector3 endPoint = gunPoint.position + laserDirection * gunDistance;
 
-        if(Physics.Raycast(gunPoint.position, laserDirection, out RaycastHit hitInfo, gunDistance))
+        if(Physics.Raycast(gunPoint.position, laserDirection, out RaycastHit hitInfo, gunDistance, ~layerToIgnore))
         {
             endPoint = hitInfo.point;
             laserTipLength = 0;
@@ -179,5 +180,10 @@ public class PlayerAim : MonoBehaviour
 
         controls.Character.Aim.performed += context => mouseInput = context.ReadValue<Vector2>();
         controls.Character.Aim.canceled += context => mouseInput = Vector2.zero;
+    }
+
+    public void DisableLaser() 
+    {
+        aimLaser.enabled = false;
     }
 }

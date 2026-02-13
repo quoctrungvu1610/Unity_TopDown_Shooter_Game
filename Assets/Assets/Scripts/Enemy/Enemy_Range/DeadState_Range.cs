@@ -16,7 +16,7 @@ public class DeadState_Range : EnemyState
     {
         base.Enter();
 
-        if (enemy.throwGrenadeState.finishedThrowingGrenade == false && enemy.grenadePerk == GrenadePerk.CanThrowGrenade) 
+        if (enemy.finishedThrowingGrenade == false && enemy.grenadePerk == GrenadePerk.CanThrowGrenade) 
         {
             enemy.ThrowGrenade();
         }

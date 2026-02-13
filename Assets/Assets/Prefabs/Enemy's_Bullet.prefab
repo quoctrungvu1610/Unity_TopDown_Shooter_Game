@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a547851074cd24f4aa542c188e45e4c6, type: 2}
+  - {fileID: 2100000, guid: 5a164ca4e3519004f9e83f9ba9b442e1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -260,5 +260,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a7ea68713750014d939fb6708340d33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletImpactFX: {fileID: 100000, guid: d5ee775b8b5556040a494dbbd2f81e48, type: 3}
+  bulletImpactFX: {fileID: 100002, guid: e05640b713279be4ea35ced053857820, type: 3}
   bulletDisabled: 0

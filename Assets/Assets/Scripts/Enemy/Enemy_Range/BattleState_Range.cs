@@ -13,6 +13,8 @@ public class BattleState_Range : EnemyState
 
     private float coverCheckTimer;
     private bool firstTimeAttack = true;
+    private bool isShooting = false;
+
 
     public BattleState_Range(Enemy enemyBase, EnemyStateMachine stateMachine, string animBoolName) : base(enemyBase, stateMachine, animBoolName)
     {
@@ -46,10 +48,11 @@ public class BattleState_Range : EnemyState
             stateMachine.ChangeState(enemy.throwGrenadeState);
         }
 
-        if (MustAdvancePlayer()) 
+        if (MustAdvancePlayer())
         {
             stateMachine.ChangeState(enemy.advancePlayerState);
         }
+
 
         ChangeCoverIfShould();
 
@@ -61,7 +64,7 @@ public class BattleState_Range : EnemyState
 
         if (WeaponOutOfBullets())
         {
-            if (enemy.IsUnstoppable() && UnstoppableWalkReady()) 
+            if (enemy.IsUnstoppable() && UnstoppableWalkReady())
             {
                 enemy.advanceDuration = weaponCooldown;
                 stateMachine.ChangeState(enemy.advancePlayerState);
@@ -70,6 +73,7 @@ public class BattleState_Range : EnemyState
             if (WeaponOnCooldown())
             {
                 AttemptToResetWeapon();
+        
             }
             return;
         }
@@ -78,6 +82,7 @@ public class BattleState_Range : EnemyState
         {
             Shoot();
         }
+ 
     }
 
     private bool MustAdvancePlayer() 
@@ -179,7 +184,7 @@ public class BattleState_Range : EnemyState
 
     private bool CanShoot()
     {
-        return Time.time > lastTimeShot + 1 / enemy.weaponData.fireRate;
+        return Time.time > lastTimeShot + 1 / enemy.weaponData.fireRate ;
     }
 
     private void Shoot()

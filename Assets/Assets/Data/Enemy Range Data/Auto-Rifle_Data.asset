@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: 3
   fireRate: 10
-  minBulletsPerAttack: 7
+  minBulletsPerAttack: 10
   maxBulletsPerAttack: 10
-  minWeaponCooldown: 2
-  maxWeaponCooldown: 3
+  minWeaponCooldown: 0
+  maxWeaponCooldown: 0
   bulletSpeed: 20
   weaponSpread: 3

@@ -27,5 +27,6 @@ public class Player_Health : HealthController
         isDead = true;
         player.anim.enabled = false;
         player.ragdoll.RagdollActive(true);
+        player.aim.DisableLaser();
     }
 }

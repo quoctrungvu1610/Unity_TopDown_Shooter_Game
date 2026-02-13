@@ -57,11 +57,14 @@ public class Enemy_Boss : Enemy
     public DeadState_Boss deadState { get; private set; }
     public Enemy_BossVisual bossVisual { get; private set; }
 
+    public RainMissile_Boss rainMissileBoss { get; private set; }
+
     protected override void Awake()
     {
         base.Awake();
 
         bossVisual = GetComponent<Enemy_BossVisual>();
+        rainMissileBoss = GetComponent<RainMissile_Boss>();
 
         idleState = new IdleState_Boss(this, stateMachine, "Idle");
         moveState = new MoveState_Boss(this, stateMachine, "Move");
@@ -113,7 +116,13 @@ public class Enemy_Boss : Enemy
         stateMachine.ChangeState(moveState);
     }
 
-    public void ActivateFlamethrower(bool activate) 
+    public void FireRainMissile() 
+    {
+        rainMissileBoss.StartRocketRain();
+    }
+
+
+    public void ActivateFlamethrower(bool activate, bool isUsingFlamethrower) 
     {
         flamethrowActive = activate;
         if (!activate) 
@@ -121,6 +130,10 @@ public class Enemy_Boss : Enemy
             flamethrower.Stop();
             anim.SetTrigger("StopFlamethrower");
             
+            return;
+        }
+        if (isUsingFlamethrower == false) 
+        {
             return;
         }
         var mainModule = flamethrower.main;

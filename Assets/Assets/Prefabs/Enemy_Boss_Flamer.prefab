@@ -1184,6 +1184,7 @@ Transform:
   m_Children:
   - {fileID: 8469483813058999508}
   - {fileID: 3000802255371025083}
+  - {fileID: 6630305220172901000}
   m_Father: {fileID: 1491529055470735103}
   m_LocalEulerAnglesHint: {x: -7, y: 175, z: -175}
 --- !u!33 &3135321983666430861
@@ -1968,6 +1969,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4987798068639302588}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3375356194058524682
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2868608817903097814}
+  m_Layer: 11
+  m_Name: MissileLaunchPoint_R
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2868608817903097814
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3375356194058524682}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.106, y: 0.316, z: 0.05}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2962215350682221395}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3643398039299427610
 GameObject:
@@ -8223,6 +8255,7 @@ Transform:
   m_Children:
   - {fileID: 4563166354709956429}
   - {fileID: 8275609263175944580}
+  - {fileID: 2868608817903097814}
   m_Father: {fileID: 3437110458521294831}
   m_LocalEulerAnglesHint: {x: -5.203, y: 183.807, z: 181.531}
 --- !u!33 &5734754902902540683
@@ -8836,6 +8869,7 @@ GameObject:
   - component: {fileID: 1084280255908689697}
   - component: {fileID: 8292704379594929185}
   - component: {fileID: 1300291262864885932}
+  - component: {fileID: 6282311269136395675}
   m_Layer: 11
   m_Name: Enemy_Boss_Flamer
   m_TagString: Untagged
@@ -8981,6 +9015,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+--- !u!114 &6282311269136395675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7825161440400715699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f7edd74e5e4fb04fb359a422895ed46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftLauncher: {fileID: 6630305220172901000}
+  rightLauncher: {fileID: 2868608817903097814}
+  rocketPrefab: {fileID: 1479792290806866601, guid: c59cf6321337fd1439ac8e35a50709b0, type: 3}
+  rocketsPerWave: 10
+  delayBetweenShots: 0.1
+  spreadRadius: 1
+  curveStrength: 6
+  flightTime: 1.2
 --- !u!1 &7831775946602890659
 GameObject:
   m_ObjectHideFlags: 0
@@ -9162,6 +9216,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7416950616775543815}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7909940010721874333
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6630305220172901000}
+  m_Layer: 11
+  m_Name: MissileLaunchPoint_L
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6630305220172901000
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7909940010721874333}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.113, y: 0.162, z: 0.053}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1461471285825656782}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8003843595975953163
 GameObject:

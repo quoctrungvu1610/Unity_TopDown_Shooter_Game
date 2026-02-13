@@ -3179,6 +3179,7 @@ MonoBehaviour:
   timeToTarget: 1.2
   grenadeCooldown: 5
   grenadeStartPoint: {fileID: 993008724331394400}
+  finishedThrowingGrenade: 1
   safeDistance: 2
   minCoverTime: 4
   attackDelay: 1
@@ -3201,7 +3202,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fce1f5088c53902499b1e22e286c42e4, type: 2}
   - {fileID: 11400000, guid: f43c0e5c1feca754aa8c3ace71177af4, type: 2}
   fireRate: 10
-  bulletToShoot: 5
   weaponCooldown: 1.5
 --- !u!114 &38855940843646134
 MonoBehaviour:

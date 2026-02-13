@@ -42,6 +42,7 @@ public class Enemy_Range : Enemy
     public float grenadeCooldown;
     private float lastTimeGrenadeThrown = -10;
     [SerializeField] private Transform grenadeStartPoint;
+    public bool finishedThrowingGrenade  = true;
 
     [Header("Cover System")]
     public float safeDistance;
@@ -70,7 +71,6 @@ public class Enemy_Range : Enemy
     [SerializeField] List<Enemy_RangeWeaponData> availableWeaponData;
 
     public float fireRate = 1;//Bullets per second
-    public int bulletToShoot = 5;
     public float weaponCooldown = 1.5f;
 
     public IdleState_Range idleState { get; private set; }
@@ -273,7 +273,7 @@ public class Enemy_Range : Enemy
     public void FireSingleBullet() 
     {
         anim.SetTrigger("Shoot");
-
+        Debug.Log("Trigger Fire Single Bullet");
         Vector3 bulletDirection = (aim.position - gunPoint.position).normalized;
         GameObject newBullet = ObjectPool.instance.GetObject(bulletPrefab, gunPoint);
 
@@ -287,7 +287,7 @@ public class Enemy_Range : Enemy
 
         rbNewBullet.mass = 20 / weaponData.bulletSpeed;
         rbNewBullet.velocity = bulletDirectionWithSpread * weaponData.bulletSpeed;
-
+        
     }
 
     

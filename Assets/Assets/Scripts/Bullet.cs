@@ -46,14 +46,14 @@ public class Bullet : MonoBehaviour
 
     protected virtual void Update()
     {
-        //FadeTrailIfNeeded();
+        FadeTrailIfNeeded();
         DisableBulletIfNeeded();
         ReturnToPoolIfNeeded();
     }
 
     protected void ReturnToPoolIfNeeded()
     {
-        if (trailRenderer.time <= 0f)
+        if (trailRenderer.time < 0f)
         {
             ReturnBulletToPool();
         }

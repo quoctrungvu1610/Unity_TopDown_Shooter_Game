@@ -2335,7 +2335,7 @@ GameObject:
   - component: {fileID: 8172737916465369567}
   - component: {fileID: 5807594490433518705}
   m_Layer: 11
-  m_Name: LandingZone
+  m_Name: LandingZoneFx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8982,11 +8982,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   landingOffset: 1.35
-  landingZoneFx: {fileID: 8172737916465369567}
   batteries:
   - {fileID: 6263378341111482737}
   - {fileID: 7873629778293964643}
   initialatteryScaleY: 0.2
+  landingZoneFx: {fileID: 8172737916465369567}
+  missileLandingFx: {fileID: 306587288332525685, guid: fda38df275ddb87479a5a99e6b971508, type: 3}
 --- !u!114 &8292704379594929185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9032,9 +9033,9 @@ MonoBehaviour:
   rocketPrefab: {fileID: 1479792290806866601, guid: c59cf6321337fd1439ac8e35a50709b0, type: 3}
   rocketsPerWave: 10
   delayBetweenShots: 0.1
-  spreadRadius: 1
+  spreadRadius: 2
   curveStrength: 6
-  flightTime: 1.2
+  flightTime: 1
 --- !u!1 &7831775946602890659
 GameObject:
   m_ObjectHideFlags: 0

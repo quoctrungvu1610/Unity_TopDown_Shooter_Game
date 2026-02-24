@@ -7,10 +7,13 @@ public class Enemy_BossVisual : MonoBehaviour
     private Enemy_Boss enemy;
 
     [SerializeField] private float landingOffset = 1;
-    [SerializeField] private ParticleSystem landingZoneFx;
     [Header("Batteries")]
     [SerializeField] private GameObject[] batteries;
     [SerializeField] private float initialatteryScaleY = 0.2f;
+
+    [Header("Fxs")]
+    [SerializeField] private ParticleSystem landingZoneFx;
+    [SerializeField] private ParticleSystem missileLandingFx;
 
     private float dischargeSpeed;
     private float rechargeSpeed;
@@ -43,6 +46,19 @@ public class Enemy_BossVisual : MonoBehaviour
         mainModule.duration = enemy.travelTimeToTarget;
 
         landingZoneFx.Play();
+    }
+
+    public void PlaceMissileLandingZone(Vector3 target, float duration)
+    {
+        Debug.Log("Place Missile Landing Zone");
+        GameObject newFx = ObjectPool.instance.GetObject(missileLandingFx.gameObject, transform);
+
+        newFx.transform.position = target;
+
+        var mainModule = landingZoneFx.main;
+        mainModule.duration = duration;
+
+        ObjectPool.instance.ReturnObject(newFx, duration);
     }
 
 

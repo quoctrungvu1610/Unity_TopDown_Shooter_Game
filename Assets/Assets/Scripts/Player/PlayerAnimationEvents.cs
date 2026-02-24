@@ -6,11 +6,15 @@ public class PlayerAnimationEvents : MonoBehaviour
 {
     private PlayerWeaponVisual visualController;
     private PlayerWeaponController weaponController;
+    private PlayerMovement playerMovement;
+    private Animator anim;
 
     private void Start()
     {
+        anim = GetComponent<Animator>();
         visualController = GetComponentInParent<PlayerWeaponVisual>();
         weaponController = GetComponentInParent<PlayerWeaponController>();
+        playerMovement = GetComponentInParent<PlayerMovement>();
     }
 
     public void ReloadIsOver()      

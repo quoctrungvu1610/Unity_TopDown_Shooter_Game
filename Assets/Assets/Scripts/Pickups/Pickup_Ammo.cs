@@ -25,6 +25,7 @@ public class Pickup_Ammo : Interactable
 
     [SerializeField] private GameObject[] boxModel;
 
+
     private void Start()
     {
         SetupBoxModel();

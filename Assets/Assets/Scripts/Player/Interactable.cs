@@ -2,12 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Outline))]
 public class Interactable : MonoBehaviour
 {
     protected PlayerWeaponController weaponController;
     protected MeshRenderer mesh;
     [SerializeField] private Material highlightMaterial;
     protected Material defaultMaterial;
+
+    private Outline outline;
+
+    protected void Awake()
+    {
+        outline = GetComponent<Outline>();
+    }
 
     private void Start()
     {
@@ -29,11 +37,13 @@ public class Interactable : MonoBehaviour
     {
         if(active)
         {
-            mesh.material = highlightMaterial;
+            //mesh.material = highlightMaterial;
+            outline.enabled = true;
         }
         else
         {
-            mesh.material = defaultMaterial;
+            //mesh.material = defaultMaterial;
+            outline.enabled = false;
         }
     }
 

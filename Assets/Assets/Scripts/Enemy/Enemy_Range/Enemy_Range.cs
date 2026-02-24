@@ -273,7 +273,7 @@ public class Enemy_Range : Enemy
     public void FireSingleBullet() 
     {
         anim.SetTrigger("Shoot");
-        Debug.Log("Trigger Fire Single Bullet");
+
         Vector3 bulletDirection = (aim.position - gunPoint.position).normalized;
         GameObject newBullet = ObjectPool.instance.GetObject(bulletPrefab, gunPoint);
 

@@ -1,8 +1,10 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -19,11 +21,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float walkSpeed = 1.5f;
     [SerializeField] private float runSpeed = 3.0f;
     [SerializeField] private float turnSpeed = 7f;
+    [SerializeField] private float dodgeSpeed;
+    [SerializeField] private float dodgeDistance;
 
     private Vector3 movementDirection;
+    private Vector3 dodgeTarget;
+    private Vector3 dodgeDirection;
     public Vector2 moveInput { get; private set; }
 
     private bool isRunning;
+    public bool isDodging;
 
     [SerializeField] private float gravityScale = 9.81f;
 
@@ -46,9 +53,39 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        ApplyMovement();
-        ApplyRotation();
-        AnimatorController();
+        if (isDodging == false) 
+        {
+            ApplyMovement();
+            ApplyRotation();
+            AnimatorController();
+        }
+        else if (isDodging)   
+        {
+
+            dodgeDirection = (dodgeTarget - transform.position).normalized;
+
+            CollisionFlags flags = characterController.Move(
+                dodgeDirection * dodgeSpeed * Time.deltaTime
+            );
+
+            if ((flags & CollisionFlags.Sides) != 0)
+            {
+                StopDodge();
+                return;
+            }
+
+            if (Vector3.Distance(transform.position, dodgeTarget) < 0.1f)
+            {
+                StopDodge();
+                return;
+            }
+        }
+    }
+
+    void StopDodge()
+    {
+        animator.SetBool("Dodge", false);
+        isDodging = false;
     }
 
     private void AnimatorController() 
@@ -98,11 +135,26 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void Dodge()
+    {
+        if (isDodging == false)
+        {
+            animator.SetBool("Dodge", true);
+            isDodging = true;
+            dodgeTarget = transform.position + transform.forward * dodgeDistance;
+        }
+        else 
+        {
+            return;
+        }
+    }
+
     private void AssignInputEvents()
     {
         controls = player.controls;
 
         controls.Character.Movement.performed += context => moveInput = context.ReadValue<Vector2>();
+        controls.Character.Dodge.performed += context => Dodge();
         controls.Character.Movement.canceled += context => moveInput = Vector2.zero;
         controls.Character.Run.performed += context =>
         {

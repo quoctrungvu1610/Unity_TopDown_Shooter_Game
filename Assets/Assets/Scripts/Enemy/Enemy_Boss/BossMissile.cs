@@ -113,7 +113,6 @@ public class BossMissile : MonoBehaviour
     {
         GameObject newFx = ObjectPool.instance.GetObject(explosionFx, transform);
         ObjectPool.instance.ReturnObject(newFx, 1);
-        //ObjectPool.instance.ReturnObject(gameObject);
         gameObject.SetActive(false);
         Destroy(this.gameObject, 1);
     }

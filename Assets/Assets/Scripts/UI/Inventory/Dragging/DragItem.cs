@@ -60,6 +60,11 @@ public class DragItem<T> : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (!EventSystem.current.IsPointerOverGameObject())
         {
             container = parentCanvas.GetComponent<IDragDestination<T>>();
+            if (container == null)
+            {
+                Debug.Log("Container Null");
+            }
+
         }
         else
         {

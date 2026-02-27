@@ -10,6 +10,7 @@ public class Pickup : Interactable
 {
     // STATE
     InventoryItem item;
+    int number;
 
     // CACHED REFERENCE
     Inventory inventory;
@@ -30,9 +31,10 @@ public class Pickup : Interactable
     /// Set the vital data after creating the prefab.
     /// </summary>
     /// <param name="item">The type of item this prefab represents.</param>
-    public void Setup(InventoryItem item)
+    public void Setup(InventoryItem item, int number)
     {
         this.item = item;
+        this.number = number;
     }
 
     public InventoryItem GetItem()
@@ -40,9 +42,14 @@ public class Pickup : Interactable
         return item;
     }
 
+    public int GetNumber()
+    {
+        return number;
+    }
+
     public void PickupItem()
     {
-        bool foundSlot = inventory.AddToFirstEmptySlot(item);
+        bool foundSlot = inventory.AddToFirstEmptySlot(item, number);
         if (foundSlot)
         {
             Destroy(gameObject);

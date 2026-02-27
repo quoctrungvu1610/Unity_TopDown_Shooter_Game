@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbd97ac09af84014fad0546a13122cb5, type: 3}
+  m_Name: AutoRifle
+  m_EditorClassIdentifier: 
+  itemID: 457ff4d4-a6ba-4a43-ba70-b30ae0b03f10
+  displayName: Auto-Rifle A4
+  description: 
+  icon: {fileID: 21300000, guid: c0f438482e152be4894d1642151053df, type: 3}
+  pickup: {fileID: 5971387042095017424, guid: 6d9f7f5419daa624daad4a4a35b71ec3, type: 3}
+  stackable: 0
+  weapon_Data: {fileID: 11400000, guid: c81b31e3935168344b89043bfaaa0fe0, type: 2}

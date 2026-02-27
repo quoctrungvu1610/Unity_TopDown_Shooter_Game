@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: 62d05520-9a51-49f3-93be-b905a14ab6c1
   displayName: Revolver Ammo
-  description: 
+  description: Ammo for Revolver
   icon: {fileID: 21300000, guid: 78985428f79e0304ba41853a5609e350, type: 3}
   pickup: {fileID: 5971387042095017424, guid: ece20120585d69d409c9269a6cb9907a, type: 3}
-  stackable: 0
+  stackable: 1

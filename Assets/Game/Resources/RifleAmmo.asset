@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: a1456c0b-7fcf-4511-b6b9-8a0fe3dc0260
   displayName: Rifle Ammo
-  description: 
+  description: Ammo for Rifle - Extreme Powerful
   icon: {fileID: 21300000, guid: 9a2d69bcc2d140b4ca1cf948f5ce47c7, type: 3}
   pickup: {fileID: 5971387042095017424, guid: 92b52d7b9d80a5b49b59c016bd956e19, type: 3}
-  stackable: 0
+  stackable: 1

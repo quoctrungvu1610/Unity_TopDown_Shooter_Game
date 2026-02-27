@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = ("Inventory/Weapon"))]
-public class WeaponInventoryItem : InventoryItem
+[CreateAssetMenu(menuName = ("Inventory/Equipable Weapon"))]
+public class WeaponInventoryItem : EquipableItem
 {
     [SerializeField] private Weapon_Data weapon_Data;
 

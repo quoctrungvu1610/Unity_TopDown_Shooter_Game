@@ -54,7 +54,7 @@ public class Pickup_Weapon : Interactable
     public override void Interaction()
     {
         base.Interaction();
-        weaponController.PickupWeapon(weapon);
+        //weaponController.PickupWeapon(weapon);
         ObjectPool.instance.ReturnObject(gameObject);
     }
 

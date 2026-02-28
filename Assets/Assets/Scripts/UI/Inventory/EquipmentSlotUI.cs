@@ -35,8 +35,10 @@ public class EquipmentSlotUI : MonoBehaviour, IItemHolder, IDragContainer<Invent
     {
         EquipableItem equipableItem = item as EquipableItem;
         if (equipableItem == null) return 0;
+        if (equipableItem.GetAllowedEquipLocation() == EquipLocation.Weapon && equipLocation == EquipLocation.BackupWeapon) return 1;
         if (equipableItem.GetAllowedEquipLocation() != equipLocation) return 0;
         if (GetItem() != null) return 0;
+        
 
         return 1;
     }

@@ -155,6 +155,19 @@ public class Inventory : MonoBehaviour, ISaveable
         return true;
     }
 
+    public WeaponInventoryItem[] GetWeaponInventoryItems() 
+    {
+        var weaponItems = new List<WeaponInventoryItem>();
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item != null && slots[i].item is WeaponInventoryItem) 
+            {
+                weaponItems.Add((WeaponInventoryItem)slots[i].item);
+            }
+        }
+        return weaponItems.ToArray();
+    }
+
     // PRIVATE
 
     private void Awake()

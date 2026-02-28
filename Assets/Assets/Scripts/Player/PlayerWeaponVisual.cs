@@ -24,6 +24,20 @@ public class PlayerWeaponVisual : MonoBehaviour
     [SerializeField] private float rigWeightIncreaseRate;
     private bool shouldIncrease_RigWeight = false;
 
+    private Equipment equipment;
+    private Inventory inventory;
+
+    private void Awake()
+    {
+        equipment = GetComponent<Equipment>();
+        inventory = GetComponent<Inventory>();
+
+        if (equipment && inventory)
+        {
+            equipment.equipmentUpdated += CheckCurrentWeaponModel;
+            equipment.equipmentUpdated += SwitchOnBackupWeaponModel;
+        }
+    }
 
     private void Start()
     {
@@ -43,14 +57,16 @@ public class PlayerWeaponVisual : MonoBehaviour
     public WeaponModel CurrentWeaponModel()
     {
         WeaponModel weaponModel = null;
-
-        WeaponType weaponType = player.weapon.CurrentWeapon().weaponType;
-
-        for (int i = 0; i < weaponModels.Length; i++)
+        if (player.weapon.CurrentWeapon() != null) 
         {
-            if (weaponModels[i].weaponType == weaponType)
+            WeaponType weaponType = player.weapon.CurrentWeapon().weaponType;
+        
+            for (int i = 0; i < weaponModels.Length; i++)
             {
-                weaponModel = weaponModels[i];
+                if (weaponModels[i].weaponType == weaponType)
+                {
+                    weaponModel = weaponModels[i];
+                }
             }
         }
 
@@ -124,12 +140,16 @@ public class PlayerWeaponVisual : MonoBehaviour
 
         foreach (BackupWeaponModel backupModel in backupWeaponModels) 
         {
-            if(backupModel.weaponType == player.weapon.CurrentWeapon().weaponType) 
+            if (player.weapon.CurrentWeapon() != null) 
             {
-                continue;
+                if (backupModel.weaponType == player.weapon.CurrentWeapon().weaponType)
+                {
+                    continue;
+                }
             }
+            
 
-            if (player.weapon.WeaponInSlots(backupModel.weaponType) != null) 
+            if (player.weapon.WeaponInBackupWeaponSlot(backupModel.weaponType) != null) 
             {
                 if(backupModel.HangTypeIs(HangType.LowBackHang)) 
                 {
@@ -164,6 +184,18 @@ public class PlayerWeaponVisual : MonoBehaviour
         Transform targetTransform = CurrentWeaponModel().holdPoint;
         leftHandIK_Target.localPosition = targetTransform.localPosition;
         leftHandIK_Target.localRotation = targetTransform.localRotation;
+    }
+
+    private void CheckCurrentWeaponModel() 
+    {
+        if (player.weapon.CurrentWeapon() == null)
+        {
+            //SwitchAnimationlayer(4);
+            //leftHandIK.weight = 0;
+
+            SwitchOffWeaponModels();
+            return;
+        }
     }
 
     private void SwitchAnimationlayer(int layerIndex) 

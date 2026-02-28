@@ -38,6 +38,12 @@ public class ActionStore : MonoBehaviour, ISaveable
         return null;
     }
 
+    private void Start()
+    {
+        storeUpdated();
+    }
+
+
     /// <summary>
     /// Get the number of items left at the given index.
     /// </summary>

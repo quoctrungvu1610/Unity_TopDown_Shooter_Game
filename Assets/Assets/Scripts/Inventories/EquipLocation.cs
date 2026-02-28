@@ -13,6 +13,7 @@ public enum EquipLocation
     Trousers,
     Boots,
     Weapon,
+    BackupWeapon,
     Shield,
     Gloves,
 }

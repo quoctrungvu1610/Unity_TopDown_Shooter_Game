@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf8ae147b5e47f4798b74c7d4d8c734, type: 3}
+  m_Name: Robot Heal Kit
+  m_EditorClassIdentifier: 
+  itemID: ecf68929-6968-4d2e-8d6d-dd7746e8b0bf
+  displayName: Robot Repair Kit
+  description: 'Repair Kit for Robots
+
+    Health <color = "green">2HP</color> per
+    sec'
+  icon: {fileID: 21300000, guid: f9d1609b05df3d54e9062ac8bf65dd43, type: 3}
+  pickup: {fileID: 5971387042095017424, guid: 2bb5407d42383494b979b023b4990c48, type: 3}
+  stackable: 1
+  consumable: 1

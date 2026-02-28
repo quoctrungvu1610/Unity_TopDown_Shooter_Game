@@ -13,7 +13,9 @@ public class InventoryItemIcon : MonoBehaviour
 {
     //CONFIG DATA
     [SerializeField] GameObject textContainer = null;
+    [SerializeField] GameObject itemNameTextContainer = null;
     [SerializeField] TextMeshProUGUI itemNumber = null;
+    [SerializeField] TextMeshProUGUI itemName = null;
     // PUBLIC
     public void SetItem(InventoryItem item)
     {
@@ -26,11 +28,14 @@ public class InventoryItemIcon : MonoBehaviour
         if (item == null)
         {
             iconImage.enabled = false;
+            itemNameTextContainer.SetActive(false);
         }
         else
         {
             iconImage.enabled = true;
             iconImage.sprite = item.GetIcon();
+            itemNameTextContainer.SetActive(true);
+            itemName.text = item.GetDisplayName();
         }
 
         if (itemNumber) 

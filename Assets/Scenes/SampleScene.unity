@@ -1513,7 +1513,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2111614314548217254, guid: 62434f212e072f44a8c55edc0fa9e612, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5669494812709524314, guid: 62434f212e072f44a8c55edc0fa9e612, type: 3}
       propertyPath: m_LocalPosition.x
@@ -16769,7 +16769,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7825161440400715699, guid: 271e7e5f301a36147a003c1b085d7054, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8863735070615527857, guid: 271e7e5f301a36147a003c1b085d7054, type: 3}
       propertyPath: m_LocalPosition.x
@@ -30486,7 +30486,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3400072980174989976, guid: 955bfdd2e3645cb4ebbaa114445ae39b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3507708055557850944, guid: 955bfdd2e3645cb4ebbaa114445ae39b, type: 3}
       propertyPath: coverPerk
@@ -46390,7 +46390,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 944254102834440801, guid: 37e692b91a1e8ab47b5b93235cb40e8b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4208845961743581754, guid: 37e692b91a1e8ab47b5b93235cb40e8b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -84054,7 +84054,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3400072980174989976, guid: 955bfdd2e3645cb4ebbaa114445ae39b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3507708055557850944, guid: 955bfdd2e3645cb4ebbaa114445ae39b, type: 3}
       propertyPath: coverPerk
@@ -88149,7 +88149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3400072980174989976, guid: 955bfdd2e3645cb4ebbaa114445ae39b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3507708055557850944, guid: 955bfdd2e3645cb4ebbaa114445ae39b, type: 3}
       propertyPath: coverPerk
@@ -120400,7 +120400,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1887622400672492732, guid: a2e4376897ea2f941b3bd4224f72443f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2081917861994907504, guid: a2e4376897ea2f941b3bd4224f72443f, type: 3}
       propertyPath: m_Controller

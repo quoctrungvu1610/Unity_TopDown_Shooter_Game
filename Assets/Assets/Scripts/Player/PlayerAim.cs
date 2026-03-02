@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -70,6 +70,11 @@ public class PlayerAim : MonoBehaviour
         }
 
         WeaponModel weaponModel = player.weaponVisuals.CurrentWeaponModel();
+
+        if (weaponModel == null) 
+        {
+            return;
+        }
 
         weaponModel.transform.LookAt(aim);
         weaponModel.gunPoint.LookAt(aim);

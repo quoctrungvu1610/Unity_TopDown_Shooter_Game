@@ -23,7 +23,7 @@ public class Enemy_Shield : MonoBehaviour, IDamageable
         }
     }
 
-    public void TakeDamage()
+    public void TakeDamage(int damage)
     {
         ReduceDurability();
     }

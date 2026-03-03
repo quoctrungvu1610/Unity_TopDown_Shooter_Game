@@ -7,6 +7,7 @@ public class Enemy_Axe : MonoBehaviour
     [SerializeField] GameObject impactFx;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform axeVisual;
+    [SerializeField] private int axeDamage = 2;
 
     private Transform player;
     private float flySpeed;
@@ -42,7 +43,7 @@ public class Enemy_Axe : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
-        damageable?.TakeDamage();
+        damageable?.TakeDamage(axeDamage);
 
         GameObject newFx = ObjectPool.instance.GetObject(impactFx, transform);
         newFx.transform.position = transform.position;

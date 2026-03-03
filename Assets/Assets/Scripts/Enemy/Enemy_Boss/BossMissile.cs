@@ -14,7 +14,7 @@ public class BossMissile : MonoBehaviour
     [SerializeField] private GameObject explosionFx;
     [SerializeField] private float impactRadius;
     [SerializeField] private float upwardMultiplier = 1;
-    [SerializeField] private float impactPower;
+    [SerializeField] private int impactPower;
 
     [SerializeField] private LayerMask allyLayerMask;
 
@@ -53,7 +53,7 @@ public class BossMissile : MonoBehaviour
             2 * (1 - t) * t * controlPoint +
             Mathf.Pow(t, 2) * endPoint;
 
-        // Xoay theo hướng bay (rất đẹp trong top-down)
+        // 
         Vector3 direction = newPos - transform.position;
         if (direction.sqrMagnitude > 0.001f)
         {
@@ -92,7 +92,7 @@ public class BossMissile : MonoBehaviour
                 {
                     continue;
                 }
-                damageable.TakeDamage();
+                damageable.TakeDamage(impactPower);
             }
 
             ApplyPhysicalForceTo(hit);

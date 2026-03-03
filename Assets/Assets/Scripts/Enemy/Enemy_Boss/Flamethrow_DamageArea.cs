@@ -30,7 +30,7 @@ public class Flamethrow_DamageArea : MonoBehaviour
 
         if (damageable != null)
         { 
-            damageable?.TakeDamage();
+            damageable?.TakeDamage(1);
             lastTimeDamaged = Time.time;
             damageCooldown = enemy.flameDamageCooldown;
         }

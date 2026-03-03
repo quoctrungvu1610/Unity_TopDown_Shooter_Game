@@ -7,9 +7,11 @@ public class Enemy_Grenade : MonoBehaviour
     [SerializeField] private GameObject explosionFx;
     [SerializeField] private float impactRadius;
     [SerializeField] private float upwardMultiplier = 1;
+    [SerializeField] private int grenadeDamage = 10;
     private Rigidbody rb;
     private float timer;
     private float impactPower;
+
 
     private LayerMask allyLayerMask;
     private bool canExplode;
@@ -80,7 +82,7 @@ public class Enemy_Grenade : MonoBehaviour
                 {
                     continue;
                 }
-                damageable.TakeDamage();
+                damageable.TakeDamage(grenadeDamage);
             }
            
             ApplyPhysicalForceTo(hit);

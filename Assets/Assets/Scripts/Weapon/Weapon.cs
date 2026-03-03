@@ -43,6 +43,7 @@ public class Weapon
     public float equipmentSpeed { get; private set; }
     public float gunDistance { get; private set; }
     public float cameraDistance { get; private set; }
+    public int damage { get; private set; }
     #endregion
 
     public Weapon_Data weaponData { get; private set; } //Serve as default data reference
@@ -75,6 +76,8 @@ public class Weapon
         cameraDistance = weaponData.cameraDistance;
 
         defaultFireRate = fireRate;
+
+        damage = weaponData.damage;
 
         this.weaponData = weaponData;
     }

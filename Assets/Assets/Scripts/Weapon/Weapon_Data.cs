@@ -39,4 +39,7 @@ public class Weapon_Data : ScriptableObject
     public float gunDistance = 4f;
     [Range(6, 10)]
     public float cameraDistance = 6f;
+    public int damage;
+
+
 }

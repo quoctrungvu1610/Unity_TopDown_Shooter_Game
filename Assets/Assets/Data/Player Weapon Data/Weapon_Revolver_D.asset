@@ -16,8 +16,8 @@ MonoBehaviour:
   bulletsInMagazine: 7
   magazineCapacity: 7
   totalReserveAmmo: 999
-  shootType: 0
-  bulletPerShot: 1
+  shootType: 1
+  bulletPerShot: 5
   fireRate: 2.5
   burstAvailable: 0
   burstActive: 0
@@ -32,3 +32,4 @@ MonoBehaviour:
   equipmentSpeed: 1
   gunDistance: 6
   cameraDistance: 6
+  damage: 1

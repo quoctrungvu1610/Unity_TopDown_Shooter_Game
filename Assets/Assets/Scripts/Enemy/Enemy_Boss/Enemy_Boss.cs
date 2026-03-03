@@ -49,6 +49,9 @@ public class Enemy_Boss : Enemy
     [SerializeField] private float attackCheckRadius;
     [SerializeField] private GameObject meleeAttackFx;
 
+    [Header("States")]
+    [SerializeField] private int impactDamage = 200;
+
     public IdleState_Boss idleState { get; private set; }
     public MoveState_Boss moveState { get; private set; }
     public AttackState_Boss attackState { get; private set; }
@@ -205,7 +208,7 @@ public class Enemy_Boss : Enemy
                 {
                     continue;
                 }
-                damageable?.TakeDamage();
+                damageable?.TakeDamage(impactDamage);
             }
 
             ApplyPhysicalForceTo(impactPoint, impactRadius, hit);

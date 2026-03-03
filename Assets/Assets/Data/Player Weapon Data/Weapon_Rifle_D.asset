@@ -32,3 +32,4 @@ MonoBehaviour:
   equipmentSpeed: 1
   gunDistance: 15
   cameraDistance: 8
+  damage: 999

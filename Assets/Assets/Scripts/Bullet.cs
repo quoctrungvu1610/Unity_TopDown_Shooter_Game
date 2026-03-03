@@ -11,11 +11,15 @@ public class Bullet : MonoBehaviour
     private TrailRenderer trailRenderer;
     private MeshRenderer meshRenderer;
 
+
     [SerializeField] private GameObject bulletImpactFX;
    
     private Vector3 startPosition;
     private float flyDistance;
     public bool bulletDisabled = false;
+
+
+    private int bulletDamage;
 
 
     private LayerMask allyLayerMask;
@@ -28,10 +32,11 @@ public class Bullet : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
     }
 
-    public void BulletSetup(LayerMask allyLayer, float flyDistance = 100, float impactForce = 100)
+    public void BulletSetup(LayerMask allyLayer, float flyDistance = 100, float impactForce = 100, int damage = 1)
     {
         this.impactForce = impactForce;
         this.allyLayerMask = allyLayer;
+        this.bulletDamage = damage;
 
         bulletDisabled = false;
         cd.enabled = true;
@@ -97,7 +102,7 @@ public class Bullet : MonoBehaviour
         ReturnBulletToPool();
 
         IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
-        damageable?.TakeDamage();
+        damageable?.TakeDamage(bulletDamage);
         Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
 
         ApplyBulletImpactToEnemy(collision);

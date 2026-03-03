@@ -105,6 +105,12 @@ public class PlayerWeaponVisual : MonoBehaviour
 
     }
 
+    public void PlayWeaponMuzzleFlash() 
+    {
+        CurrentWeaponModel().muzzleFlash.Play();
+        CurrentWeaponModel().AddLight();
+    }
+
 
     public void SwitchOnCurrentWeaponModel() 
     {

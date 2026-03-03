@@ -9,7 +9,7 @@ public class HitBox : MonoBehaviour,IDamageable
     
     }
 
-    public virtual void TakeDamage()
+    public virtual void TakeDamage(int damage)
     {
         
     }

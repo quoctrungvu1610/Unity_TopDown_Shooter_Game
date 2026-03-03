@@ -331,6 +331,7 @@ public class PlayerWeaponController : MonoBehaviour
         }
         
         player.weaponVisuals.PlayFireAnimation();
+        player.weaponVisuals.PlayWeaponMuzzleFlash();
 
         if (currentWeapon.shootType == ShootType.Single)
         {
@@ -359,7 +360,7 @@ public class PlayerWeaponController : MonoBehaviour
         Rigidbody rbNewBullet = newBullet.GetComponent<Rigidbody>();
 
         Bullet bulletScript = newBullet.GetComponent<Bullet>();
-        bulletScript.BulletSetup(whatIsAlly, currentWeapon.gunDistance, bulletImpactForce);
+        bulletScript.BulletSetup(whatIsAlly, currentWeapon.gunDistance, bulletImpactForce, currentWeapon.damage);
 
         Vector3 bulletDirection = currentWeapon.ApplySpread(BulletDirection());
 

@@ -26,6 +26,8 @@ public class Enemy : MonoBehaviour
     private Vector3[] patrolPointsPosition;
     private int currentPatrolIndex;
 
+    private int meleeDamage;
+
     public bool inBattleMode { get; private set; }
     protected bool isMeleeAttackReady;
 
@@ -146,9 +148,9 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
-    public virtual void GetHit() 
+    public virtual void GetHit(int damage) 
     {
-        health.ReduceHealth();
+        health.ReduceHealth(damage);
         if(health.ShouldDie()) 
         {
             Die();
@@ -179,7 +181,7 @@ public class Enemy : MonoBehaviour
                 IDamageable damageable = detectedHits[i].GetComponent<IDamageable>();
                 if (damageable != null)
                 {
-                    damageable.TakeDamage();
+                    damageable.TakeDamage(meleeDamage);
                     isMeleeAttackReady = false;
                     GameObject newAttackFx = ObjectPool.instance.GetObject(fx, attackPoint);
 

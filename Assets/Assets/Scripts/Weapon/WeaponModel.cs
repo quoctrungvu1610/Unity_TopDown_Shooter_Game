@@ -15,4 +15,13 @@ public class WeaponModel : MonoBehaviour
 
     public Transform gunPoint;
     public Transform holdPoint;
+
+    public ParticleSystem muzzleFlash;
+    public GameObject muzzleLight;
+
+    public void AddLight() 
+    {
+        muzzleLight.gameObject.SetActive(true);
+
+    }
 }

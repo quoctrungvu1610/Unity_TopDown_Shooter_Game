@@ -137,7 +137,7 @@ public class DragItem<T> : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         var sourceTakeBackNumber = CalculateTakeBack(removedSourceItem, removedSourceNumber, source, destination);
         //Debug.Log("Source take back number: " + sourceTakeBackNumber);
         var destinationTakeBackNumber = CalculateTakeBack(removedDestinationItem, removedDestinationNumber, destination, source);
-        /Debug.Log("Destination take back number: " + destinationTakeBackNumber);
+        //Debug.Log("Destination take back number: " + destinationTakeBackNumber);
 
         // Do take backs (if needed)
         if (sourceTakeBackNumber > 0)

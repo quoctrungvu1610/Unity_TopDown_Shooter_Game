@@ -11,7 +11,16 @@ public class PlayerInteractionUI : MonoBehaviour
 
     public void ToggleUI(GameObject UI, bool value) 
     {
-        Debug.Log("Call Togge " + UI.name);
-        UI.SetActive(value);
+        if(value == true && UI.gameObject.activeSelf == false)
+        {
+            UI.SetActive(true);
+            return;
+        }
+        else if(value == false && UI.gameObject.activeSelf == true)
+        {
+            UI.SetActive(false);
+            return;
+        }
+
     }
 }

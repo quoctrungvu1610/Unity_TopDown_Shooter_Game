@@ -14,6 +14,7 @@ public class PlayerAim : MonoBehaviour
     [Header("Aim Control")]
     [SerializeField] private Transform aim;
     [SerializeField] private LayerMask layerToIgnore;
+    [SerializeField] private GameObject laserImpactDot;
     [SerializeField] private bool isAimingPrecisely = false;
     [SerializeField] private bool isLockingToTarget = false;
 
@@ -64,17 +65,18 @@ public class PlayerAim : MonoBehaviour
     private void UpdateAimVisuals()
     {
         aimLaser.enabled = player.weapon.WeaponReady();
-        if (aimLaser.enabled == false)
+
+        if (!aimLaser.enabled)
         {
+            if (laserImpactDot != null)
+                laserImpactDot.SetActive(false);
             return;
         }
 
         WeaponModel weaponModel = player.weaponVisuals.CurrentWeaponModel();
 
-        if (weaponModel == null) 
-        {
+        if (weaponModel == null)
             return;
-        }
 
         weaponModel.transform.LookAt(aim);
         weaponModel.gunPoint.LookAt(aim);
@@ -82,21 +84,74 @@ public class PlayerAim : MonoBehaviour
         Transform gunPoint = player.weapon.GunPoint();
         Vector3 laserDirection = player.weapon.BulletDirection();
 
-        float laserTipLength = .5f;
         float gunDistance = player.weapon.CurrentWeapon().gunDistance;
-
         Vector3 endPoint = gunPoint.position + laserDirection * gunDistance;
 
-        if(Physics.Raycast(gunPoint.position, laserDirection, out RaycastHit hitInfo, gunDistance, ~layerToIgnore))
+        bool hitSomething = false;
+
+        if (Physics.Raycast(gunPoint.position, laserDirection, out RaycastHit hitInfo, gunDistance, ~layerToIgnore))
         {
             endPoint = hitInfo.point;
-            laserTipLength = 0;
+            hitSomething = true;
         }
 
         aimLaser.SetPosition(0, gunPoint.position);
         aimLaser.SetPosition(1, endPoint);
-        aimLaser.SetPosition(2, endPoint + laserDirection * laserTipLength);
+
+        // ===== IMPACT DOT =====
+        if (laserImpactDot != null)
+        {
+            if (hitSomething)
+            {
+                laserImpactDot.SetActive(true);
+                laserImpactDot.transform.position = endPoint;
+
+                // Xoay theo normal để nhìn đẹp hơn
+                laserImpactDot.transform.rotation = Quaternion.LookRotation(hitInfo.normal);
+            }
+            else
+            {
+                laserImpactDot.SetActive(false);
+            }
+        }
     }
+
+    //private void UpdateAimVisuals()
+    //{
+    //    aimLaser.enabled = player.weapon.WeaponReady();
+    //    if (aimLaser.enabled == false)
+    //    {
+    //        return;
+    //    }
+
+    //    WeaponModel weaponModel = player.weaponVisuals.CurrentWeaponModel();
+
+    //    if (weaponModel == null) 
+    //    {
+    //        return;
+    //    }
+
+    //    weaponModel.transform.LookAt(aim);
+    //    weaponModel.gunPoint.LookAt(aim);
+
+    //    Transform gunPoint = player.weapon.GunPoint();
+    //    Vector3 laserDirection = player.weapon.BulletDirection();
+
+    //    //float laserTipLength = .5f;
+    //    float gunDistance = player.weapon.CurrentWeapon().gunDistance;
+
+    //    Vector3 endPoint = gunPoint.position + laserDirection * gunDistance;
+
+    //    if(Physics.Raycast(gunPoint.position, laserDirection, out RaycastHit hitInfo, gunDistance, ~layerToIgnore))
+    //    {
+    //        endPoint = hitInfo.point;
+    //        //laserTipLength = 0;
+    //    }
+
+    //    aimLaser.SetPosition(0, gunPoint.position);
+    //    aimLaser.SetPosition(1, endPoint);
+    //    //aimLaser.SetPosition(2, endPoint + laserDirection * laserTipLength);
+    //}
 
     private void UpdateAimPosition()
     {

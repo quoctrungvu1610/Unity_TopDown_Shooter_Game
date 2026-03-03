@@ -23,10 +23,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float turnSpeed = 7f;
     [SerializeField] private float dodgeSpeed;
     [SerializeField] private float dodgeDistance;
+    [SerializeField] private LayerMask obstacleLayer;
 
     private Vector3 movementDirection;
     private Vector3 dodgeTarget;
     private Vector3 dodgeDirection;
+    [SerializeField] private float maxDodgeTime = 0.4f;
+    private float dodgeTimer;
     public Vector2 moveInput { get; private set; }
 
     private bool isRunning;
@@ -56,28 +59,66 @@ public class PlayerMovement : MonoBehaviour
             ApplyMovement();
             ApplyRotation();
             AnimatorController();
+            return;
         }
-        else
+
+        // ===== DODGE LOGIC =====
+        Vector3 toTarget = dodgeTarget - transform.position;
+        float remainingDistance = toTarget.magnitude;
+
+
+        if (remainingDistance <= 0.05f)
         {
-            dodgeDirection = (dodgeTarget - transform.position).normalized;
+            StopDodge();
+            return;
+        }
 
-            CollisionFlags flags = characterController.Move(
-                dodgeDirection * dodgeSpeed * Time.deltaTime
-            );
 
-            // Nếu va chạm bên hông thì dừng dodge
-            if ((flags & CollisionFlags.Sides) != 0)
-            {
-                StopDodge();
-                return;
-            }
+        Vector3 dodgeDirection = toTarget.normalized;
 
-            // Đến gần target thì dừng dodge
-            if (Vector3.Distance(transform.position, dodgeTarget) < 0.1f)
-            {
-                StopDodge();
-                return;
-            }
+        float moveDistance = dodgeSpeed * Time.deltaTime;
+
+
+        moveDistance = Mathf.Min(moveDistance, remainingDistance);
+
+
+        float radius = characterController.radius * 0.9f;
+        Vector3 castOrigin = transform.position + characterController.center;
+
+        if (Physics.SphereCast(
+            castOrigin,
+            radius,
+            dodgeDirection,
+            out RaycastHit hit,
+            moveDistance,
+            obstacleLayer,
+            QueryTriggerInteraction.Ignore))
+        {
+
+            StopDodge();
+            return;
+        }
+
+        // ===== ANTI-STUCK CHECK =====
+        Vector3 beforePosition = transform.position;
+
+        CollisionFlags flags = characterController.Move(
+            dodgeDirection * moveDistance
+        );
+
+        float movedDistance = Vector3.Distance(beforePosition, transform.position);
+
+
+        if (movedDistance < 0.001f)
+        {
+            StopDodge();
+            return;
+        }
+
+        if ((flags & CollisionFlags.Sides) != 0)
+        {
+            StopDodge();
+            return;
         }
     }
 
@@ -89,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void AnimatorController()
     {
-        // CHỈ dùng hướng ngang cho animation (tránh gravity làm sai)
+
         Vector3 flatDirection = new Vector3(movementDirection.x, 0f, movementDirection.z);
 
         float xVelocity = 0f;
@@ -128,20 +169,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyMovement()
     {
-        // Tạo hướng di chuyển ngang từ input
+
         Vector3 horizontalMovement = new Vector3(moveInput.x, 0f, moveInput.y);
 
-        // Lưu lại để animator dùng (không bị gravity phá)
+
         movementDirection = horizontalMovement;
 
-        // Áp dụng gravity riêng
+
         ApplyGravity();
 
-        // Ghép movement ngang + gravity dọc
         Vector3 finalMovement = horizontalMovement * speed;
         finalMovement.y = verticalVelocity;
 
-        // QUAN TRỌNG: Luôn Move mỗi frame (fix lỗi đứng yên)
         characterController.Move(finalMovement * Time.deltaTime);
     }
 
@@ -153,7 +192,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            // Giữ dính mặt đất ổn định (tránh rung & đứng yên ngẫu nhiên)
             if (verticalVelocity < 0f)
             {
                 verticalVelocity = -2f;
@@ -163,16 +201,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void Dodge()
     {
-        if (!isDodging)
+        if (isDodging) return;
+
+        animator.SetBool("Dodge", true);
+        isDodging = true;
+
+        Vector3 direction = transform.forward;
+        float maxDistance = dodgeDistance;
+
+        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, dodgeDistance, obstacleLayer))
         {
-            animator.SetBool("Dodge", true);
-            isDodging = true;
-            dodgeTarget = transform.position + transform.forward * dodgeDistance;
+
+            maxDistance = hit.distance - 0.2f;
         }
-        else
-        {
-            return;
-        }
+
+        dodgeTarget = transform.position + direction * maxDistance;
     }
 
     private void AssignInputEvents()

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4690865876750800433}
   - component: {fileID: 1708556385550417720}
   - component: {fileID: 9089304987497207301}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: LootBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,9 +103,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 824038602962259128}
     m_Modifications:
+    - target: {fileID: 1692313614992406, guid: 31dd6d847d998664db4d2466ae3ac2b4, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 1722992743861060, guid: 31dd6d847d998664db4d2466ae3ac2b4, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Crate_Military_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1722992743861060, guid: 31dd6d847d998664db4d2466ae3ac2b4, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4001237703748626, guid: 31dd6d847d998664db4d2466ae3ac2b4, type: 3}
       propertyPath: m_LocalPosition.x

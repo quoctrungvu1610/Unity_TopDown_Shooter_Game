@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 1104479707594606213}
   - component: {fileID: 4841318041607124650}
   - component: {fileID: 5971387042095017424}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Pickup_PistolAmmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}

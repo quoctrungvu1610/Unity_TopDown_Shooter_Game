@@ -84,6 +84,7 @@ public class DragItem<T> : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (eventData.pointerEnter)
         {
             var container = eventData.pointerEnter.GetComponentInParent<IDragDestination<T>>();
+            Debug.Log("Container: " + container);
 
             return container;
         }
@@ -92,7 +93,12 @@ public class DragItem<T> : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     private void DropItemIntoContainer(IDragDestination<T> destination)
     {
-        if (object.ReferenceEquals(destination, source)) return;
+        //Debug.Log("Dropping item into container: " + destination);
+        if (object.ReferenceEquals(destination, source)) 
+        {
+            //Debug.Log("Dropping into source, doing nothing.");
+            return;
+        } 
 
         var destinationContainer = destination as IDragContainer<T>;
         var sourceContainer = source as IDragContainer<T>;
@@ -105,6 +111,7 @@ public class DragItem<T> : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             AttemptSimpleTransfer(destination);
             return;
         }
+        Debug.Log("Attempting swap");
 
         AttemptSwap(destinationContainer, sourceContainer);
     }
@@ -113,24 +120,35 @@ public class DragItem<T> : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         // Provisionally remove item from both sides. 
         var removedSourceNumber = source.GetNumber();
+        //Debug.Log("Removed source number: " + removedSourceNumber);
         var removedSourceItem = source.GetItem();
+        //Debug.Log("Removed source item: " + removedSourceItem);
+
         var removedDestinationNumber = destination.GetNumber();
+        //Debug.Log("Removed destination number: " + removedDestinationNumber);
         var removedDestinationItem = destination.GetItem();
+        //Debug.Log("Removed destination item: " + removedDestinationItem);
 
         source.RemoveItems(removedSourceNumber);
+        //Debug.Log("Removed " + removedSourceNumber + " " + removedSourceItem + " from source");
         destination.RemoveItems(removedDestinationNumber);
+        //Debug.Log("Removed " + removedDestinationNumber + " " + removedDestinationItem + " from destination");
 
         var sourceTakeBackNumber = CalculateTakeBack(removedSourceItem, removedSourceNumber, source, destination);
+        //Debug.Log("Source take back number: " + sourceTakeBackNumber);
         var destinationTakeBackNumber = CalculateTakeBack(removedDestinationItem, removedDestinationNumber, destination, source);
+        /Debug.Log("Destination take back number: " + destinationTakeBackNumber);
 
         // Do take backs (if needed)
         if (sourceTakeBackNumber > 0)
         {
+            //Debug.Log("Taking back " + sourceTakeBackNumber + " " + removedSourceItem + " to source");
             source.AddItems(removedSourceItem, sourceTakeBackNumber);
             removedSourceNumber -= sourceTakeBackNumber;
         }
         if (destinationTakeBackNumber > 0)
         {
+            //Debug.Log("Taking back " + destinationTakeBackNumber + " " + removedDestinationItem + " to destination");
             destination.AddItems(removedDestinationItem, destinationTakeBackNumber);
             removedDestinationNumber -= destinationTakeBackNumber;
         }
@@ -139,6 +157,7 @@ public class DragItem<T> : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (source.MaxAcceptable(removedDestinationItem) < removedDestinationNumber ||
             destination.MaxAcceptable(removedSourceItem) < removedSourceNumber)
         {
+            //Debug.Log("Aborting swap, not enough space. Taking back items.");
             destination.AddItems(removedDestinationItem, removedDestinationNumber);
             source.AddItems(removedSourceItem, removedSourceNumber);
             return;
@@ -148,10 +167,12 @@ public class DragItem<T> : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (removedDestinationNumber > 0)
         {
             source.AddItems(removedDestinationItem, removedDestinationNumber);
+            //Debug.Log("Swapped " + removedDestinationNumber + " " + removedDestinationItem + " to source");
         }
         if (removedSourceNumber > 0)
         {
             destination.AddItems(removedSourceItem, removedSourceNumber);
+            //Debug.Log("Swapped " + removedSourceNumber + " " + removedSourceItem + " to destination");
         }
     }
 

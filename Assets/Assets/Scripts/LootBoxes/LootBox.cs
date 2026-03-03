@@ -1,18 +1,29 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using static Inventory;
 
 public class LootBox : Interactable 
 {
     [SerializeField] private LootBoxSlot[] slots;
+
+    private LootBoxSlot[] interactSlots;
+
+
     private Player player;
 
     protected override void Awake()
     {
         base.Awake();
+        interactSlots = new LootBoxSlot[10];
         player = FindObjectOfType<Player>();
+    }
+
+    private void Start()
+    {
+        interactSlots = slots;
     }
     [System.Serializable]
     public struct LootBoxSlot
@@ -25,9 +36,9 @@ public class LootBox : Interactable
 
     public bool HasItem(InventoryItem item)
     {
-        for (int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < interactSlots.Length; i++)
         {
-            if (object.ReferenceEquals(slots[i].item, item))
+            if (object.ReferenceEquals(interactSlots[i].item, item))
             {
                 return true;
             }
@@ -37,17 +48,17 @@ public class LootBox : Interactable
 
     public int GetSize() 
     {
-        return slots.Length;
+        return interactSlots.Length;
     }
 
     public InventoryItem GetItemInSlot(int slot)
     {
-        return slots[slot].item;
+        return interactSlots[slot].item;
     }
 
     public int GetNumberInSlot(int slot)
     {
-        return slots[slot].number;
+        return interactSlots[slot].number;
     }
 
     public bool AddToFirstEmptySlot(InventoryItem item, int number)
@@ -58,10 +69,9 @@ public class LootBox : Interactable
         {
             return false;
         }
-        //TODO
-        slots[i].item = item;
-        slots[i].number += number;
-        Debug.Log("Added " + item.name + " to inventory slot " + i + ":" + slots[i].number);
+        interactSlots[i].item = item;
+        interactSlots[i].number += number;
+
         if (lootBoxUpdated != null)
         {
             lootBoxUpdated();
@@ -71,7 +81,7 @@ public class LootBox : Interactable
 
     public bool AddItemToSlot(int slot, InventoryItem item, int number)
     {
-        if (slots[slot].item != null)
+        if (interactSlots[slot].item != null)
         {
             return AddToFirstEmptySlot(item, number); ;
         }
@@ -81,8 +91,8 @@ public class LootBox : Interactable
             slot = i;
         }
 
-        slots[slot].item = item;
-        slots[slot].number += number;
+        interactSlots[slot].item = item;
+        interactSlots[slot].number += number;
         if (lootBoxUpdated != null)
         {
             lootBoxUpdated();
@@ -92,11 +102,11 @@ public class LootBox : Interactable
 
     public void RemoveFromSlot(int slot, int number)
     {
-        slots[slot].number -= number;
-        if (slots[slot].number <= 0)
+        interactSlots[slot].number -= number;
+        if (interactSlots[slot].number <= 0)
         {
-            slots[slot].number = 0;
-            slots[slot].item = null;
+            interactSlots[slot].number = 0;
+            interactSlots[slot].item = null;
         }
         if (lootBoxUpdated != null)
         {
@@ -120,8 +130,9 @@ public class LootBox : Interactable
         if (i < 0)
         {
             i = FindEmptySlot();
+            Debug.Log(FindEmptySlot());
         }
-        return -1;
+        return i;
     }
 
 
@@ -132,9 +143,9 @@ public class LootBox : Interactable
             return -1;
         }
 
-        for (int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < interactSlots.Length; i++)
         {
-            if (object.ReferenceEquals(slots[i].item, item))
+            if (object.ReferenceEquals(interactSlots[i].item, item))
             {
                 return i;
             }
@@ -144,9 +155,9 @@ public class LootBox : Interactable
 
     private int FindEmptySlot()
     {
-        for (int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < interactSlots.Length; i++)
         {
-            if (slots[i].item == null)
+            if (interactSlots[i].item == null)
             {
                 return i;
             }

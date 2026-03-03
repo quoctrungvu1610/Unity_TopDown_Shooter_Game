@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 552490027989486218}
   - component: {fileID: 1406754858584437923}
   - component: {fileID: 9094803162466297884}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PickupSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  number: 1
 --- !u!114 &9094803162466297884
 MonoBehaviour:
   m_ObjectHideFlags: 0

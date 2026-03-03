@@ -23,8 +23,10 @@ public class LootSlotUI : MonoBehaviour, IItemHolder, IDragContainer<InventoryIt
     {
         if (lootBox.HasSpaceFor(item))
         {
+            Debug.Log("Loot box has space for " + item.name);
             return int.MaxValue;
         }
+        Debug.Log("Loot box does not have space for " + item.name);
         return 0;
     }
 

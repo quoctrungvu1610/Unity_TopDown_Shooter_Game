@@ -1193,7 +1193,6 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 256
-  healthPoints: 20
   idleTime: 2
   aggressionRange: 5
   walkSpeed: 1.5
@@ -5133,7 +5132,7 @@ Animator:
   m_Controller: {fileID: 22100000, guid: 3a89c3025cdc6ef4fbc293d169a8f555, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 

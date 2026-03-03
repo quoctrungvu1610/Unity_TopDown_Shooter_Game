@@ -317,7 +317,6 @@ public class PlayerWeaponController : MonoBehaviour
     {
         if(currentWeapon == null) 
         {
-            Debug.Log("No Weapon to Shoot");
             return;
         }
 

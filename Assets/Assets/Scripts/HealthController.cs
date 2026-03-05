@@ -15,6 +15,11 @@ public class HealthController : MonoBehaviour
     public virtual void ReduceHealth(int damage) 
     {
         currentHealth-= damage;
+        if(currentHealth <= 0) 
+        {
+            currentHealth = 0;
+            ShouldDie();
+        }
 
     }
     public virtual void IncreaseHealth() 

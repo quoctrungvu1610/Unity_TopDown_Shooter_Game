@@ -18,7 +18,12 @@ public class ShowHideUI : MonoBehaviour
     {
         if (Input.GetKeyDown(toggleKey))
         {
-            uiContainer.SetActive(!uiContainer.activeSelf);
+            Toggle();
         }
+    }
+
+    public void Toggle()
+    {
+        uiContainer.SetActive(!uiContainer.activeSelf);
     }
 }

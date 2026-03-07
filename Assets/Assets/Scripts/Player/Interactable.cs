@@ -6,7 +6,7 @@ using UnityEngine;
 public class Interactable : MonoBehaviour
 {
     protected PlayerWeaponController weaponController;
-    protected MeshRenderer mesh;
+    //protected MeshRenderer mesh;
     protected Material defaultMaterial;
 
     private Outline outline;
@@ -18,18 +18,18 @@ public class Interactable : MonoBehaviour
 
     private void Start()
     {
-        if(mesh == null)
-        {
-            mesh = GetComponentInChildren<MeshRenderer>();
-        }
+        //if(mesh == null)
+        //{
+        //    mesh = GetComponentInChildren<MeshRenderer>();
+        //}
 
-        defaultMaterial = mesh.sharedMaterial;
+        //defaultMaterial = mesh.sharedMaterial;
     }
 
     protected void UpdateMeshAndMaterial(MeshRenderer newMesh) 
     {
-        mesh = newMesh;
-        defaultMaterial = newMesh.sharedMaterial;
+        //mesh = newMesh;
+        //defaultMaterial = newMesh.sharedMaterial;
     }
 
     public void HighLightActive(bool active)

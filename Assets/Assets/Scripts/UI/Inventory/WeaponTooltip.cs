@@ -9,7 +9,6 @@ public class WeaponTooltip : MonoBehaviour
     // CONFIG DATA
     [SerializeField] TextMeshProUGUI titleText = null;
     [SerializeField] TextMeshProUGUI bodyText = null;
-    [SerializeField] TextMeshProUGUI bullerInMagText = null;
     [SerializeField] TextMeshProUGUI magCapacityText = null;
     [SerializeField] TextMeshProUGUI bulletPerShotText = null;
     [SerializeField] TextMeshProUGUI fireRateText = null;
@@ -23,6 +22,7 @@ public class WeaponTooltip : MonoBehaviour
     [SerializeField] TextMeshProUGUI reloadSpeedText = null;
     [SerializeField] TextMeshProUGUI equipmentSpeedText = null;
     [SerializeField] TextMeshProUGUI gunDistanceText = null;
+    [SerializeField] TextMeshProUGUI bulletDamageText = null;
     [SerializeField] Image icon;
 
     // PUBLIC
@@ -34,7 +34,7 @@ public class WeaponTooltip : MonoBehaviour
         bodyText.text = item.GetDescription();
         icon.sprite = item.GetIcon();
 
-        bullerInMagText.text = weaponInventoryItem.GetWeaponData().bulletsInMagazine.ToString();
+        bulletDamageText.text = weaponInventoryItem.GetWeaponData().damage.ToString();
         magCapacityText.text = weaponInventoryItem.GetWeaponData().magazineCapacity.ToString();
         bulletPerShotText.text = weaponInventoryItem.GetWeaponData().bulletPerShot.ToString();
         fireRateText.text = weaponInventoryItem.GetWeaponData().fireRate.ToString();

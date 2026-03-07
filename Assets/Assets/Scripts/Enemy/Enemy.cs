@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour
     public float turnSpeed;
     private bool manualRotation;
 
+    private bool isDead = false;
+
     [SerializeField] private Transform[] patrolPoints;
     private Vector3[] patrolPointsPosition;
     private int currentPatrolIndex;
@@ -161,7 +163,7 @@ public class Enemy : MonoBehaviour
 
     public virtual void Die() 
     {
-   
+        isDead = true;
     }
 
     public virtual void MeleeAttackCheck(Transform[] damagePoints, float attackCheckRadius, GameObject fx )
@@ -211,6 +213,8 @@ public class Enemy : MonoBehaviour
     
     public void FaceTarget(Vector3 target, float turnSpeed = 0) 
     {
+        if (isDead)
+            return;
         Quaternion targetRotation = Quaternion.LookRotation(target - transform.position);
         Vector3 currentEulerAngles = transform.rotation.eulerAngles;
 

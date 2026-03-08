@@ -101,6 +101,7 @@ public class PlayerConversant : MonoBehaviour
         if(children.Length == 0) 
         {
             Quit();
+            TriggerExitAction();
             return;
         }
 
@@ -129,7 +130,7 @@ public class PlayerConversant : MonoBehaviour
     {
         if (currentNode != null)
         {
-            TriggerAction(currentNode.GetOnEnterAction());
+            TriggerAction(currentNode.GetOnExitAction());
         }
            
     }

@@ -16,6 +16,8 @@ public class QuestTooltipSpawner : TooltipSpawner
 
     public override void UpdateTooltip(GameObject tooltip)
     {
-       
+        QuestStatus status = GetComponent<QuestItemUI>().GetQuestStatus();
+        tooltip.GetComponent<QuestTooltipUI>().Setup(status);
+
     }
 }

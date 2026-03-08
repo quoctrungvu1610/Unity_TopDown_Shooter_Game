@@ -1690,6 +1690,7 @@ GameObject:
   - component: {fileID: 5794408278016006044}
   - component: {fileID: 1624866091581534423}
   - component: {fileID: 2390132936839925060}
+  - component: {fileID: 6601645073173118743}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -1988,6 +1989,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: Robot Kyle
+--- !u!114 &6601645073173118743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968484276768461210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 647341790c5be7249877f827c2bc7484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statuses:
+  - quest: {fileID: 11400000, guid: d2ccf75e2bc515a478465bbd8080a0ee, type: 2}
+    completedObjectives:
+    - haha
+    - hehe
+  - quest: {fileID: 11400000, guid: fbd06131599869b4dba73c4832927ac7, type: 2}
+    completedObjectives:
+    - 1
 --- !u!1 &2015502850226712841
 GameObject:
   m_ObjectHideFlags: 0

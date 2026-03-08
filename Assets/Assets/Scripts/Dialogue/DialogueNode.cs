@@ -42,7 +42,7 @@ public class DialogueNode : ScriptableObject
 
     public string GetOnExitAction()
     {
-        return onEnterAction;
+        return onExitAction;
     }
 
 #if UNITY_EDITOR

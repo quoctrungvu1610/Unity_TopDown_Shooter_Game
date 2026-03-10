@@ -1,5 +1,31 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8988309335593959317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276c2d8fbb78a3349bb6d498efeb911c, type: 3}
+  m_Name: aed5746a-6dcf-49d9-a4bd-4590bb774b48
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: Good luck
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1802.8
+    y: 16.800003
+    width: 200
+    height: 100
+  onExitAction: 
+  onEnterAction: 
+  condition:
+    predicate: 
+    parameters: []
 --- !u!114 &-3094565009958449926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25,6 +51,9 @@ MonoBehaviour:
     height: 100
   onExitAction: 
   onEnterAction: 
+  condition:
+    predicate: 
+    parameters: []
 --- !u!114 &-1660695044939203244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41,6 +70,7 @@ MonoBehaviour:
   text: May be...How can I help
   children:
   - 976fb22d-a63a-4004-87a1-1d96ee2483d3
+  - 6a5b9447-a7a0-4a11-b1c4-f25ed51dbcac
   rect:
     serializedVersion: 2
     x: 1052.8
@@ -49,6 +79,9 @@ MonoBehaviour:
     height: 100
   onExitAction: 
   onEnterAction: 
+  condition:
+    predicate: 
+    parameters: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,7 +101,38 @@ MonoBehaviour:
   - {fileID: 2763685211217213018}
   - {fileID: -1660695044939203244}
   - {fileID: 1262464120365415155}
+  - {fileID: 904789511012167385}
+  - {fileID: 5561153922901044349}
+  - {fileID: -8988309335593959317}
+  - {fileID: 5512040700717730813}
   newNodeOffset: {x: 250, y: 0}
+--- !u!114 &904789511012167385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276c2d8fbb78a3349bb6d498efeb911c, type: 3}
+  m_Name: 9b1e26fc-22ed-48bd-ba10-01f060cbed73
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: I'm on my way
+  children:
+  - aed5746a-6dcf-49d9-a4bd-4590bb774b48
+  rect:
+    serializedVersion: 2
+    x: 1552.8
+    y: 16.800003
+    width: 200
+    height: 100
+  onExitAction: 
+  onEnterAction: 
+  condition:
+    predicate: 
+    parameters: []
 --- !u!114 &1262464120365415155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,7 +147,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayerSpeaking: 0
   text: Find the core chip for me to replace my current chip..
-  children: []
+  children:
+  - 9b1e26fc-22ed-48bd-ba10-01f060cbed73
   rect:
     serializedVersion: 2
     x: 1302.8
@@ -92,6 +157,9 @@ MonoBehaviour:
     height: 100
   onExitAction: 
   onEnterAction: GiveQuest
+  condition:
+    predicate: 
+    parameters: []
 --- !u!114 &2763685211217213018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,6 +185,63 @@ MonoBehaviour:
     height: 100
   onExitAction: 
   onEnterAction: 
+  condition:
+    predicate: 
+    parameters: []
+--- !u!114 &5512040700717730813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276c2d8fbb78a3349bb6d498efeb911c, type: 3}
+  m_Name: e38c4497-710b-407f-971e-959a8eb37dca
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: Really??
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1809.2
+    y: 131.20001
+    width: 200
+    height: 100
+  onExitAction: 
+  onEnterAction: 
+  condition:
+    predicate: 
+    parameters: []
+--- !u!114 &5561153922901044349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276c2d8fbb78a3349bb6d498efeb911c, type: 3}
+  m_Name: 6a5b9447-a7a0-4a11-b1c4-f25ed51dbcac
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: I'm already in
+  children:
+  - e38c4497-710b-407f-971e-959a8eb37dca
+  rect:
+    serializedVersion: 2
+    x: 1559.2
+    y: 131.20001
+    width: 200
+    height: 100
+  onExitAction: 
+  onEnterAction: 
+  condition:
+    predicate: HasQuest
+    parameters:
+    - Talk to Puple Robot
 --- !u!114 &6372243605292314277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,6 +266,9 @@ MonoBehaviour:
     height: 100
   onExitAction: 
   onEnterAction: 
+  condition:
+    predicate: 
+    parameters: []
 --- !u!114 &7255165017404617066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,3 +293,6 @@ MonoBehaviour:
     height: 100
   onExitAction: 
   onEnterAction: 
+  condition:
+    predicate: 
+    parameters: []

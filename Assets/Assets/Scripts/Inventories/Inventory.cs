@@ -10,7 +10,7 @@ using UnityEngine;
 ///
 /// This component should be placed on the GameObject tagged "Player".
 /// </summary>
-public class Inventory : MonoBehaviour, ISaveable
+public class Inventory : MonoBehaviour, ISaveable, IPredicateEvaluator
 {
     // CONFIG DATA
     [Tooltip("Allowed size")]
@@ -261,5 +261,15 @@ public class Inventory : MonoBehaviour, ISaveable
         {
             inventoryUpdated();
         }
+    }
+
+    public bool? Evaluate(string predicate, string[] parameters)
+    {
+        switch (predicate) 
+        {
+            case "HasInventoryItem":
+                return HasItem(InventoryItem.GetFromID(parameters[0]));
+        }
+        return null;
     }
 }

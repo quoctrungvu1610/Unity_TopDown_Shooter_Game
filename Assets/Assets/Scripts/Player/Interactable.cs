@@ -5,10 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(Outline))]
 public class Interactable : MonoBehaviour
 {
+    [SerializeField] private GameObject hintUIPrefab;
     protected PlayerWeaponController weaponController;
     //protected MeshRenderer mesh;
     protected Material defaultMaterial;
-
     private Outline outline;
 
     protected virtual void Awake()
@@ -32,15 +32,22 @@ public class Interactable : MonoBehaviour
         //defaultMaterial = newMesh.sharedMaterial;
     }
 
+
     public void HighLightActive(bool active)
     {
-        if(active)
+       
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+        if (active)
         {
             outline.enabled = true;
+            InteractUIManager.instance.SpawnInteractUI(gameObject, hintUIPrefab);
+
+
         }
         else
         {
             outline.enabled = false;
+            InteractUIManager.instance.DestroyInteractUI();
         }
     }
 

@@ -75,7 +75,7 @@ public class PlayerConversant : MonoBehaviour
 
     public IEnumerable<DialogueNode> GetChoices() 
     {
-        return currentDialogue.GetPlayerChildren(currentNode);
+        return FilterOnCodition(currentDialogue.GetPlayerChildren(currentNode));
     }
 
     public void SelectChoice(DialogueNode chosenNode) 
@@ -88,7 +88,7 @@ public class PlayerConversant : MonoBehaviour
 
     public void Next() 
     {
-        int numPlayerResponses = currentDialogue.GetPlayerChildren(currentNode).Count();
+        int numPlayerResponses = FilterOnCodition(currentDialogue.GetPlayerChildren(currentNode)).Count();
         if (numPlayerResponses > 0)
         {
             isChoosing = true;
@@ -97,7 +97,7 @@ public class PlayerConversant : MonoBehaviour
             return;
         }
 
-        DialogueNode[] children = currentDialogue.GetAIChildren(currentNode).ToArray();
+        DialogueNode[] children = FilterOnCodition(currentDialogue.GetAIChildren(currentNode)).ToArray();
         if(children.Length == 0) 
         {
             Quit();
@@ -114,7 +114,26 @@ public class PlayerConversant : MonoBehaviour
 
     public bool HasNext() 
     {
-        return currentDialogue.GetAllChildren(currentNode).Count() > 0;
+        return FilterOnCodition(currentDialogue.GetAllChildren(currentNode)).Count() > 0;
+    }
+
+    private IEnumerable<DialogueNode> FilterOnCodition(IEnumerable<DialogueNode> inputNode) 
+    {
+        foreach (var node in inputNode) 
+        {
+
+            if (node.CheckCondition(GetEvaluators())) 
+            {
+                yield return node;
+            }
+        }
+        
+    }
+
+    private IEnumerable<IPredicateEvaluator> GetEvaluators() 
+    {
+
+        return GetComponents<IPredicateEvaluator>();
     }
 
     private void TriggerEnterAction() 

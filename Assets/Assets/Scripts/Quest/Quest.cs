@@ -5,7 +5,24 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Quest", menuName = "Quest/New Quest")]
 public class Quest : ScriptableObject
 {
-    [SerializeField] List<string> objectives = new List<string>();
+    [SerializeField] List<Objective> objectives = new List<Objective>();
+    [SerializeField] List<Reward> rewards = new List<Reward>();
+
+
+    [System.Serializable]
+    public class Reward 
+    {
+        public int number;
+        public InventoryItem item;
+    }
+
+
+    [System.Serializable]
+    public class Objective 
+    {
+        public string reference;
+        public string description;
+    }
 
     public string GetTitle() 
     {
@@ -17,14 +34,27 @@ public class Quest : ScriptableObject
         return objectives.Count;
     }
 
-    public IEnumerable<string> GetObjectives() 
+    public IEnumerable<Objective> GetObjectives() 
     {
         return objectives;
     }
 
-    public bool HasObject(string objective)
+    public IEnumerable<Reward> GetRewards() 
     {
-        return objectives.Contains(objective);
+        return rewards;
+    }
+
+    public bool HasObject(string objectiveRef)
+    {
+        foreach (var objective in objectives) 
+        {
+            if(objective.reference == objectiveRef) 
+            {
+                return true;
+            }
+
+        }
+        return false;
     }
 
     public static Quest GetByName(string questName) 

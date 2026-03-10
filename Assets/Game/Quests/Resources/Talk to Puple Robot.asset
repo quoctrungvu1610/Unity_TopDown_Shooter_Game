@@ -13,6 +13,14 @@ MonoBehaviour:
   m_Name: Talk to Puple Robot
   m_EditorClassIdentifier: 
   objectives:
-  - 1
-  - 2
-  - 3
+  - reference: 1
+    description: Go find Purple Robot
+  - reference: 2
+    description: Talk to Purple Robot
+  - reference: 3
+    description: Return Bumbalaka
+  rewards:
+  - number: 2
+    item: {fileID: 11400000, guid: d6aa22e02da9d0d4fa4d4f3d2e6b38a4, type: 2}
+  - number: 2
+    item: {fileID: 11400000, guid: 78e0c17ca76b5024aadcdc484f9db3f6, type: 2}

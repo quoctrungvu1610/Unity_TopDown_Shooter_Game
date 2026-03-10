@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6732717177247889613}
   - component: {fileID: 4854204687939504762}
   m_Layer: 0
-  m_Name: Reward Title (1)
+  m_Name: Reward Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,8 +74,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278255397
+  m_fontColor: {r: 0.14571929, g: 1, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -407,6 +407,7 @@ MonoBehaviour:
   objectiveContainer: {fileID: 9102775189982434919}
   objectivePrefab: {fileID: 4623241483794699999, guid: 34902bd5a589b0140bb3fa887a7a137b, type: 3}
   objectIncompletePrefab: {fileID: 527472309305837582, guid: b6ba47f94b411d44f916b620221f5e35, type: 3}
+  rewardText: {fileID: 4854204687939504762}
 --- !u!1 &5390143050902457494
 GameObject:
   m_ObjectHideFlags: 0

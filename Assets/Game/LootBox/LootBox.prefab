@@ -65,6 +65,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07b3aeee8fe1c6444835db054cc3ed4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hintUIPrefab: {fileID: 8368536677831050272, guid: b53c7a442bdc54c47890b2ab7ee80ccb, type: 3}
+  parent: {fileID: 0}
   slots:
   - item: {fileID: 11400000, guid: d6aa22e02da9d0d4fa4d4f3d2e6b38a4, type: 2}
     number: 1

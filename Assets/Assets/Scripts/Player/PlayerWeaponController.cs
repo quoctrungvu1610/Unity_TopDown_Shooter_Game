@@ -119,6 +119,8 @@ public class PlayerWeaponController : MonoBehaviour
 
         WeaponInventoryItem targetItem = null;
 
+        if (currentWeapon == null) return null;
+
         if (currentWeapon.weaponType == backupData.weaponType)
         {
             targetItem = mainItem;

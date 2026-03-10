@@ -11,7 +11,7 @@ public class QuestStatus
 
 
     [System.Serializable]
-    class QuestStatusRecord 
+    public class QuestStatusRecord 
     {
         public string questName;
         public List<string> completedObjectives;
@@ -47,7 +47,7 @@ public class QuestStatus
 
     public void CompeteObjective(string objective)
     {
-        if (quest.HasObject(objective)) 
+        if (quest.HasObject(objective) && !completedObjectives.Contains(objective)) 
         {
             completedObjectives.Add(objective);
         }
@@ -60,5 +60,17 @@ public class QuestStatus
         state.completedObjectives = completedObjectives;
 
         return state;
+    }
+
+    public bool IsCompleted()
+    {
+        foreach(var objective in quest.GetObjectives()) 
+        {
+            if (!completedObjectives.Contains(objective.reference)) 
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

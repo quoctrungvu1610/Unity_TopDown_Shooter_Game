@@ -14,6 +14,7 @@ public class DialogueNode : ScriptableObject
     [SerializeField] Rect rect = new Rect(0, 0, 200, 100);
     [SerializeField] string onExitAction;
     [SerializeField] string onEnterAction;
+    [SerializeField] Condition condition;
 
     public Rect GetRect()
     {
@@ -43,6 +44,12 @@ public class DialogueNode : ScriptableObject
     public string GetOnExitAction()
     {
         return onExitAction;
+    }
+
+    public bool CheckCondition(IEnumerable<IPredicateEvaluator> evaluators)
+    {
+        return condition.Check(evaluators);
+
     }
 
 #if UNITY_EDITOR
@@ -83,6 +90,5 @@ public class DialogueNode : ScriptableObject
         isPlayerSpeaking = newIsPlayerSpeaking;
         EditorUtility.SetDirty(this);
     }
-
 #endif
 }

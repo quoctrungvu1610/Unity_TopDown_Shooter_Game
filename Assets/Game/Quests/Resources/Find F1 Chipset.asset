@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: Find F1 Chipset
   m_EditorClassIdentifier: 
   objectives:
-  - Find Dr.Elite
-  - Talk to Dr.Elite
-  - Get the chip
+  - reference: 
+    description: 
+  - reference: 
+    description: 
+  - reference: 
+    description: 
+  rewards:
+  - number: 1
+    item: {fileID: 11400000, guid: 96429d271e1a11e41b5dd46c03244583, type: 2}

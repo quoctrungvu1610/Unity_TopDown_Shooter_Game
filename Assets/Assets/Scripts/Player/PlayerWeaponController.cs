@@ -60,8 +60,8 @@ public class PlayerWeaponController : MonoBehaviour
 
     public bool HasOnlyOneWeapon() 
     {
-        WeaponInventoryItem weaponInSlot = equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponInventoryItem;
-        WeaponInventoryItem weaponInSlotBackupSlot = equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponInventoryItem;
+        WeaponEquipableItem weaponInSlot = equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponEquipableItem;
+        WeaponEquipableItem weaponInSlotBackupSlot = equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponEquipableItem;
         if(weaponInSlot && !weaponInSlotBackupSlot) 
         {
             return true;
@@ -108,8 +108,8 @@ public class PlayerWeaponController : MonoBehaviour
 
     public Weapon WeaponInBackupWeaponSlot(WeaponType weaponType)
     {
-        var backupItem = equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponInventoryItem;
-        var mainItem = equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponInventoryItem;
+        var backupItem = equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponEquipableItem;
+        var mainItem = equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponEquipableItem;
 
         if (backupItem == null || mainItem == null)
             return null;
@@ -117,7 +117,7 @@ public class PlayerWeaponController : MonoBehaviour
         var backupData = backupItem.GetWeaponData();
         var mainData = mainItem.GetWeaponData();
 
-        WeaponInventoryItem targetItem = null;
+        WeaponEquipableItem targetItem = null;
 
         if (currentWeapon == null) return null;
 
@@ -153,9 +153,9 @@ public class PlayerWeaponController : MonoBehaviour
         //}
         //return null;
         //NEW
-        WeaponInventoryItem[] inventoryItems = inventory.GetWeaponInventoryItems();
+        WeaponEquipableItem[] inventoryItems = inventory.GetWeaponInventoryItems();
 
-        foreach(WeaponInventoryItem item in inventoryItems) 
+        foreach(WeaponEquipableItem item in inventoryItems) 
         {
             if(item.GetWeaponData().weaponType == weaponType) 
             {
@@ -186,7 +186,7 @@ public class PlayerWeaponController : MonoBehaviour
 
     private void EquipWeapon() 
     {
-        WeaponInventoryItem weaponInSlot =  equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponInventoryItem;
+        WeaponEquipableItem weaponInSlot =  equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponEquipableItem;
         SetWeaponReady(false);
         if (weaponInSlot) 
         {
@@ -204,7 +204,7 @@ public class PlayerWeaponController : MonoBehaviour
 
     private void EquipWeapon(EquipLocation equipLocation)
     {
-        WeaponInventoryItem weaponInSlot = equipment.GetItemInSlot(equipLocation) as WeaponInventoryItem;
+        WeaponEquipableItem weaponInSlot = equipment.GetItemInSlot(equipLocation) as WeaponEquipableItem;
         SetWeaponReady(false);
         if (weaponInSlot)
         {

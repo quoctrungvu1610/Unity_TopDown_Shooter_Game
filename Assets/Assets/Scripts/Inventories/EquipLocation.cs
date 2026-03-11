@@ -11,7 +11,7 @@ public enum EquipLocation
     Necklace,
     Body,
     Trousers,
-    Boots,
+    Leg,
     Weapon,
     BackupWeapon,
     Shield,

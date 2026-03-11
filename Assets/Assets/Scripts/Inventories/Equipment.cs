@@ -21,6 +21,14 @@ public class Equipment : MonoBehaviour, ISaveable
     /// </summary>
     public event Action equipmentUpdated;
 
+    private Player player;
+
+
+    private void Start()
+    {
+        player = GetComponent<Player>();
+    }
+
     /// <summary>
     /// Return the item in the given equip location.
     /// </summary>
@@ -43,7 +51,11 @@ public class Equipment : MonoBehaviour, ISaveable
         //Debug.Assert(item.GetAllowedEquipLocation() == slot);
 
         equippedItems[slot] = item;
-
+        if (slot != EquipLocation.Weapon && slot != EquipLocation.BackupWeapon)
+        {
+            player.health.UpdateCurrentEquipmentData(item as StatEquipableItem);
+            player.health.OnAddEquipment();
+        }
         if (equipmentUpdated != null)
         {
             equipmentUpdated();
@@ -55,11 +67,25 @@ public class Equipment : MonoBehaviour, ISaveable
     /// </summary>
     public void RemoveItem(EquipLocation slot)
     {
+        if (slot != EquipLocation.Weapon && slot != EquipLocation.BackupWeapon) 
+        {
+            StatEquipableItem item = GetItemInSlot(slot) as StatEquipableItem;
+            player.health.UpdateCurrentEquipmentData(item);
+            player.health.OnRemoveEquipment();
+        }
         equippedItems.Remove(slot);
         if (equipmentUpdated != null)
         {
             equipmentUpdated();
         }
+    }
+
+    /// <summary>
+    /// Enumerate through all the slots that currently contain items.
+    /// </summary>
+    public IEnumerable<EquipLocation> GetAllPopulatedSlots()
+    {
+        return equippedItems.Keys;
     }
 
     // PRIVATE

@@ -1681,7 +1681,6 @@ GameObject:
   - component: {fileID: 8976250650090373441}
   - component: {fileID: 8195049662774204491}
   - component: {fileID: 3335756810848631332}
-  - component: {fileID: 8356228716335645323}
   - component: {fileID: 8268790439997933758}
   - component: {fileID: 3155343278419318422}
   - component: {fileID: 109798571906203982}
@@ -1691,6 +1690,11 @@ GameObject:
   - component: {fileID: 1624866091581534423}
   - component: {fileID: 2390132936839925060}
   - component: {fileID: 6601645073173118743}
+  - component: {fileID: 8051018118742455642}
+  - component: {fileID: 7457974451511759411}
+  - component: {fileID: 4963195232952195496}
+  - component: {fileID: 4083202984456031712}
+  - component: {fileID: 4246172768424812927}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -1867,20 +1871,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentActiveLootBox: {fileID: 0}
---- !u!114 &8356228716335645323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1968484276768461210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae84c9b31932b7e46b0071bb26bfd38b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 9999
-  currentHealth: 0
 --- !u!114 &8268790439997933758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2009,6 +1999,74 @@ MonoBehaviour:
   - quest: {fileID: 11400000, guid: fbd06131599869b4dba73c4832927ac7, type: 2}
     completedObjectives:
     - 1
+--- !u!114 &8051018118742455642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968484276768461210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa772fb27978c8940a894692c710fd37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentArmor: 0
+--- !u!114 &7457974451511759411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968484276768461210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8b367d7b3031524eaa082aa4f3d4131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentMoveSpeed: 0
+--- !u!114 &4963195232952195496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968484276768461210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 686131750f8e5684f85f8b52645e8999, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLevel: 1
+  progression: {fileID: 11400000, guid: e8a7ac63f6c73e947b00240d8592db51, type: 2}
+--- !u!114 &4083202984456031712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968484276768461210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 799a2a1a502abcd408604b920c8ce7f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 0
+  currentHealth: 0
+--- !u!114 &4246172768424812927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968484276768461210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e4d8a4261093c54aa7038e66e99259f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthText: {fileID: 0}
+  healthBar: {fileID: 0}
 --- !u!1 &2015502850226712841
 GameObject:
   m_ObjectHideFlags: 0

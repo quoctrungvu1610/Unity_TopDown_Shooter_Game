@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71d6002b9897e841991bab181e7db4a, type: 3}
+  m_Name: Robot Leg
+  m_EditorClassIdentifier: 
+  itemID: 7d3d8f58-7940-4b41-8e25-a9c1ad5a83b6
+  displayName: Robot Leg
+  description: '- Increase Health by 10'
+  icon: {fileID: 21300000, guid: 4203573782be28f4eb5316d2c2ed2d61, type: 3}
+  pickup: {fileID: 5971387042095017424, guid: 4a92b3f650904ca44b5993fc26861b54, type: 3}
+  stackable: 0
+  allowedEquipLocation: 4
+  bonusDatas:
+  - modifierType: 1
+    stat: 0
+    data: 10

@@ -9,3 +9,10 @@ public enum Stat
     Armor,
     Experience
 }
+
+public enum ModifierType 
+{
+    Add,
+    AddPercentage,
+
+}

@@ -14,6 +14,6 @@ public class Player_HitBox : HitBox
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
-        player.health.ReduceHealth(damage);
+        player.health.TakeDamage(damage);
     }
 }

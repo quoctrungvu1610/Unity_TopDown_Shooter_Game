@@ -1,18 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class IModifierProvider : MonoBehaviour
+public interface IModifierProvider
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    IEnumerable<float> GetAdditiveModifiers(Stat stat);
+    IEnumerable<float> GetPercentageModifiers(Stat stat);
 }

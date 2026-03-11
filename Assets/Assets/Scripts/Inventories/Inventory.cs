@@ -155,14 +155,14 @@ public class Inventory : MonoBehaviour, ISaveable, IPredicateEvaluator
         return true;
     }
 
-    public WeaponInventoryItem[] GetWeaponInventoryItems() 
+    public WeaponEquipableItem[] GetWeaponInventoryItems() 
     {
-        var weaponItems = new List<WeaponInventoryItem>();
+        var weaponItems = new List<WeaponEquipableItem>();
         for (int i = 0; i < slots.Length; i++)
         {
-            if (slots[i].item != null && slots[i].item is WeaponInventoryItem) 
+            if (slots[i].item != null && slots[i].item is WeaponEquipableItem) 
             {
-                weaponItems.Add((WeaponInventoryItem)slots[i].item);
+                weaponItems.Add((WeaponEquipableItem)slots[i].item);
             }
         }
         return weaponItems.ToArray();

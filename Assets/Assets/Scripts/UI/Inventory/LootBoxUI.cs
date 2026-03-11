@@ -1,19 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LootBoxUI : MonoBehaviour
 {
     [SerializeField] Transform parent;
     [SerializeField] LootSlotUI lootSlotPrefab = null;
-
     [SerializeField] LootBox currentLootBox;
+
 
     private void Start()
     {
         parent.gameObject.SetActive(false);
     }
 
+    private void Close()
+    {
+        this.gameObject.SetActive(false);
+    }
 
     private void OnEnable()
     {

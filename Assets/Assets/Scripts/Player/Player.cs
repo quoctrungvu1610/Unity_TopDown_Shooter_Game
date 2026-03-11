@@ -11,8 +11,13 @@ public class Player : MonoBehaviour
     public PlayerWeaponController weapon { get; private set; }
     public PlayerWeaponVisual weaponVisuals { get; private set; }
     public PlayerInteraction interaction { get; private set; }
-    public Player_Health health { get; private set; }
+    //OLD
+    //public Player_Health health { get; private set; }
+    //NEW
+    public PlayerHealth health { get; private set; }
     public Animator anim { get; private set; }
+    public Equipment equipment { get; private set; }
+    public BaseStat stat { get; private set; }
 
     public Ragdoll ragdoll;
     private void Awake()
@@ -20,12 +25,14 @@ public class Player : MonoBehaviour
         controls = new PlayerControls();
         anim = GetComponentInChildren<Animator>();
         ragdoll = GetComponent<Ragdoll>();
-        health = GetComponent<Player_Health>();
+        health = GetComponent<PlayerHealth>();
         aim = GetComponent<PlayerAim>();
         movement = GetComponent<PlayerMovement>();
         weapon = GetComponent<PlayerWeaponController>();
         weaponVisuals = GetComponent<PlayerWeaponVisual>();
         interaction = GetComponent<PlayerInteraction>();
+        equipment = GetComponent<Equipment>();
+        stat = GetComponent<BaseStat>();
     }
 
     private void OnEnable()

@@ -29,7 +29,7 @@ public class WeaponTooltip : MonoBehaviour
 
     public void Setup(InventoryItem item)
     {
-        WeaponInventoryItem weaponInventoryItem = item as WeaponInventoryItem;
+        WeaponEquipableItem weaponInventoryItem = item as WeaponEquipableItem;
         titleText.text = item.GetDisplayName();
         bodyText.text = item.GetDescription();
         icon.sprite = item.GetIcon();

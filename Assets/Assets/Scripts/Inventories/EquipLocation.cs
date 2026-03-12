@@ -7,8 +7,8 @@ using UnityEngine;
 /// </summary>
 public enum EquipLocation
 {
-    Helmet,
-    Necklace,
+    Head,
+    Arm,
     Body,
     Trousers,
     Leg,

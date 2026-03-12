@@ -42,20 +42,16 @@ public class PlayerHealth : Health
 
     public void OnAddEquipment()
     {
-        float percentBonus = startHealth * (bonusPercentageNumber / 100f);
-
-        currentHealth += bonusAddNumber + percentBonus;
-
-        if (currentHealth > startHealth + bonusAddNumber + percentBonus)
-        {
-            currentHealth = startHealth + bonusAddNumber + percentBonus;
-        }
+        float percentBonus = (player.stat.GetPlayerBaseStat(Stat.Health) + player.stat.GetAdditiveModifierNumber(Stat.Health)) * (bonusPercentageNumber / 100);
+        //float percentBonus = startHealth * (bonusPercentageNumber / 100f);
+        currentHealth += (bonusAddNumber + percentBonus);
     }
 
     public void OnRemoveEquipment()
     {
-        float percentBonus = startHealth * (bonusPercentageNumber / 100f);
-        currentHealth -= bonusAddNumber + percentBonus;
+        float percentBonus = (player.stat.GetPlayerBaseStat(Stat.Health) + player.stat.GetAdditiveModifierNumber(Stat.Health)) * (bonusPercentageNumber / 100);
+        //float percentBonus = startHealth * (bonusPercentageNumber / 100f);
+        currentHealth -= (bonusAddNumber + percentBonus);
 
         if (currentHealth <= 0)
         {

@@ -7,7 +7,7 @@ public enum Stat
     Health,
     MoveSpeed,
     Armor,
-    Experience
+    ExperienceToLevelUp,
 }
 
 public enum ModifierType 

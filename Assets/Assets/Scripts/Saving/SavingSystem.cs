@@ -30,6 +30,12 @@ public class SavingSystem : MonoBehaviour
         RestoreState(state);
     }
 
+    public void LoadScene(string saveFile, int index)
+    {
+        Dictionary<string, object> state = LoadFile(saveFile);
+        RestoreState(state);
+    }
+
     /// <summary>
     /// Save the current scene to the provided save file.
     /// </summary>
@@ -50,7 +56,7 @@ public class SavingSystem : MonoBehaviour
 
     // PRIVATE
 
-    private void Load(string saveFile)
+    public void Load(string saveFile)
     {
         RestoreState(LoadFile(saveFile));
     }
@@ -58,14 +64,29 @@ public class SavingSystem : MonoBehaviour
     private Dictionary<string, object> LoadFile(string saveFile)
     {
         string path = GetPathFromSaveFile(saveFile);
+
         if (!File.Exists(path))
         {
             return new Dictionary<string, object>();
         }
-        using (FileStream stream = File.Open(path, FileMode.Open))
+
+        try
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            return (Dictionary<string, object>)formatter.Deserialize(stream);
+            using (FileStream stream = File.Open(path, FileMode.Open))
+            {
+                if (stream.Length == 0)
+                {
+                    return new Dictionary<string, object>();
+                }
+
+                BinaryFormatter formatter = new BinaryFormatter();
+                return (Dictionary<string, object>)formatter.Deserialize(stream);
+            }
+        }
+        catch
+        {
+            Debug.LogWarning("Save file corrupted, creating new save.");
+            return new Dictionary<string, object>();
         }
     }
 

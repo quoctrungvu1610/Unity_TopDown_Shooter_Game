@@ -16,7 +16,7 @@ public class PeristentObjectSpawner : MonoBehaviour
     // CONFIG DATA
     [Tooltip("This prefab will only be spawned once and persisted between " +
     "scenes.")]
-    [SerializeField] GameObject persistentObjectPrefab = null;
+    [SerializeField] GameObject[] persistentObjectPrefab = null;
 
     // PRIVATE STATE
     static bool hasSpawned = false;
@@ -33,7 +33,10 @@ public class PeristentObjectSpawner : MonoBehaviour
 
     private void SpawnPersistentObjects()
     {
-        GameObject persistentObject = Instantiate(persistentObjectPrefab);
-        DontDestroyOnLoad(persistentObject);
+        foreach (GameObject prefab in persistentObjectPrefab)
+        {
+            GameObject persistentObject = Instantiate(prefab);
+            DontDestroyOnLoad(persistentObject);
+        }
     }
 }

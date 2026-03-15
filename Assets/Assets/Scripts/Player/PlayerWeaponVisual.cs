@@ -36,6 +36,7 @@ public class PlayerWeaponVisual : MonoBehaviour
         {
             equipment.equipmentUpdated += CheckCurrentWeaponModel;
             equipment.equipmentUpdated += SwitchOnBackupWeaponModel;
+            equipment.equipmentUpdated += SwitchOnCurrentWeaponModel;
         }
     }
 
@@ -57,10 +58,10 @@ public class PlayerWeaponVisual : MonoBehaviour
     public WeaponModel CurrentWeaponModel()
     {
         WeaponModel weaponModel = null;
-        if (player.weapon.CurrentWeapon() != null) 
+        if (player.weapon.CurrentWeapon() != null)
         {
             WeaponType weaponType = player.weapon.CurrentWeapon().weaponType;
-        
+
             for (int i = 0; i < weaponModels.Length; i++)
             {
                 if (weaponModels[i].weaponType == weaponType)
@@ -83,7 +84,7 @@ public class PlayerWeaponVisual : MonoBehaviour
         //if(isEquipingWeapon) return;
 
         float reloadSpeed = player.weapon.CurrentWeapon().reloadSpeed;
-        
+
         anim.SetFloat("ReloadSpeed", reloadSpeed);
         anim.SetTrigger("Reload");
         ReduceRigWeight();
@@ -92,8 +93,8 @@ public class PlayerWeaponVisual : MonoBehaviour
 
     public void PlayWeaponEquipAnimation()
     {
-        EquipType equipType = CurrentWeaponModel().equipAnimationType; 
-        
+        EquipType equipType = CurrentWeaponModel().equipAnimationType;
+
         float equipmentSpeed = player.weapon.CurrentWeapon().equipmentSpeed;
 
         leftHandIK.weight = 0;
@@ -105,76 +106,83 @@ public class PlayerWeaponVisual : MonoBehaviour
 
     }
 
-    public void PlayWeaponMuzzleFlash() 
+    public void PlayWeaponMuzzleFlash()
     {
         CurrentWeaponModel().muzzleFlash.Play();
         CurrentWeaponModel().AddLight();
     }
 
 
-    public void SwitchOnCurrentWeaponModel() 
+    public void SwitchOnCurrentWeaponModel()
     {
-        int animationIndex = (int)CurrentWeaponModel().holdType;
+        if (CurrentWeaponModel() == null) return;
 
         SwitchOffBackupWeaponModels();
-        if (player.weapon.HasOnlyOneWeapon() == false) 
-        {
-            SwitchOnBackupWeaponModel();
-        }   
         SwitchOffWeaponModels();
 
-        SwitchAnimationlayer(animationIndex);
-        CurrentWeaponModel().gameObject.SetActive(true);
-        AttachLeftHand();
+        if (player.weapon.BackupWeapon() != null)
+        {
+            SwitchOnBackupWeaponModel();
+        }
+        if (player.weapon.CurrentWeapon() != null)
+        {
+            int animationIndex = (int)CurrentWeaponModel().holdType;
+            SwitchAnimationlayer(animationIndex);
+            CurrentWeaponModel().gameObject.SetActive(true);
+            AttachLeftHand();
+        }
     }
 
-    private void SwitchOffBackupWeaponModels() 
+    private void SwitchOffBackupWeaponModels()
     {
-        foreach(BackupWeaponModel backupModel in backupWeaponModels) 
+        foreach (BackupWeaponModel backupModel in backupWeaponModels)
         {
             backupModel.Activate(false);
         }
     }
 
-    public void SwitchOnBackupWeaponModel() 
+    public void SwitchOnBackupWeaponModel()
     {
+        Debug.Log("Switching on backup weapon model");
         SwitchOffBackupWeaponModels();
 
         BackupWeaponModel lowHangWeapon = null;
         BackupWeaponModel backHangWeapon = null;
         BackupWeaponModel sideHangWeapon = null;
 
-        foreach (BackupWeaponModel backupModel in backupWeaponModels) 
+        foreach (BackupWeaponModel backupModel in backupWeaponModels)
         {
-            if (player.weapon.CurrentWeapon() != null) 
+            if (player.weapon.CurrentWeapon() != null)
             {
                 if (backupModel.weaponType == player.weapon.CurrentWeapon().weaponType)
                 {
                     continue;
                 }
             }
-            
-
-            if (player.weapon.WeaponInBackupWeaponSlot(backupModel.weaponType) != null) 
+            if (player.weapon.BackupWeapon() != null)
             {
-                if(backupModel.HangTypeIs(HangType.LowBackHang)) 
+                Debug.Log("Comparing backup weapon model: " + backupModel.weaponType + " to backup weapon: " + player.weapon.BackupWeapon().weaponType);
+                if (backupModel.weaponType == player.weapon.BackupWeapon().weaponType)
                 {
-                    lowHangWeapon = backupModel;
-                }
-                else if(backupModel.HangTypeIs(HangType.BackHang)) 
-                {
-                    backHangWeapon = backupModel;
-                }
-                else if(backupModel.HangTypeIs(HangType.SideHang)) 
-                {
-                    sideHangWeapon = backupModel;
+                    if (backupModel.HangTypeIs(HangType.LowBackHang))
+                    {
+                        lowHangWeapon = backupModel;
+                    }
+                    else if (backupModel.HangTypeIs(HangType.BackHang))
+                    {
+                        backHangWeapon = backupModel;
+                    }
+                    else if (backupModel.HangTypeIs(HangType.SideHang))
+                    {
+                        sideHangWeapon = backupModel;
+                    }
                 }
             }
 
             lowHangWeapon?.Activate(true);
             backHangWeapon?.Activate(true);
             sideHangWeapon?.Activate(true);
-        }   
+        }
     }
 
     public void SwitchOffWeaponModels() 

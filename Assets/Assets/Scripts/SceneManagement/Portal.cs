@@ -51,10 +51,9 @@ public class Portal : MonoBehaviour
         Portal otherPortal = GetOtherPortal();
         UpdatePlayer(otherPortal);
 
-        savingWrapper.Save();
-
         yield return new WaitForSeconds(fadeWaitTime);
         fader.FadeIn(fadeInTime);
+        savingWrapper.Save();
 
         Destroy(gameObject);
     }

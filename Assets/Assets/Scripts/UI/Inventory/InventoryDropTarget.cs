@@ -12,8 +12,8 @@ public class InventoryDropTarget : MonoBehaviour, IDragDestination<InventoryItem
 {
     public void AddItems(InventoryItem item, int number)
     {
-        var player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent<ItemDropper>().DropItem(item, number);
+        var itemDropper = GameObject.FindObjectOfType<ItemDropper>();
+        itemDropper.DropItem(item, number);
     }
 
     public int MaxAcceptable(InventoryItem item)

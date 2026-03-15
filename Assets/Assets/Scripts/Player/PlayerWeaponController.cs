@@ -14,6 +14,7 @@ public class PlayerWeaponController : MonoBehaviour
 
     [SerializeField] private Weapon_Data defaulteaponData;
     [SerializeField] private Weapon currentWeapon;
+    [SerializeField] private Weapon backupWeapon;
     private bool weaponReady;
     private bool isShooting;
 
@@ -35,11 +36,11 @@ public class PlayerWeaponController : MonoBehaviour
         equipment = GetComponent<Equipment>();
         inventory = GetComponent<Inventory>();
 
-        if (equipment && inventory) 
+        if (equipment && inventory)
         {
             equipment.equipmentUpdated += EquipWeapon;
-        } 
-    
+        }
+
     }
 
     private void Start()
@@ -52,112 +53,26 @@ public class PlayerWeaponController : MonoBehaviour
 
     private void Update()
     {
-        if(isShooting) 
+        if (isShooting)
         {
             Shoot();
         }
     }
 
-    public bool HasOnlyOneWeapon() 
+    public bool HasOnlyOneWeapon()
     {
         WeaponEquipableItem weaponInSlot = equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponEquipableItem;
         WeaponEquipableItem weaponInSlotBackupSlot = equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponEquipableItem;
-        if(weaponInSlot && !weaponInSlotBackupSlot) 
-        {
-            return true;
-        }
-        if (!weaponInSlot && weaponInSlotBackupSlot)
-        {
-            return true;
-        }
-        return false;
+        return (weaponInSlot != null && weaponInSlotBackupSlot == null) || (weaponInSlot == null && weaponInSlotBackupSlot != null);
     }
 
-    //public Weapon WeaponInBackupWeaponSlot(WeaponType weaponType) 
-    //{
-    //    WeaponInventoryItem weaponInventoryInBackupSlot = equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponInventoryItem;
-    //    WeaponInventoryItem weaponInventoryInMainSlot = equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponInventoryItem;
-
-    //    WeaponInventoryItem weaponInSlot = null;
-
-    //    if(weaponInventoryInBackupSlot != null && weaponInventoryInMainSlot != null) 
-    //    {
-    //        Weapon weaponInBackupSlot = new Weapon(weaponInventoryInBackupSlot.GetWeaponData());
-    //        Weapon weaponInMainSlot = new Weapon(weaponInventoryInMainSlot.GetWeaponData());
-
-    //        if (currentWeapon.weaponType == weaponInBackupSlot.weaponType)
-    //        {
-    //            weaponInSlot = weaponInventoryInMainSlot;
-    //        }
-    //        else if (currentWeapon.weaponType == weaponInMainSlot.weaponType)
-    //        {
-    //            weaponInSlot = weaponInventoryInBackupSlot;
-    //        }
-
-    //        if (weaponInSlot)
-    //        {
-    //            if (weaponInSlot.GetWeaponData().weaponType == weaponType)
-    //            {
-    //                return new Weapon(weaponInSlot.GetWeaponData());
-    //            }
-    //        }
-    //    }
-        
-    //    return null;
-    //}
-
-    public Weapon WeaponInBackupWeaponSlot(WeaponType weaponType)
+    public Weapon WeaponInSlots(WeaponType weaponType)
     {
-        var backupItem = equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponEquipableItem;
-        var mainItem = equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponEquipableItem;
-
-        if (backupItem == null || mainItem == null)
-            return null;
-
-        var backupData = backupItem.GetWeaponData();
-        var mainData = mainItem.GetWeaponData();
-
-        WeaponEquipableItem targetItem = null;
-
-        if (currentWeapon == null) return null;
-
-        if (currentWeapon.weaponType == backupData.weaponType)
-        {
-            targetItem = mainItem;
-        }
-        else if (currentWeapon.weaponType == mainData.weaponType)
-        {
-            targetItem = backupItem;
-        }
-
-        if (targetItem == null)
-            return null;
-
-        var targetData = targetItem.GetWeaponData();
-
-        if (targetData.weaponType != weaponType)
-            return null;
-
-        return new Weapon(targetData);
-    }
-
-    public Weapon WeaponInSlots(WeaponType weaponType) 
-    {
-        //OLD
-        //foreach(Weapon weapon in weaponSlots) 
-        //{
-        //    if(weapon.weaponType == weaponType) 
-        //    {
-        //        return weapon;
-        //    }
-        //}
-        //return null;
-        //NEW
         WeaponEquipableItem[] inventoryItems = inventory.GetWeaponInventoryItems();
 
-        foreach(WeaponEquipableItem item in inventoryItems) 
+        foreach (WeaponEquipableItem item in inventoryItems)
         {
-            if(item.GetWeaponData().weaponType == weaponType) 
+            if (item.GetWeaponData().weaponType == weaponType)
             {
                 return new Weapon(item.GetWeaponData());
             }
@@ -167,45 +82,54 @@ public class PlayerWeaponController : MonoBehaviour
 
     public Weapon CurrentWeapon()
     {
+        if (currentWeapon == null)
+        {
+            return null;
+        }
         return currentWeapon;
     }
 
+    public Weapon BackupWeapon()
+    {
+        if (backupWeapon == null)
+        {
+            return null;
+        }
+        return backupWeapon;
+    }
 
     #region Slots management - Pickup/Equip/Drop/Ready
     private void EquipWeapon(int i)
     {
         if (i == 1)
         {
-            EquipWeapon(equipLocation: EquipLocation.Weapon);
-        }
-        else 
-        {
-            EquipWeapon(equipLocation: EquipLocation.BackupWeapon);
-        }
-    }
-
-    private void EquipWeapon() 
-    {
-        WeaponEquipableItem weaponInSlot =  equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponEquipableItem;
-        SetWeaponReady(false);
-        if (weaponInSlot) 
-        {
-            currentWeapon = new Weapon(weaponInSlot.GetWeaponData());
-            player.weaponVisuals.PlayWeaponEquipAnimation();
-            CameraManager.instance.ChangeCameraDistance(currentWeapon.cameraDistance);
+            if (equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponEquipableItem == null)
+            {
+                EquipWeapon(null);
+                return;
+            }
+            Weapon_Data weaponData = (equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponEquipableItem).GetWeaponData();
+            EquipWeapon(new Weapon(weaponData));
         }
         else
         {
-            CameraManager.instance.ChangeCameraDistance(defaultCameraDistance);
-            currentWeapon = null;
+            if (equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponEquipableItem == null)
+            {
+                EquipWeapon(null);
+                return;
+            }
+            Weapon_Data weaponData = (equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponEquipableItem).GetWeaponData();
+            EquipWeapon(new Weapon(weaponData));
         }
-
     }
 
-    private void EquipWeapon(EquipLocation equipLocation)
+    private void EquipWeapon()
     {
-        WeaponEquipableItem weaponInSlot = equipment.GetItemInSlot(equipLocation) as WeaponEquipableItem;
+        WeaponEquipableItem weaponInSlot = equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponEquipableItem;
+        WeaponEquipableItem weaponInBackupSlot = equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponEquipableItem;
+
         SetWeaponReady(false);
+
         if (weaponInSlot)
         {
             currentWeapon = new Weapon(weaponInSlot.GetWeaponData());
@@ -218,63 +142,66 @@ public class PlayerWeaponController : MonoBehaviour
             currentWeapon = null;
         }
 
+        if (weaponInBackupSlot)
+        {
+            backupWeapon = new Weapon(weaponInBackupSlot.GetWeaponData());
+        }
+        else
+        {
+            backupWeapon = null;
+        }
+        player.weaponVisuals.SwitchOnBackupWeaponModel();
+        player.weaponVisuals.SwitchOnCurrentWeaponModel();
     }
 
-    //private void EquipStartingWeapon() 
-    //{
-    //    weaponSlots[0] = new Weapon(defaulteaponData);
+    private void EquipWeapon(Weapon weapon)
+    {
+        SetWeaponReady(false);
 
-    //    EquipWeapon(0);
-    //}
+        if (weapon != null)
+        {
+            Weapon main = null;
+            Weapon backup = null;
+
+            if ((equipment.GetItemInSlot(EquipLocation.Weapon) != null))
+            {
+                main = new Weapon((equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponEquipableItem).GetWeaponData());
+            }
+
+            if ((equipment.GetItemInSlot(EquipLocation.BackupWeapon) != null))
+            {
+                backup = new Weapon((equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponEquipableItem).GetWeaponData());
+            }
+
+            currentWeapon = weapon;
+
+
+            if (main != null && weapon.weaponType == main.weaponType)
+            {
+                backupWeapon = backup;
+
+            }
+            else if (backup != null && weapon.weaponType == backup.weaponType)
+            {
+                backupWeapon = main;
+            }
+
+            player.weaponVisuals.PlayWeaponEquipAnimation();
+            CameraManager.instance.ChangeCameraDistance(currentWeapon.cameraDistance);
+        }
+        else
+        {
+            CameraManager.instance.ChangeCameraDistance(defaultCameraDistance);
+            currentWeapon = null;
+        }
+    }
+
 
     private void EquipStartingWeapon()
     {
         EquipWeapon();
     }
 
-    //public void PickupWeapon(Weapon newWeapon) 
-    //{
-
-    //    //If weapon already in slots, just add ammo
-    //    if (WeaponInSlots(newWeapon.weaponType) != null) 
-    //    {
-    //        WeaponInSlots(newWeapon.weaponType).totalReserveAmmo += newWeapon.bulletsInMagazine;
-    //        return;
-    //    }
-           
-    //    if (weaponSlots.Count >= maxSlots && newWeapon.weaponType != currentWeapon.weaponType) 
-    //    {
-    //        int weaponIndex = weaponSlots.IndexOf(currentWeapon);
-    //        player.weaponVisuals.SwitchOffWeaponModels();
-    //        weaponSlots[weaponIndex] = newWeapon;
-
-    //        CreateWeaponOnTheGround();
-    //        EquipWeapon(weaponIndex);
-    //        return;
-    //    }
-
-    //    weaponSlots.Add(newWeapon);
-    //    player.weaponVisuals.SwitchOnBackupWeaponModel();
-    //}
-
-    //private void DropWeapon()
-    //{
-    //    if (HasOnlyOneWeapon())
-    //    {
-    //        return;
-    //    }
-
-    //    CreateWeaponOnTheGround();
-
-    //    weaponSlots.Remove(currentWeapon);
-    //    EquipWeapon(0);
-    //}
-
-    //private void CreateWeaponOnTheGround()
-    //{
-    //    GameObject droppedWeapon = ObjectPool.instance.GetObject(weaponPickupPrefab, transform);
-    //    droppedWeapon.GetComponent<Pickup_Weapon>()?.SetupPickupWeapon(currentWeapon, transform);
-    //}
 
     public void SetWeaponReady(bool ready)
     {
@@ -288,12 +215,12 @@ public class PlayerWeaponController : MonoBehaviour
 
     #endregion
 
-    
+
     public Vector3 BulletDirection()
     {
         Transform aim = player.aim.Aim();
         Vector3 direction = (aim.position - GunPoint().position).normalized;
-        if(player.aim.CanAimPrecisely() == false && player.aim.Target() == null)
+        if (player.aim.CanAimPrecisely() == false && player.aim.Target() == null)
             direction.y = 0;
 
         return direction;
@@ -308,7 +235,7 @@ public class PlayerWeaponController : MonoBehaviour
             FireSingleBullet();
             yield return new WaitForSeconds(currentWeapon.burstFireDelay);
 
-            if(i >= currentWeapon.bulletsPerShot - 1) 
+            if (i >= currentWeapon.bulletsPerShot - 1)
             {
                 SetWeaponReady(true);
             }
@@ -317,7 +244,7 @@ public class PlayerWeaponController : MonoBehaviour
 
     private void Shoot()
     {
-        if(currentWeapon == null) 
+        if (currentWeapon == null)
         {
             return;
         }
@@ -331,7 +258,7 @@ public class PlayerWeaponController : MonoBehaviour
         {
             return;
         }
-        
+
         player.weaponVisuals.PlayFireAnimation();
         player.weaponVisuals.PlayWeaponMuzzleFlash();
 
@@ -340,7 +267,7 @@ public class PlayerWeaponController : MonoBehaviour
             isShooting = false;
         }
 
-        if (currentWeapon.BurstActivated() == true) 
+        if (currentWeapon.BurstActivated() == true)
         {
             StartCoroutine(BurstFire());
             return;
@@ -369,12 +296,10 @@ public class PlayerWeaponController : MonoBehaviour
         rbNewBullet.mass = REFERENCE_BULLET_SPEED / bulletSpeed;
         rbNewBullet.velocity = bulletDirection * bulletSpeed;
 
-        if(currentWeapon.bulletsInMagazine <= 0) 
+        if (currentWeapon.bulletsInMagazine <= 0)
         {
             Reload();
         }
-
-
     }
 
     private void Reload()
@@ -389,17 +314,17 @@ public class PlayerWeaponController : MonoBehaviour
         return player.weaponVisuals.CurrentWeaponModel().gunPoint;
     }
 
-    private void TriggerEnemyDodge() 
+    private void TriggerEnemyDodge()
     {
         Vector3 rayOrigin = GunPoint().position;
         Vector3 rayDirection = BulletDirection();
 
-        if(Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hit, Mathf.Infinity)) 
+        if (Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hit, Mathf.Infinity))
         {
             Enemy_Melee enemy = hit.collider.gameObject.GetComponentInParent<Enemy_Melee>();
             if (enemy != null)
             {
-                 enemy.ActivateDodgeRoll();
+                enemy.ActivateDodgeRoll();
             }
         }
     }
@@ -411,16 +336,13 @@ public class PlayerWeaponController : MonoBehaviour
         controls.Character.Fire.performed += context => isShooting = true;
         controls.Character.Fire.canceled += context => isShooting = false;
 
-        controls.Character.EquipSlot1.performed += context => EquipWeapon(0);
-        controls.Character.EquipSlot2.performed += context => EquipWeapon(1);
-        //controls.Character.EquipSlot3.performed += context => EquipWeapon(2);
-        //controls.Character.EquipSlot4.performed += context => EquipWeapon(3);
-        //controls.Character.EquipSlot5.performed += context => EquipWeapon(4); 
+        controls.Character.EquipSlot1.performed += context => EquipWeapon(1);
+        controls.Character.EquipSlot2.performed += context => EquipWeapon(2);
 
         //controls.Character.DropCurrentWeapon.performed += context => DropWeapon();
         controls.Character.Reload.performed += context =>
         {
-            if(currentWeapon.CanReload() && WeaponReady())
+            if (currentWeapon.CanReload() && WeaponReady())
             {
                 Reload();
             }

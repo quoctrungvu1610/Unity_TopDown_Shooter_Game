@@ -3,29 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyState
+public class NPCState
 {
-    protected Enemy enemyBase;
-    protected EnemyStateMachine stateMachine;
- 
+    protected NPC npcBase;
+    protected NPCStateMachine stateMachine;
     protected string animBoolName;
+
     protected float stateTimer;
 
-    protected bool triggerCalled;
-
-    public EnemyState(Enemy enemyBase, EnemyStateMachine stateMachine, string animBoolName) 
+    public NPCState(NPC npcBase, NPCStateMachine stateMachine, string animBoolName) 
     {
-        this.enemyBase = enemyBase;
+        this.npcBase = npcBase;
         this.stateMachine = stateMachine;
         this.animBoolName = animBoolName;
     }
 
     public virtual void Enter() 
     {
-        enemyBase.anim.SetBool(animBoolName, true);
-        triggerCalled = false;
+        npcBase.anim.SetBool(animBoolName, true);
     }
-
     public virtual void Update() 
     {
         stateTimer -= Time.deltaTime;
@@ -33,22 +29,12 @@ public class EnemyState
 
     public virtual void Exit() 
     {
-        enemyBase.anim.SetBool(animBoolName, false);
-    }
-
-    public void AnimationTrigger() 
-    {
-        triggerCalled = true;
-    }
-
-    public virtual void AbilityTrigger() 
-    {
-        //For ability states
+        npcBase.anim.SetBool(animBoolName, false);
     }
 
     protected Vector3 GetNextPathPoint()
     {
-        NavMeshAgent agent = enemyBase.agent;
+        NavMeshAgent agent = npcBase.agent;
         NavMeshPath path = agent.path;
         if (path.corners.Length < 2)
         {
@@ -64,4 +50,5 @@ public class EnemyState
         }
         return agent.destination;
     }
+
 }

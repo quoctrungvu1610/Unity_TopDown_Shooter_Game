@@ -12,7 +12,6 @@ public class IdleState_NPC : NPCState
 
     public override void Enter()
     {
-        Debug.Log("Entered Idle State");
         base.Enter();
         stateTimer = npc.idleTime;
     }
@@ -25,7 +24,7 @@ public class IdleState_NPC : NPCState
     public override void Update()
     {
         base.Update();
-        Debug.Log("Updating Idle State, time left: " + stateTimer);
+        if(npc.idleOnly) { return; }
         if (stateTimer < 0f)
         {
             stateMachine.ChangeState(npc.moveState);

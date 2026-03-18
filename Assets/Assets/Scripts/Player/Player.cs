@@ -19,7 +19,12 @@ public class Player : MonoBehaviour
     public Equipment equipment { get; private set; }
     public BaseStat stat { get; private set; }
 
-    public Ragdoll ragdoll;
+    public Ragdoll ragdoll { get; private set; }
+
+    public Shopper shopper { get; private set; }
+    public Inventory inventory { get; private set; }
+    public Purse purse { get; private set; }
+
     private void Awake()
     {
         controls = new PlayerControls();
@@ -33,6 +38,9 @@ public class Player : MonoBehaviour
         interaction = GetComponent<PlayerInteraction>();
         equipment = GetComponent<Equipment>();
         stat = GetComponent<BaseStat>();
+        shopper = GetComponent<Shopper>();
+        inventory = GetComponent<Inventory>();
+        purse = GetComponent<Purse>();
     }
 
     private void OnEnable()

@@ -49,6 +49,17 @@ public class Inventory : MonoBehaviour, ISaveable, IPredicateEvaluator
         return FindSlot(item) >= 0;
     }
 
+    public bool HasSpaceFor(IEnumerable<InventoryItem> items) 
+    {
+        int count = 0;
+        foreach (var item in items) 
+        {
+            count++;
+        }
+
+        return count <= inventorySize;
+    }
+
     /// <summary>
     /// How many slots are in the inventory?
     /// </summary>

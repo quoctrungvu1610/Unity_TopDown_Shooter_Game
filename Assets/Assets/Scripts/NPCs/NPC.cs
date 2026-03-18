@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class NPC : MonoBehaviour
 {
+    public bool idleOnly = false;
+
     [Header("Idle data")]
     public float idleTime;
 

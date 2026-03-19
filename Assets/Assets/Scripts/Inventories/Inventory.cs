@@ -51,13 +51,47 @@ public class Inventory : MonoBehaviour, ISaveable, IPredicateEvaluator
 
     public bool HasSpaceFor(IEnumerable<InventoryItem> items) 
     {
-        int count = 0;
+        int freeSlots = FreeSlots();
+
+        List<InventoryItem> statckedItem = new List<InventoryItem>();
+
         foreach (var item in items) 
         {
-            count++;
+            if (item.IsStackable()) 
+            {
+                if (HasItem(item)) 
+                {
+                    continue;
+                }
+
+                if (statckedItem.Contains(item)) 
+                {
+                    continue;
+                }
+
+                statckedItem.Add(item);
+            }
+            if (freeSlots <= 0)
+            {
+                return false;
+            }
+            freeSlots--;
         }
 
-        return count <= inventorySize;
+        return true;
+    }
+
+    public int FreeSlots() 
+    {
+        int count = 0;
+        foreach (var slot in slots) 
+        {
+            if (slot.number == 0) 
+            {
+                count++;
+            }
+        }
+        return count;
     }
 
     /// <summary>

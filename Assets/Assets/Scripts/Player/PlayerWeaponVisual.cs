@@ -143,7 +143,6 @@ public class PlayerWeaponVisual : MonoBehaviour
 
     public void SwitchOnBackupWeaponModel()
     {
-        Debug.Log("Switching on backup weapon model");
         SwitchOffBackupWeaponModels();
 
         BackupWeaponModel lowHangWeapon = null;

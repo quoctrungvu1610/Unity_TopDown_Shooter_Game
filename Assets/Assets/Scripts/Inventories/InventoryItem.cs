@@ -19,6 +19,7 @@ public class InventoryItem : ScriptableObject, ISerializationCallbackReceiver
     [Tooltip("If true, multiple items of this type can be stacked in the same inventory slot.")]
     [SerializeField] bool stackable = false;
     [SerializeField] float price;
+    [SerializeField] ItemCategory category = ItemCategory.None;
 
     // STATE
     static Dictionary<string, InventoryItem> itemLookupCache;
@@ -92,6 +93,11 @@ public class InventoryItem : ScriptableObject, ISerializationCallbackReceiver
     public float GetPrice() 
     {
         return price;
+    }
+
+    public ItemCategory GetCategoty() 
+    {
+        return category;
     }
 
     // PRIVATE

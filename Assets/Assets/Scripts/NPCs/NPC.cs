@@ -66,7 +66,6 @@ public class NPC : MonoBehaviour
 
     private void InitializePatrolPoints()
     {
-        Debug.Log("Initializing patrol points");
         patrolPointsPosition = new Vector3[patrolPoints.Length];
         for (int i = 0; i < patrolPoints.Length; i++)
         {

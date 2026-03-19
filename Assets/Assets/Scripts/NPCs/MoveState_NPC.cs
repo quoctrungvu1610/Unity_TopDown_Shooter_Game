@@ -13,7 +13,6 @@ public class MoveState_NPC : NPCState
 
     public override void Enter()
     {
-        Debug.Log("Entered Move State");
         base.Enter();
 
         npc.agent.speed = npc.walkSpeed;

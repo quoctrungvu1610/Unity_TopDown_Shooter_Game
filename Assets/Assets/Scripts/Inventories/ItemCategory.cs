@@ -2,8 +2,9 @@ public enum ItemCategory
 {
     None,
     Weapon,
-    Armor,
+    Ammo,
+    Equipment,
     Consumable,
     Material,
-    Quest
+    Recipe,
 }

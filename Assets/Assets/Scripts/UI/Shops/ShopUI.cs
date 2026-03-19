@@ -9,6 +9,7 @@ public class ShopUI : MonoBehaviour
 {
     [SerializeField] private Button quitButton;
     [SerializeField] private Button confirmButton;
+    [SerializeField] private Button switchButton;
 
     [SerializeField] private TextMeshProUGUI[] shopNames;
     [SerializeField] private TextMeshProUGUI totalField;
@@ -26,6 +27,7 @@ public class ShopUI : MonoBehaviour
     {
         quitButton.onClick.AddListener(Close);
         confirmButton.onClick.AddListener(ConfirmTransaction);
+        switchButton.onClick.AddListener(SwitchMode);
     }
 
     void Start()
@@ -45,7 +47,13 @@ public class ShopUI : MonoBehaviour
         }
 
         currentShop = shopper.GetActiveShop();
+
         gameObject.SetActive(currentShop != null);
+
+        foreach (FilterButtonUI button in GetComponentsInChildren<FilterButtonUI>()) 
+        {
+            button.SetShop(currentShop);
+        }
 
         if (currentShop == null) return;
         foreach (TextMeshProUGUI name in shopNames) 
@@ -75,6 +83,25 @@ public class ShopUI : MonoBehaviour
         totalField.text = "Total : " + "$" + currentShop.TransactionTotal().ToString("N2");
         totalField.color = currentShop.HasSufficientFunds() ? originalTotalTextColor : Color.red;
         confirmButton.interactable = currentShop.CanTransact();
+
+        TextMeshProUGUI switchText = switchButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI confirmText = confirmButton.GetComponentInChildren<TextMeshProUGUI>();
+
+        if (currentShop.IsBuyingMode())
+        {
+            switchText.text = "SELL MODE";
+            confirmText.text = "PURCHASE";
+        }
+        else 
+        {
+            switchText.text = "BUY MODE";
+            confirmText.text = "SELL";
+        }
+
+        foreach (FilterButtonUI button in GetComponentsInChildren<FilterButtonUI>()) 
+        {
+            button.RefreshUI();
+        }
     }
 
     private void Close() 
@@ -85,5 +112,10 @@ public class ShopUI : MonoBehaviour
     public void ConfirmTransaction() 
     {
         currentShop.ConfirmTransaction();
+    }
+
+    public void SwitchMode() 
+    {
+        currentShop.SelectMode(!currentShop.IsBuyingMode());
     }
 }

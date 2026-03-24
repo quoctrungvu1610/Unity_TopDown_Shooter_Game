@@ -12,7 +12,6 @@ public class ItemTooltip : MonoBehaviour
     // CONFIG DATA
     [SerializeField] TextMeshProUGUI titleText = null;
     [SerializeField] TextMeshProUGUI bodyText = null;
-    [SerializeField] Image icon;
 
     // PUBLIC
 
@@ -20,6 +19,5 @@ public class ItemTooltip : MonoBehaviour
     {
         titleText.text = item.GetDisplayName();
         bodyText.text = item.GetDescription();
-        icon.sprite = item.GetIcon();
     }
 }

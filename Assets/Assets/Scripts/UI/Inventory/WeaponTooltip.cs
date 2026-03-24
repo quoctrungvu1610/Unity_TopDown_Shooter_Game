@@ -23,7 +23,6 @@ public class WeaponTooltip : MonoBehaviour
     [SerializeField] TextMeshProUGUI equipmentSpeedText = null;
     [SerializeField] TextMeshProUGUI gunDistanceText = null;
     [SerializeField] TextMeshProUGUI bulletDamageText = null;
-    [SerializeField] Image icon;
 
     // PUBLIC
 
@@ -32,7 +31,6 @@ public class WeaponTooltip : MonoBehaviour
         WeaponEquipableItem weaponInventoryItem = item as WeaponEquipableItem;
         titleText.text = item.GetDisplayName();
         bodyText.text = item.GetDescription();
-        icon.sprite = item.GetIcon();
 
         bulletDamageText.text = weaponInventoryItem.GetWeaponData().damage.ToString();
         magCapacityText.text = weaponInventoryItem.GetWeaponData().magazineCapacity.ToString();

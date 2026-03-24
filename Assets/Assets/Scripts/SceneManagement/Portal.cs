@@ -49,9 +49,9 @@ public class Portal : MonoBehaviour
         savingWrapper.Load();
 
         Portal otherPortal = GetOtherPortal();
-        UpdatePlayer(otherPortal);
 
         yield return new WaitForSeconds(fadeWaitTime);
+        UpdatePlayer(otherPortal);
         fader.FadeIn(fadeInTime);
         savingWrapper.Save();
 

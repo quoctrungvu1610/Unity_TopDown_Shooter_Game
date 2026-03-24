@@ -3,6 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct InventorySlot
+{
+    public InventoryItem item;
+    public int number;
+}
+
 
 /// <summary>
 /// Provides storage for the player inventory. A configurable number of
@@ -18,12 +24,6 @@ public class Inventory : MonoBehaviour, ISaveable, IPredicateEvaluator
 
     // STATE
     InventorySlot[] slots;
-
-    public struct InventorySlot
-    {
-        public InventoryItem item;
-        public int number;
-    }
 
     // PUBLIC
 

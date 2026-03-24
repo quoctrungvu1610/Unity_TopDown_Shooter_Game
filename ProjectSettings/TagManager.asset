@@ -6,6 +6,7 @@ TagManager:
   tags:
   - FxTemporaire
   - IconsCreationCamera
+  - Warehouse
   layers:
   - Default
   - TransparentFX

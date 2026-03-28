@@ -22,7 +22,7 @@ public class PlayerConversant : MonoBehaviour
         currentDialogue = newDialogue;
         currentNode = currentDialogue.GetRootNode();
         TriggerEnterAction();
-        onConversationUpdated();
+        onConversationUpdated?.Invoke();
     }
 
     public void Quit() 
@@ -32,7 +32,7 @@ public class PlayerConversant : MonoBehaviour
         currentNode = null;
         isChoosing = false;
         currentConversant = null;
-        onConversationUpdated();
+        onConversationUpdated?.Invoke();
     }
 
     public bool IsActive() 
@@ -93,7 +93,7 @@ public class PlayerConversant : MonoBehaviour
         {
             isChoosing = true;
             TriggerExitAction();
-            onConversationUpdated();
+            onConversationUpdated?.Invoke();
             return;
         }
 
@@ -109,7 +109,7 @@ public class PlayerConversant : MonoBehaviour
         TriggerExitAction();
         currentNode = children[randomIndex];
         TriggerEnterAction();
-        onConversationUpdated();
+        onConversationUpdated?.Invoke();
     }
 
     public bool HasNext() 

@@ -28,15 +28,12 @@ public class ShopUI : MonoBehaviour
         quitButton.onClick.AddListener(Close);
         confirmButton.onClick.AddListener(ConfirmTransaction);
         switchButton.onClick.AddListener(SwitchMode);
-    }
 
-    void Start()
-    {
         originalTotalTextColor = totalField.color;
         shopper = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().shopper;
-        if (shopper == null) return;
-        shopper.activeShopChange += ShopChanged;
-        this.gameObject.SetActive(false);
+        if (shopper != null)
+            shopper.activeShopChange += ShopChanged;
+
     }
 
     private void ShopChanged() 
@@ -48,7 +45,10 @@ public class ShopUI : MonoBehaviour
 
         currentShop = shopper.GetActiveShop();
 
-        gameObject.SetActive(currentShop != null);
+        if (currentShop != null)
+            UIManager.Instance.ShowPanel(PanelName.Shop, true);
+        else if (currentShop == null)
+            UIManager.Instance.HidePanel(PanelName.Shop);
 
         foreach (FilterButtonUI button in GetComponentsInChildren<FilterButtonUI>()) 
         {

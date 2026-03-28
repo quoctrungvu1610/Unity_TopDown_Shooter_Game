@@ -10,21 +10,20 @@ public class LootBox : Interactable
     [SerializeField] private LootBoxSlot[] slots;
 
     private LootBoxSlot[] interactSlots;
-
-
     private Player player;
 
     protected override void Awake()
     {
         base.Awake();
         interactSlots = new LootBoxSlot[10];
-        player = FindObjectOfType<Player>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     private void Start()
     {
         interactSlots = slots;
     }
+
     [System.Serializable]
     public struct LootBoxSlot
     {
@@ -130,7 +129,6 @@ public class LootBox : Interactable
         if (i < 0)
         {
             i = FindEmptySlot();
-            Debug.Log(FindEmptySlot());
         }
         return i;
     }
@@ -168,18 +166,17 @@ public class LootBox : Interactable
     public override void Interaction()
     {
         base.Interaction();
-        player.GetComponent<PlayerInteraction>().SetCurrentLootBox(this);
-        PlayerInteractionUI playerInteractionUI = player.GetComponent<PlayerInteractionUI>();
-        playerInteractionUI.ToggleUI(playerInteractionUI.lootBoxUI, true);
+        if (player != null) 
+        {
+            player.looter.SetCurrentActiveLootBox(this);
+        }
+        UIManager.Instance.ShowPanel(PanelName.Loot, true);
 
     }
 
     protected override void OnTriggerExit(Collider other)
     {
         base.OnTriggerExit(other);
-        PlayerInteractionUI playerInteractionUI = player.GetComponent<PlayerInteractionUI>();
-        playerInteractionUI.ToggleUI(playerInteractionUI.lootBoxUI, false);
-
+        UIManager.Instance.HidePanel(PanelName.Loot);
     }
-
 }

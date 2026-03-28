@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1532333780345364492}
   - component: {fileID: 8736343255259723180}
   - component: {fileID: 5143151720802991261}
-  - component: {fileID: 324503229802419998}
   m_Layer: 0
   m_Name: LootBox
   m_TagString: Untagged
@@ -77,20 +76,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 0
---- !u!114 &324503229802419998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 253496704927111252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e1c3bd691adfd446a6c88f32a4196e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lootSlotPrefab: {fileID: 1539548828241281358, guid: b6a3eb2279d1873468d8941612b448b8, type: 3}
-  currentLootBox: {fileID: 0}
 --- !u!1001 &7759118165272816691
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -4,26 +4,24 @@ using UnityEngine;
 
 public class ShowHideUI : MonoBehaviour
 {
-    [SerializeField] KeyCode toggleKey = KeyCode.Escape;
-    [SerializeField] GameObject uiContainer = null;
+    [SerializeField] KeyCode inventoryToggleKey = KeyCode.Escape;
+    [SerializeField] KeyCode playerEquipmentToggleKey = KeyCode.F2;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        uiContainer.SetActive(false);
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(toggleKey))
+        if (Input.GetKeyDown(inventoryToggleKey))
         {
-            Toggle();
+            Toggle(PanelName.Inventory);
+        }
+        if (Input.GetKeyDown(playerEquipmentToggleKey))
+        {
+            Toggle(PanelName.PlayerEquipment);
         }
     }
 
-    public void Toggle()
+    public void Toggle(PanelName panelName)
     {
-        uiContainer.SetActive(!uiContainer.activeSelf);
+        Debug.Log(panelName);
+        UIManager.Instance.TogglePanel(panelName, false);
     }
 }

@@ -342,6 +342,7 @@ public class PlayerWeaponController : MonoBehaviour
         //controls.Character.DropCurrentWeapon.performed += context => DropWeapon();
         controls.Character.Reload.performed += context =>
         {
+            if (currentWeapon == null) return;
             if (currentWeapon.CanReload() && WeaponReady())
             {
                 Reload();

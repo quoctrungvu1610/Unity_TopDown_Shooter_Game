@@ -8,18 +8,13 @@ public class PlacementSystem : MonoBehaviour
     [SerializeField] private InputManager inputManager;
 
     [SerializeField] private Grid grid;
-
     [SerializeField] private ObjectDatabaseSO dataBase;
-
     [SerializeField] private GameObject gridVisualization;
-
-    private GridData floorData, furnitureData;
-
     [SerializeField] private PreviewSystem preview;
-    private Vector3Int lastDetectedPosition = Vector3Int.zero;
-
     [SerializeField] private ObjectPlacer objectPlacer;
 
+    private GridData floorData, furnitureData;
+    private Vector3Int lastDetectedPosition = Vector3Int.zero;
     IBuildingState buildingState;
 
 
@@ -30,34 +25,33 @@ public class PlacementSystem : MonoBehaviour
         furnitureData = new GridData();
     }
 
-    public void StartPlacement(int ID) 
+    public void StartPlacement(int ID)
     {
         StopPlacement();
         gridVisualization.SetActive(true);
-        buildingState = new PlacementState(ID,
-                                           grid,
-                                           preview,
-                                           dataBase,
-                                           floorData,
-                                           furnitureData,
-                                           objectPlacer);
+
+        PlacementState newState = new PlacementState(ID, grid, preview, dataBase, floorData, furnitureData, objectPlacer);
+        buildingState = newState;
+
         inputManager.OnClicked += PlaceStructure;
         inputManager.OnExit += StopPlacement;
+
+        inputManager.OnRotateRight += () => newState.Rotate(1);
+        inputManager.OnRotateLeft += () => newState.Rotate(-1);
     }
 
-    public void StartRemoving() 
+    public void StartRemoving()
     {
         StopPlacement();
         gridVisualization.SetActive(true);
         buildingState = new RemovingState(grid, preview, floorData, furnitureData, objectPlacer);
         inputManager.OnClicked += PlaceStructure;
         inputManager.OnExit += StopPlacement;
-
     }
 
     private void PlaceStructure()
     {
-        if (inputManager.IsPointerOverUI()) 
+        if (inputManager.IsPointerOverUI())
         {
             return;
         }
@@ -69,26 +63,30 @@ public class PlacementSystem : MonoBehaviour
         StopPlacement();
     }
 
-    private void StopPlacement() 
+    private void StopPlacement()
     {
         if (buildingState == null) return;
-        gridVisualization.SetActive(false);
-        buildingState.EndState();
+
         inputManager.OnClicked -= PlaceStructure;
         inputManager.OnExit -= StopPlacement;
-        lastDetectedPosition = Vector3Int.zero;
+
+        inputManager.OnRotateRight -= null;
+        inputManager.OnRotateLeft -= null;
+
+        gridVisualization.SetActive(false);
+        buildingState.EndState();
         buildingState = null;
     }
 
     private void Update()
     {
-        if (buildingState == null) 
+        if (buildingState == null)
         {
             return;
         }
         Vector3 mousePosition = inputManager.GetSelectedMapPosition();
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
-        if (lastDetectedPosition != gridPosition) 
+        if (lastDetectedPosition != gridPosition)
         {
             buildingState.UpdateState(gridPosition);
             lastDetectedPosition = gridPosition;

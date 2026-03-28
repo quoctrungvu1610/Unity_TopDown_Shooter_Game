@@ -7,32 +7,39 @@ using UnityEngine.EventSystems;
 public class InputManager : MonoBehaviour
 {
     [SerializeField] private Camera sceneCamera;
-    private Vector3 lastPosition;
     [SerializeField] private LayerMask placementLayermask;
 
+    private Vector3 lastPosition;
     public event Action OnClicked, OnExit;
+    public event Action OnRotateRight, OnRotateLeft;
 
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0)) 
+        if (Input.GetMouseButtonDown(0))
         {
-            if(OnClicked != null)
-                OnClicked.Invoke();
+            OnClicked?.Invoke();
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(OnExit != null)
-                OnExit.Invoke();
+            OnExit?.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.R)) 
+        {
+            OnRotateRight?.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.L)) 
+        {
+            OnRotateLeft?.Invoke();
         }
     }
 
-    public bool IsPointerOverUI() 
+    public bool IsPointerOverUI()
     {
         return EventSystem.current.IsPointerOverGameObject();
     }
 
-    public Vector3 GetSelectedMapPosition() 
+    public Vector3 GetSelectedMapPosition()
     {
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = sceneCamera.nearClipPlane;

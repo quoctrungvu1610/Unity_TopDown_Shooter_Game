@@ -26,7 +26,6 @@ public class WarehouseUI : MonoBehaviour
     private void Start()
     {
         Redraw();
-        this.gameObject.SetActive(false);
     }
 
     private void Close() 

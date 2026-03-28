@@ -15,7 +15,7 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] Button quitButton;
     [SerializeField] TextMeshProUGUI conversantName;
 
-    void Start()
+    private void Awake()
     {
         playerConversant = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerConversant>();
         playerConversant.onConversationUpdated += UpdateUI;
@@ -31,6 +31,7 @@ public class DialogueUI : MonoBehaviour
 
     private void UpdateUI()
     {
+
         gameObject.SetActive(playerConversant.IsActive());
 
         if (!playerConversant.IsActive()) 

@@ -10,13 +10,17 @@ public class Condition
 
     public bool Check(IEnumerable<IPredicateEvaluator> avaluators)
     {
-        foreach (Disjunction dis in and)
+        if (and != null) 
         {
-            if(!dis.Check(avaluators)) 
+            foreach (Disjunction dis in and)
             {
-                return false;
+                if (!dis.Check(avaluators))
+                {
+                    return false;
+                }
             }
         }
+        
         return true;
     }
 
@@ -26,15 +30,22 @@ public class Condition
         [SerializeField] Predicate[] or;
 
         public bool Check(IEnumerable<IPredicateEvaluator> evaluators) 
+        {
+            if (or != null) 
             {
-                foreach (Predicate pred in or) 
+                foreach (Predicate pred in or)
                 {
-                    if (pred.Check(evaluators)) 
+                    if (pred != null)
                     {
-                        return true;
+                        if (pred.Check(evaluators))
+                        {
+                            return true;
+                        }
                     }
                 }
-                return false;
+            }
+            
+            return false;
         }
 
     }

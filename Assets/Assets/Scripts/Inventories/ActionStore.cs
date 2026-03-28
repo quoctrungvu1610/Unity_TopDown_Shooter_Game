@@ -40,7 +40,7 @@ public class ActionStore : MonoBehaviour, ISaveable
 
     private void Start()
     {
-        storeUpdated();
+        storeUpdated?.Invoke();
     }
 
 
@@ -82,10 +82,7 @@ public class ActionStore : MonoBehaviour, ISaveable
             slot.number = number;
             dockedItems[index] = slot;
         }
-        if (storeUpdated != null)
-        {
-            storeUpdated();
-        }
+        storeUpdated?.Invoke();
     }
 
     /// <summary>
@@ -120,10 +117,7 @@ public class ActionStore : MonoBehaviour, ISaveable
             {
                 dockedItems.Remove(index);
             }
-            if (storeUpdated != null)
-            {
-                storeUpdated();
-            }
+            storeUpdated?.Invoke();
         }
 
     }

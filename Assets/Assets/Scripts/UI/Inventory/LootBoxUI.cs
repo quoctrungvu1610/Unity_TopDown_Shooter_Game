@@ -6,14 +6,16 @@ using UnityEngine.UI;
 
 public class LootBoxUI : MonoBehaviour
 {
-    [SerializeField] Transform parent;
+    [SerializeField] Transform lootSlotParent;
     [SerializeField] LootSlotUI lootSlotPrefab = null;
-    [SerializeField] LootBox currentLootBox;
+    [SerializeField] LootBox currentLootBox = null;
+    [SerializeField] private Button closeButton;
+    private Player player;
 
-
-    private void Start()
+    private void Awake()
     {
-        parent.gameObject.SetActive(false);
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        closeButton.onClick.AddListener(Close);
     }
 
     private void Close()
@@ -23,21 +25,37 @@ public class LootBoxUI : MonoBehaviour
 
     private void OnEnable()
     {
-        
-        currentLootBox = FindObjectOfType<PlayerInteraction>().currentActiveLootBox;
-        if(currentLootBox == null) 
+        if (currentLootBox != null) 
+        {
+            currentLootBox = null;
+        }
+
+        if (player != null) 
+        {
+            if (player.looter == null) return;
+            currentLootBox = player.looter.GetCurrentActiveLootBox();
+        }
+
+        if (currentLootBox != null)
+        {
+            currentLootBox.lootBoxUpdated += Redraw;
+            Redraw();
+        }
+
+        if (currentLootBox == null)
         {
             return;
         }
-        currentLootBox.lootBoxUpdated += Redraw;
-        Redraw();
+        
     }
 
     private void OnDisable()
     {
         DestroyAllChild();
-        if(currentLootBox != null)
+        if (currentLootBox != null)
+        {
             currentLootBox.lootBoxUpdated -= Redraw;
+        }
     }
 
     private void Redraw() 
@@ -45,7 +63,7 @@ public class LootBoxUI : MonoBehaviour
         DestroyAllChild();
         for (int i = 0; i < currentLootBox.GetSize(); i++) 
         {
-            var itemUI = Instantiate(lootSlotPrefab, transform);
+            var itemUI = Instantiate(lootSlotPrefab, lootSlotParent);
             itemUI.Setup(currentLootBox, i);
         }
 
@@ -53,7 +71,7 @@ public class LootBoxUI : MonoBehaviour
 
     private void DestroyAllChild() 
     {
-        foreach (Transform child in transform)
+        foreach (Transform child in lootSlotParent)
         {
             Destroy(child.gameObject);
         }

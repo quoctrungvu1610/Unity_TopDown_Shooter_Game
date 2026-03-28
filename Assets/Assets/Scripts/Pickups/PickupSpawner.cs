@@ -17,7 +17,6 @@ public class PickupSpawner : MonoBehaviour, ISaveable
     private void Awake()
     {
         // Spawn in Awake so can be destroyed by save system after.
-        Debug.Log("Call Spawn in Awake");
         SpawnPickup();
     }
 
@@ -65,16 +64,13 @@ public class PickupSpawner : MonoBehaviour, ISaveable
     void ISaveable.RestoreState(object state)
     {
         bool shouldBeCollected = (bool)state;
-        Debug.Log("Call Restore");
         if (shouldBeCollected && !isCollected())
         {
-            Debug.Log("Call Destroy in Restore");
             DestroyPickup();
         }
 
         if (!shouldBeCollected && isCollected())
         {
-            Debug.Log("Call Spawn in Restore");
             SpawnPickup();
         }
     }

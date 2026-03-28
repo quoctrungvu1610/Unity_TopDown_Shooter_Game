@@ -219,7 +219,6 @@ public class Warehouse : Interactable, ISaveable
 
     public void SetCurrentCategory(ItemCategory category) 
     {
-        Debug.Log(category);
         if (category == ItemCategory.None) 
         {
             warehouseUpdated();
@@ -232,6 +231,6 @@ public class Warehouse : Interactable, ISaveable
     public override void Interaction()
     {
         base.Interaction();
-        UIManager.instance.ToggleUI(true, UIManager.instance.warehouseUI.gameObject);
+        UIManager.Instance.ShowPanel(PanelName.Warehouse, false);
     }
 }

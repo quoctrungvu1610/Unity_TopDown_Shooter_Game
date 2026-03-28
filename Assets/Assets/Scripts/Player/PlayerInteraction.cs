@@ -6,8 +6,6 @@ public class PlayerInteraction : MonoBehaviour
 {
     private List<Interactable> interactables = new List<Interactable>();
     private Interactable closestInteractable;
-    public LootBox currentActiveLootBox;
-
 
     private void Start()
     {
@@ -47,9 +45,4 @@ public class PlayerInteraction : MonoBehaviour
         return interactables;
     }
 
-    public void SetCurrentLootBox(LootBox lootBox) 
-    {
-        this.currentActiveLootBox = lootBox;
-
-    }
 }

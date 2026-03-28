@@ -84,12 +84,7 @@ public class Shop : Interactable
     public void SelectFilter(ItemCategory category) 
     {
         filter = category;
-
-        if (onChange != null)
-        {
-            onChange();
-
-        }
+        onChange?.Invoke();
     }
 
     public ItemCategory GetFilter() 
@@ -99,12 +94,8 @@ public class Shop : Interactable
 
     public void SelectMode(bool isBuying) 
     {
-       isBuyingMode = isBuying;
-        if (onChange != null) 
-        {
-            onChange();
-        
-        }
+        isBuyingMode = isBuying;
+        onChange?.Invoke();
     }
 
     public bool IsBuyingMode() 
@@ -123,8 +114,10 @@ public class Shop : Interactable
 
     public bool HasSufficientFunds()
     {
-        if(!isBuyingMode) return true;
-        Purse purse = currentShopper.GetComponent<Player>().purse;
+        Purse purse = null;
+        if (!isBuyingMode) return true;
+        if(currentShopper != null)
+            purse = currentShopper.GetComponent<Player>().purse;
         if (purse == null)
         {
             return false;
@@ -183,10 +176,7 @@ public class Shop : Interactable
                 }
             }
         }
-        if (onChange != null) 
-        {
-            onChange();
-        }
+        onChange?.Invoke();
     }
 
     public float TransactionTotal() 
@@ -222,10 +212,7 @@ public class Shop : Interactable
             transaction.Remove(item);
         }
 
-        if(onChange != null) 
-        {
-            onChange();
-        }
+        onChange?.Invoke();
     }
 
     override public void Interaction()
@@ -256,7 +243,12 @@ public class Shop : Interactable
 
     private int CountItemInInventory(InventoryItem item)
     {
-        Inventory inventory = currentShopper.GetComponent<Player>().inventory;
+        Inventory inventory = null;
+        if (currentShopper != null) 
+        {
+            inventory = currentShopper.GetComponent<Player>().inventory;
+        }
+        
         if (inventory == null) 
         {
             return 0;

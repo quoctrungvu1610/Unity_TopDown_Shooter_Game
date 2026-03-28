@@ -779,6 +779,7 @@ GameObject:
   - component: {fileID: 1404165046672058289}
   - component: {fileID: 3019940619348455206}
   - component: {fileID: 6177326713128463577}
+  - component: {fileID: 6456168335874184652}
   m_Layer: 0
   m_Name: Dialogue
   m_TagString: Untagged
@@ -906,6 +907,19 @@ MonoBehaviour:
   choicePrefab: {fileID: 1386415286313146693, guid: f0c5a3032ea5fd447baf933643355045, type: 3}
   quitButton: {fileID: 2145878090711146785}
   conversantName: {fileID: 5735602025502643475}
+--- !u!114 &6456168335874184652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8612746719518177659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f448b1b0e255dd041b2a15e7ac1ed541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelName: 3
 --- !u!1001 &4459505443031874654
 PrefabInstance:
   m_ObjectHideFlags: 0

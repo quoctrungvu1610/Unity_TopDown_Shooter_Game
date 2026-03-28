@@ -84,7 +84,7 @@ public class DragItem<T> : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (eventData.pointerEnter)
         {
             var container = eventData.pointerEnter.GetComponentInParent<IDragDestination<T>>();
-            Debug.Log("Container: " + container);
+            //Debug.Log("Container: " + container);
 
             return container;
         }

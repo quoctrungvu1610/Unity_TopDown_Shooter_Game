@@ -11,9 +11,6 @@ public class Player : MonoBehaviour
     public PlayerWeaponController weapon { get; private set; }
     public PlayerWeaponVisual weaponVisuals { get; private set; }
     public PlayerInteraction interaction { get; private set; }
-    //OLD
-    //public Player_Health health { get; private set; }
-    //NEW
     public PlayerHealth health { get; private set; }
     public Animator anim { get; private set; }
     public Equipment equipment { get; private set; }
@@ -24,6 +21,7 @@ public class Player : MonoBehaviour
     public Shopper shopper { get; private set; }
     public Inventory inventory { get; private set; }
     public Purse purse { get; private set; }
+    public Looter looter { get; private set; }
 
     private void Awake()
     {
@@ -41,6 +39,7 @@ public class Player : MonoBehaviour
         shopper = GetComponent<Shopper>();
         inventory = GetComponent<Inventory>();
         purse = GetComponent<Purse>();
+        looter = GetComponent<Looter>();
     }
 
     private void OnEnable()

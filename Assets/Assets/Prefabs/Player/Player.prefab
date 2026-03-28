@@ -20370,7 +20370,6 @@ GameObject:
   - component: {fileID: 109798571906203982}
   - component: {fileID: 6617863880685306087}
   - component: {fileID: 5794408278016006044}
-  - component: {fileID: 1624866091581534423}
   - component: {fileID: 2390132936839925060}
   - component: {fileID: 6601645073173118743}
   - component: {fileID: 8051018118742455642}
@@ -20380,6 +20379,7 @@ GameObject:
   - component: {fileID: 83000158871782201}
   - component: {fileID: 6666699429821906009}
   - component: {fileID: 4645586454642395971}
+  - component: {fileID: 2305476137375336125}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -20468,7 +20468,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerBody: {fileID: 342842633165474910}
-  ragdoll: {fileID: 0}
 --- !u!114 &8439430042351271971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20587,7 +20586,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c719be483eeeeaa46afef411540ca051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentActiveLootBox: {fileID: 0}
 --- !u!114 &8268790439997933758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20652,22 +20650,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 082d66d033c0eb444a3b1e7e2c255731, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1624866091581534423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1968484276768461210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01c845b52a8dd374bbace0f9b20b3102, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryUI: {fileID: 0}
-  playerUI: {fileID: 0}
-  lootBoxUI: {fileID: 0}
-  equipmentUI: {fileID: 0}
 --- !u!114 &2390132936839925060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27169,6 +27151,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingBalane: 1000
+--- !u!114 &2305476137375336125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968484276768461210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 323fb41890d33084db0f74a15144497c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentActivelootBox: {fileID: 0}
 --- !u!1 &2015502850226712841
 GameObject:
   m_ObjectHideFlags: 0

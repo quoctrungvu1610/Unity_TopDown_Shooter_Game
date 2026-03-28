@@ -18,15 +18,8 @@ public class Shopper : MonoBehaviour
 
         activeShop = shop;
 
-        if(activeShop != null) 
-        {
-            activeShop.SetShopper(this);
-        }
 
-        if (activeShopChange != null)
-        {
-            activeShopChange();
-        } 
+        activeShopChange?.Invoke();
     }
 
     public Shop GetActiveShop()

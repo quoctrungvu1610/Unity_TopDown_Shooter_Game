@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RowUI : MonoBehaviour
+public class RowUI : MonoBehaviour, IItemHolder
 {
     [SerializeField] private TextMeshProUGUI nameField;
     [SerializeField] private Image iconField;
@@ -45,5 +45,10 @@ public class RowUI : MonoBehaviour
     {
 
         currentShop.AddToTransaction(item.GetInventoryItem(), -1);
+    }
+
+    public InventoryItem GetItem()
+    {
+        return item.GetInventoryItem();
     }
 }

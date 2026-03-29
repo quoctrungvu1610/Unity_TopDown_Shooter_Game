@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 4942854810170717189}
   - component: {fileID: 9214385166348656498}
   - component: {fileID: 5308193330517202831}
+  - component: {fileID: 3240628471843853672}
   m_Layer: 0
   m_Name: Shop Item Slot
   m_TagString: Untagged
@@ -279,6 +280,20 @@ MonoBehaviour:
   addButton: {fileID: 3227345490174816603}
   removeButton: {fileID: 2813544436347191153}
   quantityField: {fileID: 5551155408661312054}
+--- !u!114 &3240628471843853672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453626774730353136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053b030f8aeb2c64686699d4b9320be6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltipPrefab: {fileID: 3853473795847930971, guid: ce76196b2aebee7438087c08380c674a, type: 3}
+  weaponTooltipPrefab: {fileID: 3853473795847930971, guid: f433dd4c5bed26b4ea43fccaa98cbd5d, type: 3}
 --- !u!1 &724997253263550999
 GameObject:
   m_ObjectHideFlags: 0

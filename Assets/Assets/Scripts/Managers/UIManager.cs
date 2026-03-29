@@ -11,7 +11,6 @@ public class UIManager : MonoBehaviour
 
     private Dictionary<PanelName, UIPanel> panelDictionary = new Dictionary<PanelName, UIPanel>();
 
-    // Stack để lưu trữ thứ tự các Panel đã mở
     private Stack<PanelName> openPanelsStack = new Stack<PanelName>();
 
     private void Awake()
@@ -38,7 +37,6 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        // Kiểm tra phím ESC mỗi khung hình
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             CloseLastPanel();

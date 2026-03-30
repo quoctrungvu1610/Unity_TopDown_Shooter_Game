@@ -12,10 +12,11 @@ using TMPro;
 public class InventoryItemIcon : MonoBehaviour
 {
     //CONFIG DATA
-    [SerializeField] GameObject textContainer = null;
-    [SerializeField] GameObject itemNameTextContainer = null;
-    [SerializeField] TextMeshProUGUI itemNumber = null;
-    [SerializeField] TextMeshProUGUI itemName = null;
+    [SerializeField] private GameObject textContainer = null;
+    [SerializeField] private GameObject itemNameTextContainer = null;
+    [SerializeField] private TextMeshProUGUI itemNumber = null;
+    [SerializeField] private TextMeshProUGUI itemName = null;
+    [SerializeField] private GameObject backImage = null;
     // PUBLIC
     public void SetItem(InventoryItem item)
     {
@@ -27,11 +28,15 @@ public class InventoryItemIcon : MonoBehaviour
         var iconImage = GetComponent<Image>();
         if (item == null)
         {
+            if(backImage != null)
+                backImage.SetActive(true);
             iconImage.enabled = false;
             itemNameTextContainer.SetActive(false);
         }
         else
         {
+            if(backImage != null)
+                backImage.SetActive(false);
             iconImage.enabled = true;
             iconImage.sprite = item.GetIcon();
             itemNameTextContainer.SetActive(true);

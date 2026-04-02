@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class GridData
 {
     Dictionary<Vector3Int, PlacementData> placedObjects = new();
-    public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectSize, int ID, int placeObjectIndex) 
+    public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectSize, string ID, int placeObjectIndex) 
     {
         List<Vector3Int> positionToOccupy = CalculatePostions(gridPosition, objectSize);
         PlacementData data = new PlacementData(positionToOccupy, ID, placeObjectIndex);
@@ -70,13 +70,13 @@ public class GridData
 public class PlacementData 
 {
     public List<Vector3Int> occupiedPositions;
-    public int ID { get; private set; }
+    public string ID { get; private set; }
     public int PLacedObjectIndex { get; private set; }
 
-    public PlacementData(List<Vector3Int> occupiedPositions, int iD, int pLacedObjectIndex)
+    public PlacementData(List<Vector3Int> occupiedPositions, string ID, int pLacedObjectIndex)
     {
         this.occupiedPositions = occupiedPositions;
-        ID = iD;
+        this.ID = ID;
         PLacedObjectIndex = pLacedObjectIndex;
     }
 }

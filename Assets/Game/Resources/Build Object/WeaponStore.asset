@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18501131284b4b44bcc6c3dd0e408db, type: 3}
+  m_Name: WeaponStore
+  m_EditorClassIdentifier: 
+  objectID: a03704f5-402f-4c7a-b840-03b002c66c70
+  objectName: Weapon Store
+  objectDescription: Gun, Ammo, and everything to kill
+  objectPrice: 500
+  objectIcon: {fileID: 21300000, guid: e77ae4c855435da4388f2652475a3b1b, type: 3}
+  objectSize: {x: 5, y: 6}
+  objectPrefab: {fileID: 414948825042525247, guid: 78fc61046fa048845bdf4244d3b11180, type: 3}
+  ingredients:
+  - item: {fileID: 11400000, guid: e29ba57924cbc8a4daa617c3f854ea63, type: 2}
+    quantity: 1
+  - item: {fileID: 11400000, guid: b4419573a4fc7fc41949f075ec98ab43, type: 2}
+    quantity: 1
+  - item: {fileID: 11400000, guid: 78e0c17ca76b5024aadcdc484f9db3f6, type: 2}
+    quantity: 1

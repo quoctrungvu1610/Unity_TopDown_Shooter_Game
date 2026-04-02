@@ -9,36 +9,36 @@ public class PlacementState : IBuildingState
     private Vector2Int originalSize;
     private Vector2Int activeSize;
 
-    private int ID;
+    private string ID;
     private Grid grid;
     private PreviewSystem previewSystem;
-    private ObjectDatabaseSO database;
+    private BuildObjectData data;
     private GridData floorData;
     private GridData furnitureData;
     private ObjectPlacer objectPlacer;
 
-    public PlacementState(int iD,
+    public PlacementState(string ID,
                           Grid grid,
                           PreviewSystem previewSystem,
-                          ObjectDatabaseSO database,
+                          BuildObjectData data,
                           GridData floorData,
                           GridData furnitureData,
                           ObjectPlacer objectPlacer)
     {
-        this.ID = iD;
+        this.ID = ID;
         this.grid = grid;
         this.previewSystem = previewSystem;
-        this.database = database;
+        this.data = data;
         this.floorData = floorData;
         this.furnitureData = furnitureData;
         this.objectPlacer = objectPlacer;
 
-        selectedObjectIndex = database.objectsData.FindIndex(data => data.ID == ID);
-        if (selectedObjectIndex > -1)
+        //selectedObjectIndex = database.objectsData.FindIndex(data => data.ID == ID);
+        if (data != null)
         {
-            originalSize = database.objectsData[selectedObjectIndex].Size;
+            originalSize = data.GetObjectSize();
             activeSize = originalSize;
-            previewSystem.StartShowingPlacementPreview(database.objectsData[selectedObjectIndex].Prefab, originalSize);
+            previewSystem.StartShowingPlacementPreview(data.GetObjectPrefab(), originalSize);
             previewSystem.UpdateRotation(0, activeSize);
         }
     }
@@ -65,12 +65,12 @@ public class PlacementState : IBuildingState
 
     public void OnAction(Vector3Int gridPosition)
     {
-        bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
+        bool placementValidity = CheckPlacementValidity(gridPosition);
         if (placementValidity == false) return;
 
         Vector3 worldPosition = grid.CellToWorld(gridPosition);
         int index = objectPlacer.PlaceObject(
-            database.objectsData[selectedObjectIndex].Prefab,
+            data.GetObjectPrefab(),
             worldPosition,
             Quaternion.Euler(0, currentRotationAngle, 0)
         );
@@ -78,23 +78,23 @@ public class PlacementState : IBuildingState
         GameObject placedObject = objectPlacer.GetPlacedObject(index);
         previewSystem.AlignAnyObjectToGridCenter(placedObject, activeSize, worldPosition);
 
-        GridData selectedData = database.objectsData[selectedObjectIndex].ID == 0 ? floorData : furnitureData;
+        GridData selectedData = data.GetObjectID() == "0" ? floorData : furnitureData;
         selectedData.AddObjectAt(
             gridPosition,
             activeSize,
-            database.objectsData[selectedObjectIndex].ID,
+            data.GetObjectID(),
             index
         );
     }
 
-    private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
+    private bool CheckPlacementValidity(Vector3Int gridPosition)
     {
-        GridData selectedData = ID == 0 ? floorData : furnitureData;
+        GridData selectedData = ID == "0" ? floorData : furnitureData;
         return selectedData.CanPlaceObjectAt(gridPosition, activeSize);
     }
 
     public void UpdateState(Vector3Int gridPosition)
     {
-        previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), CheckPlacementValidity(gridPosition, selectedObjectIndex));
+        previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), CheckPlacementValidity(gridPosition));
     }
 }

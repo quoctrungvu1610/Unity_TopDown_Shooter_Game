@@ -373,7 +373,7 @@ GameObject:
   - component: {fileID: 6709252116116312931}
   m_Layer: 0
   m_Name: PlacementSystem
-  m_TagString: Untagged
+  m_TagString: PlacementSystem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -407,7 +407,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputManager: {fileID: 2505040864962124392}
   grid: {fileID: 3876411447288576374}
-  dataBase: {fileID: 11400000, guid: 12f84ab0a629f794ebabd398dd66bc0b, type: 2}
   gridVisualization: {fileID: 4292812216288705685}
   preview: {fileID: 802531729458244025}
   objectPlacer: {fileID: 8325239455641519977}

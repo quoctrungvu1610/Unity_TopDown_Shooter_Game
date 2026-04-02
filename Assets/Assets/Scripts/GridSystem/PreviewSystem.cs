@@ -56,6 +56,14 @@ public class PreviewSystem : MonoBehaviour
             }
             renderer.materials = materials;
         }
+
+        foreach (Transform child in previewObject.transform) 
+        {
+            if (child.GetComponent<Collider>() != null) 
+            {
+                child.GetComponent<Collider>().enabled = false;
+            }
+        }
     }
 
     public void StopShowingPreview()

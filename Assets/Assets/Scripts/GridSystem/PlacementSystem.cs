@@ -8,7 +8,6 @@ public class PlacementSystem : MonoBehaviour
     [SerializeField] private InputManager inputManager;
 
     [SerializeField] private Grid grid;
-    [SerializeField] private ObjectDatabaseSO dataBase;
     [SerializeField] private GameObject gridVisualization;
     [SerializeField] private PreviewSystem preview;
     [SerializeField] private ObjectPlacer objectPlacer;
@@ -25,12 +24,12 @@ public class PlacementSystem : MonoBehaviour
         furnitureData = new GridData();
     }
 
-    public void StartPlacement(int ID)
+    public void StartPlacement(BuildObjectData objectData)
     {
         StopPlacement();
         gridVisualization.SetActive(true);
 
-        PlacementState newState = new PlacementState(ID, grid, preview, dataBase, floorData, furnitureData, objectPlacer);
+        PlacementState newState = new PlacementState(objectData.GetObjectID(), grid, preview, objectData, floorData, furnitureData, objectPlacer);
         buildingState = newState;
 
         inputManager.OnClicked += PlaceStructure;

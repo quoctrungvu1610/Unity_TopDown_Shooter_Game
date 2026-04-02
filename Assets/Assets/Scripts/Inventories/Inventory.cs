@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
+[System.Serializable]
 public struct InventorySlot
 {
     public InventoryItem item;
@@ -23,7 +26,7 @@ public class Inventory : MonoBehaviour, ISaveable, IPredicateEvaluator
     [SerializeField] int inventorySize = 16;
 
     // STATE
-    InventorySlot[] slots;
+    [SerializeField] InventorySlot[] slots;
 
     // PUBLIC
 
@@ -141,6 +144,18 @@ public class Inventory : MonoBehaviour, ISaveable, IPredicateEvaluator
         return false;
     }
 
+    public int GetItemNumber(InventoryItem item) 
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (object.ReferenceEquals(slots[i].item, item))
+            {
+                return slots[i].number;
+            }
+        }
+        return 0;
+    }
+
     /// <summary>
     /// Return the item type in the given slot.
     /// </summary>
@@ -171,6 +186,37 @@ public class Inventory : MonoBehaviour, ISaveable, IPredicateEvaluator
         }
     }
 
+    public void RemoveItem(InventoryItem item, int number) 
+    {
+        Debug.Log("Call Remove Item");
+        for (int i = 0; i < slots.Length; i++) 
+        {
+            if (object.ReferenceEquals(slots[i].item, item)) 
+            {
+                slots[i].number -= number;
+                if (slots[i].number <= 0) 
+                {
+                    slots[i].number = 0;
+                    slots[i].item = null;
+                }
+            
+            }
+        }
+        inventoryUpdated?.Invoke();
+    }
+
+    public bool CheckValue(InventoryItem item, int number) 
+    {
+        foreach (var slotItem in slots) 
+        {
+            if (object.ReferenceEquals(slotItem.item, item)) 
+            {
+                return slotItem.number >= number;
+            }
+        }
+        return false;
+    }
+
     /// <summary>
     /// Will add an item to the given slot if possible. If there is already
     /// a stack of this type, it will add to the existing stack. Otherwise,
@@ -181,6 +227,7 @@ public class Inventory : MonoBehaviour, ISaveable, IPredicateEvaluator
     /// <returns>True if the item was added anywhere in the inventory.</returns>
     public bool AddItemToSlot(int slot, InventoryItem item, int number)
     {
+        Debug.Log($"Add Item To Slot name : {item.name} - number : {number}");
         if (slots[slot].item != null)
         {
             return AddToFirstEmptySlot(item, number); ;
@@ -231,6 +278,7 @@ public class Inventory : MonoBehaviour, ISaveable, IPredicateEvaluator
         {
             i = FindEmptySlot();
         }
+        Debug.Log($"Find Slot name : {item.name} - slot number : {i}");
         return i;
     }
 
@@ -273,9 +321,9 @@ public class Inventory : MonoBehaviour, ISaveable, IPredicateEvaluator
 
     [System.Serializable]
     private struct InventorySlotRecord
-        {
-            public string itemID;
-            public int number;
+    {
+        public string itemID;
+        public int number;
     }
 
 

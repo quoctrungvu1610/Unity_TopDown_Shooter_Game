@@ -6,6 +6,7 @@ public class ShowHideUI : MonoBehaviour
 {
     [SerializeField] KeyCode inventoryToggleKey = KeyCode.Escape;
     [SerializeField] KeyCode playerEquipmentToggleKey = KeyCode.F2;
+    [SerializeField] KeyCode buildSystemToggleKey = KeyCode.F3;
 
     void Update()
     {
@@ -16,6 +17,10 @@ public class ShowHideUI : MonoBehaviour
         if (Input.GetKeyDown(playerEquipmentToggleKey))
         {
             Toggle(PanelName.PlayerEquipment);
+        }
+        if (Input.GetKeyDown(buildSystemToggleKey))
+        {
+            Toggle(PanelName.BuildingPanel);
         }
     }
 

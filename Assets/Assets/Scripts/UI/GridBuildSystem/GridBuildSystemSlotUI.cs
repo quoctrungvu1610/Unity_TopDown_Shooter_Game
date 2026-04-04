@@ -9,6 +9,7 @@ public class GridBuildSystemSlotUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI buildObjectName;
     [SerializeField] private TextMeshProUGUI buildObjectDescription;
     [SerializeField] private TextMeshProUGUI buildObjectPrice;
+    [SerializeField] private TextMeshProUGUI placedObjectCount;
     [SerializeField] private Image buildObjectIcon;
     [SerializeField] private Image backGroundImage;
     [SerializeField] private Image lockImage;
@@ -30,7 +31,7 @@ public class GridBuildSystemSlotUI : MonoBehaviour
         placeButton.onClick.AddListener(PlaceObject);
     }
 
-    public void Setup(BuildObjectData data, bool isUnlocked, bool isUnlockable, BuildObjectStore store) 
+    public void Setup(BuildObjectData data, bool isUnlocked, bool isUnlockable, BuildObjectStore store, bool canPlace) 
     {
         this.buildObjectData = data;
         this.buildObjectStore = store;
@@ -38,13 +39,12 @@ public class GridBuildSystemSlotUI : MonoBehaviour
         buildObjectName.text = data.GetObjectName();
         buildObjectDescription.text = data.GetObjectDescription();
         buildObjectPrice.text = "$" + data.GetObjectPrice().ToString();
+        placedObjectCount.text = $"Max Placed: {buildObjectStore.GetPlacedObjectsCount(data)}/{data.GetMaxObjectToPlace()}";
         buildObjectIcon.sprite = data.GetObjectIcon();
-
         backGroundImage.color = isUnlocked ? unlockedColor : Color.white;
-
         unlockButton.gameObject.SetActive(!isUnlocked);
-
         unlockButton.interactable = isUnlockable ? true : false;
+        placeButton.interactable = isUnlocked && canPlace ? true : false;
         lockImage.gameObject.SetActive(!isUnlockable);
         clickToUnlockText.gameObject.SetActive(isUnlockable);
 
@@ -67,8 +67,11 @@ public class GridBuildSystemSlotUI : MonoBehaviour
 
     private void PlaceObject() 
     {
+        if (buildObjectStore.CheckIfCanPlaceObject(buildObjectData) == false) return;
         if (buildObjectData == null) return;
         buildObjectStore.GetPlacementSystem().StartPlacement(buildObjectData);
+        //TO DO
+        buildObjectStore.AddToPlacedObject(buildObjectData);
     
     }
 }

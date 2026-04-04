@@ -83,7 +83,8 @@ public class PlacementState : IBuildingState
             gridPosition,
             activeSize,
             data.GetObjectID(),
-            index
+            index,
+            currentRotationAngle
         );
     }
 

@@ -21,6 +21,7 @@ public class BuildObjectData : ScriptableObject, ISerializationCallbackReceiver
     [SerializeField] private Vector2Int objectSize;
     [SerializeField] private GameObject objectPrefab;
     [SerializeField] private List<ObjectIngredient> ingredients;
+    [SerializeField] private int maxObjectToPlace = 1;
 
     static Dictionary<string, BuildObjectData> buildObjectLookupCache;
 
@@ -84,6 +85,11 @@ public class BuildObjectData : ScriptableObject, ISerializationCallbackReceiver
     public IEnumerable<ObjectIngredient> GetObjectIngredients() 
     {
         return ingredients;
+    }
+
+    public int GetMaxObjectToPlace() 
+    {
+        return maxObjectToPlace;
     }
 
 

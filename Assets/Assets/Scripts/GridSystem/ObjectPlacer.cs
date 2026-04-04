@@ -33,4 +33,16 @@ public class ObjectPlacer : MonoBehaviour
         }
         return null;
     }
+
+    public void ClearAll()
+    {
+        foreach (var obj in placedGameObject)
+        {
+            if (obj != null)
+            {
+                Destroy(obj);
+            }
+        }
+        placedGameObject.Clear();
+    }
 }

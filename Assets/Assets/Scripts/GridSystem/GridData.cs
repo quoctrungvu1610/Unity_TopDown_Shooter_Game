@@ -7,10 +7,10 @@ using UnityEngine.UIElements;
 public class GridData
 {
     Dictionary<Vector3Int, PlacementData> placedObjects = new();
-    public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectSize, string ID, int placeObjectIndex) 
+    public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectSize, string ID, int placeObjectIndex, int rotation) 
     {
         List<Vector3Int> positionToOccupy = CalculatePostions(gridPosition, objectSize);
-        PlacementData data = new PlacementData(positionToOccupy, ID, placeObjectIndex);
+        PlacementData data = new PlacementData(positionToOccupy, ID, placeObjectIndex, rotation);
 
         foreach (var pos in positionToOccupy) 
         {
@@ -65,6 +65,11 @@ public class GridData
             placedObjects.Remove(pos);
         }
     }
+
+    public Dictionary<Vector3Int, PlacementData> GetPlacedObjects()
+    {
+        return placedObjects;
+    }
 }
 
 public class PlacementData 
@@ -72,11 +77,13 @@ public class PlacementData
     public List<Vector3Int> occupiedPositions;
     public string ID { get; private set; }
     public int PLacedObjectIndex { get; private set; }
+    public int Rotation { get; private set; }
 
-    public PlacementData(List<Vector3Int> occupiedPositions, string ID, int pLacedObjectIndex)
+    public PlacementData(List<Vector3Int> occupiedPositions, string ID, int pLacedObjectIndex, int rotation)
     {
         this.occupiedPositions = occupiedPositions;
         this.ID = ID;
         PLacedObjectIndex = pLacedObjectIndex;
+        this.Rotation = rotation;
     }
 }

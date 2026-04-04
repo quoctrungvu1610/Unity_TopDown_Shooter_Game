@@ -38,7 +38,7 @@ public class GridBuildSystemUI : MonoBehaviour
         foreach (var data in buildObjectStore.GetUnlockedObjects()) 
         {
             GridBuildSystemSlotUI slot = Instantiate(slotPrefab, slotsParent);
-            slot.Setup(data.Key, data.Value, buildObjectStore.CanUnlockBuildObject(data.Key), buildObjectStore);
+            slot.Setup(data.Key, data.Value, buildObjectStore.CanUnlockBuildObject(data.Key), buildObjectStore, buildObjectStore.CheckIfCanPlaceObject(data.Key));
         }
     }
 

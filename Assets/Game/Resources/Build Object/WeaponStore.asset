@@ -26,3 +26,4 @@ MonoBehaviour:
     quantity: 1
   - item: {fileID: 11400000, guid: 78e0c17ca76b5024aadcdc484f9db3f6, type: 2}
     quantity: 1
+  maxObjectToPlace: 10

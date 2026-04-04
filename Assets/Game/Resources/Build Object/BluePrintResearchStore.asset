@@ -20,3 +20,4 @@ MonoBehaviour:
   objectSize: {x: 5, y: 6}
   objectPrefab: {fileID: 5637591037214692222, guid: 9f766e9fb91f8e448ba096f028729f84, type: 3}
   ingredients: []
+  maxObjectToPlace: 4

@@ -9,6 +9,7 @@ public class BuildObjectStore : MonoBehaviour, ISaveable
     private PlacementSystem placementSystem;
     private Inventory inventory;
     private Dictionary<BuildObjectData, bool> unlockedObjects = new Dictionary<BuildObjectData, bool>();
+    [SerializeField] private List<BuildObjectData> placedObjects = new List<BuildObjectData>();
 
     public event Action buildStoreUpdated;
 
@@ -87,7 +88,31 @@ public class BuildObjectStore : MonoBehaviour, ISaveable
         {
             RemoveIngredient(objectData);
         }
+
         buildStoreUpdated?.Invoke();
+    }
+
+    public void AddToPlacedObject(BuildObjectData objectData) 
+    {
+        placedObjects.Add(objectData);
+        buildStoreUpdated?.Invoke();
+    }
+
+    public bool CheckIfCanPlaceObject(BuildObjectData objectData) 
+    {
+        if(!unlockedObjects.ContainsKey(objectData)) 
+        {
+            return false;
+        }
+
+        int placedObjectCount = GetPlacedObjectsCount(objectData);
+
+        if(placedObjectCount < objectData.GetMaxObjectToPlace()) 
+        {
+            return true;
+        }
+        return false;
+
     }
 
 
@@ -128,11 +153,17 @@ public class BuildObjectStore : MonoBehaviour, ISaveable
         return placementSystem;
     }
 
+    public int GetPlacedObjectsCount(BuildObjectData objectData) 
+    {
+        return placedObjects.Where(obj => obj == objectData).Count();
+    }
+
     [System.Serializable]
     private struct BuildObjectRecord 
     {
         public string ID;
         public bool isUnlocked;
+        public int placedCount;
     }
 
     public object CaptureState()
@@ -143,6 +174,9 @@ public class BuildObjectStore : MonoBehaviour, ISaveable
             BuildObjectRecord record = new BuildObjectRecord();
             record.ID = obj.Key.GetObjectID();
             record.isUnlocked = obj.Value;
+
+            int placedObjectCount = GetPlacedObjectsCount(obj.Key);
+            record.placedCount = placedObjectCount;
 
             records.Add(record);
         }
@@ -156,10 +190,14 @@ public class BuildObjectStore : MonoBehaviour, ISaveable
         foreach (var record in records) 
         {
             unlockedObjects[BuildObjectData.GetFromID(record.ID)] = record.isUnlocked;
+            int placedCount = record.placedCount;
+            if (placedCount > 0)
+            {
+                for (int i = 0; i < placedCount; i++)
+                {
+                    placedObjects.Add(BuildObjectData.GetFromID(record.ID));
+                }
+            }
         }
     }
-    //TODO
-
-    //Them Add Object Logic
-    //Sua lai logic grid place
 }

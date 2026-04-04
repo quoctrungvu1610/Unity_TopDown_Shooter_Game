@@ -371,6 +371,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2444207087536073706}
   - component: {fileID: 6709252116116312931}
+  - component: {fileID: 4383612875772434142}
   m_Layer: 0
   m_Name: PlacementSystem
   m_TagString: PlacementSystem
@@ -410,6 +411,19 @@ MonoBehaviour:
   gridVisualization: {fileID: 4292812216288705685}
   preview: {fileID: 802531729458244025}
   objectPlacer: {fileID: 8325239455641519977}
+--- !u!114 &4383612875772434142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7105190082182400851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f14388ffac8d8447ad9ffda65ca0c0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueIdentifier: 
 --- !u!1001 &2431194112942275667
 PrefabInstance:
   m_ObjectHideFlags: 0

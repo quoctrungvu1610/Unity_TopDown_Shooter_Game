@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c18501131284b4b44bcc6c3dd0e408db, type: 3}
-  m_Name: BluePrintResearchStore
+  m_Name: RepairStation
   m_EditorClassIdentifier: 
+  objectType: 4
   objectID: 902b4f17-e5d7-4ac7-aaee-900a7fc18178
   objectName: Build Research Store
   objectDescription: Use this object to research and add new designs to Build System

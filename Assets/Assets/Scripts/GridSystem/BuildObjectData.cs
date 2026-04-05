@@ -9,10 +9,20 @@ public struct ObjectIngredient
     public InventoryItem item;
     public int quantity;
 }
+public enum BuildObjectType 
+{
+    None,
+    WeaponStation,
+    BlueprintResearchStation,
+    ArmorStation,
+    RepairStation,
+
+}
 
 [CreateAssetMenu(menuName = ("Build/Build Object"))]
 public class BuildObjectData : ScriptableObject, ISerializationCallbackReceiver
 {
+    [SerializeField] private BuildObjectType objectType = BuildObjectType.None;
     [SerializeField] private string objectID;
     [SerializeField] private string objectName;
     [SerializeField] private string objectDescription;
@@ -90,6 +100,10 @@ public class BuildObjectData : ScriptableObject, ISerializationCallbackReceiver
     public int GetMaxObjectToPlace() 
     {
         return maxObjectToPlace;
+    }
+    public BuildObjectType GetBuildObjectType() 
+    {
+        return objectType;
     }
 
 

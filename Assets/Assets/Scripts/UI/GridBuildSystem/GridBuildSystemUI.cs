@@ -8,16 +8,27 @@ public class GridBuildSystemUI : MonoBehaviour
     [SerializeField] private Transform slotsParent;
     [SerializeField] private GridBuildSystemSlotUI slotPrefab;
     [SerializeField] private Button quitButton;
+    [SerializeField] private Button removeStationButton;
 
     [SerializeField] private BuildObjectStore buildObjectStore;
     private Inventory inventory;
     private void Awake()
     {
-        quitButton.onClick.AddListener(Close);
         inventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
-        inventory.inventoryUpdated += Redraw;
-        if(buildObjectStore != null )
+
+        quitButton.onClick.AddListener(Close);
+        removeStationButton.onClick.AddListener(RemoveStation);
+
+        if(inventory != null) 
+        {
+            inventory.inventoryUpdated += Redraw;
+        }
+  
+        if (buildObjectStore != null) 
+        {
             buildObjectStore.buildStoreUpdated += Redraw;
+            buildObjectStore.GetPlacementSystem().GetObjectPlacer().objectPlacerUpdated += Redraw;
+        }
     }
 
     private void Start()
@@ -40,6 +51,11 @@ public class GridBuildSystemUI : MonoBehaviour
             GridBuildSystemSlotUI slot = Instantiate(slotPrefab, slotsParent);
             slot.Setup(data.Key, data.Value, buildObjectStore.CanUnlockBuildObject(data.Key), buildObjectStore, buildObjectStore.CheckIfCanPlaceObject(data.Key));
         }
+    }
+
+    private void RemoveStation() 
+    {
+        buildObjectStore.GetPlacementSystem().StartRemoving();
     }
 
     private void Close() 

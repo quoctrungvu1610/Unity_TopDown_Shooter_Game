@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Quest;
 
 public class RemovingState : IBuildingState
 {
@@ -73,6 +74,32 @@ public class RemovingState : IBuildingState
     public void UpdateState(Vector3Int gridPosition)
     {
         bool validity = CheckIfSelectionIsValid(gridPosition);
-        previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), validity);
+        Vector2Int objectSize = Vector2Int.one;
+        Vector3Int originPos = gridPosition;
+        if (validity)
+        {
+            // 1. Tìm xem data nào chứa object này
+            GridData selectedData = null;
+            if (furnitureData.CanPlaceObjectAt(gridPosition, Vector2Int.one) == false)
+                selectedData = furnitureData;
+            else if (floorData.CanPlaceObjectAt(gridPosition, Vector2Int.one) == false)
+                selectedData = floorData;
+
+            if (selectedData != null)
+            {
+                // 2. Lấy vị trí gốc thực sự của object để indicator không bị nhảy lung tung
+                originPos = selectedData.GetObjectOrigin(gridPosition);
+
+                // 3. Lấy size (Mày cần cập nhật hàm GetObjectSizeAt như tao nói ở post trước nhé)
+                objectSize = selectedData.GetObjectSizeAt(gridPosition);
+            }
+        }
+
+        // Luôn update vị trí dựa trên originPos thay vì gridPosition của chuột
+        previewSystem.UpdatePosition(grid.CellToWorld(originPos), validity);
+
+        // Cập nhật size cho cái khung bao quanh
+        // (Trong PreviewSystem.cs, hàm PrepareCursor sẽ lo phần scale)
+        previewSystem.PrepareCursor(objectSize);
     }
 }

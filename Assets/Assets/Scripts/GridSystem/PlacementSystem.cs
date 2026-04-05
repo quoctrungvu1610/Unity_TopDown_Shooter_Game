@@ -186,7 +186,8 @@ public class PlacementSystem : MonoBehaviour, ISaveable
         int index = objectPlacer.PlaceObject(
             itemData.GetObjectPrefab(),
             worldPos,
-            Quaternion.Euler(0, objData.rotation, 0)
+            Quaternion.Euler(0, objData.rotation, 0),
+            itemData
         );
 
         GameObject placedObject = objectPlacer.GetPlacedObject(index);

@@ -33,7 +33,6 @@ public class PlacementState : IBuildingState
         this.furnitureData = furnitureData;
         this.objectPlacer = objectPlacer;
 
-        //selectedObjectIndex = database.objectsData.FindIndex(data => data.ID == ID);
         if (data != null)
         {
             originalSize = data.GetObjectSize();
@@ -42,9 +41,6 @@ public class PlacementState : IBuildingState
             previewSystem.UpdateRotation(0, activeSize);
         }
     }
-
-    public void RotateRight() => Rotate(1);
-    public void RotateLeft() => Rotate(-1);
 
     public void Rotate(int direction)
     {
@@ -60,7 +56,6 @@ public class PlacementState : IBuildingState
     public void EndState()
     {
         previewSystem.StopShowingPreview();
-
     }
 
     public void OnAction(Vector3Int gridPosition)
@@ -72,7 +67,8 @@ public class PlacementState : IBuildingState
         int index = objectPlacer.PlaceObject(
             data.GetObjectPrefab(),
             worldPosition,
-            Quaternion.Euler(0, currentRotationAngle, 0)
+            Quaternion.Euler(0, currentRotationAngle, 0),
+            data
         );
 
         GameObject placedObject = objectPlacer.GetPlacedObject(index);
@@ -91,6 +87,14 @@ public class PlacementState : IBuildingState
     private bool CheckPlacementValidity(Vector3Int gridPosition)
     {
         GridData selectedData = ID == "0" ? floorData : furnitureData;
+
+        // 1. Kiểm tra xem có nằm trong biên Grid không
+        if (!selectedData.IsInBounds(gridPosition, activeSize))
+        {
+            return false;
+        }
+
+        // 2. Kiểm tra xem có đè lên object nào đã có sẵn không
         return selectedData.CanPlaceObjectAt(gridPosition, activeSize);
     }
 

@@ -35,7 +35,7 @@ public class PreviewSystem : MonoBehaviour
         AlignMeshToGridCenter(size);
     }
 
-    private void PrepareCursor(Vector2Int size)
+    public void PrepareCursor(Vector2Int size)
     {
         if (size.x > 0 && size.y > 0)
         {
@@ -103,9 +103,9 @@ public class PreviewSystem : MonoBehaviour
 
     private void ApplyFeedbackToCursor(bool validity)
     {
-        Color c = validity ? Color.white : Color.red;
+        Color c = validity ? Color.green : Color.red;
 
-        c.a = 0.5f;
+        c.a = 0.8f;
         cellIndicatorRenderer.material.color = c;
     }
 
@@ -127,6 +127,11 @@ public class PreviewSystem : MonoBehaviour
         cellIndicator.SetActive(true);
         PrepareCursor(Vector2Int.one);
         ApplyFeedbackToCursor(false);
+    }
+
+    public void UpdateRemovePreview(Vector2Int size)
+    {
+        PrepareCursor(size);
     }
 
     public void UpdateRotation(int angle, Vector2Int activeSize)

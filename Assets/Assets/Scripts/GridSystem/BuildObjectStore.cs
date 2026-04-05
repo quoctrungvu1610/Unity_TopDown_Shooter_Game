@@ -9,7 +9,7 @@ public class BuildObjectStore : MonoBehaviour, ISaveable
     private PlacementSystem placementSystem;
     private Inventory inventory;
     private Dictionary<BuildObjectData, bool> unlockedObjects = new Dictionary<BuildObjectData, bool>();
-    [SerializeField] private List<BuildObjectData> placedObjects = new List<BuildObjectData>();
+
 
     public event Action buildStoreUpdated;
 
@@ -94,7 +94,6 @@ public class BuildObjectStore : MonoBehaviour, ISaveable
 
     public void AddToPlacedObject(BuildObjectData objectData) 
     {
-        placedObjects.Add(objectData);
         buildStoreUpdated?.Invoke();
     }
 
@@ -155,7 +154,7 @@ public class BuildObjectStore : MonoBehaviour, ISaveable
 
     public int GetPlacedObjectsCount(BuildObjectData objectData) 
     {
-        return placedObjects.Where(obj => obj == objectData).Count();
+        return placementSystem.GetObjectPlacer().placedGameObject.Where(obj => obj?.GetComponent<BuildObject>().GetBuildObjectType() == objectData.GetBuildObjectType()).Count();
     }
 
     [System.Serializable]
@@ -163,7 +162,6 @@ public class BuildObjectStore : MonoBehaviour, ISaveable
     {
         public string ID;
         public bool isUnlocked;
-        public int placedCount;
     }
 
     public object CaptureState()
@@ -174,9 +172,6 @@ public class BuildObjectStore : MonoBehaviour, ISaveable
             BuildObjectRecord record = new BuildObjectRecord();
             record.ID = obj.Key.GetObjectID();
             record.isUnlocked = obj.Value;
-
-            int placedObjectCount = GetPlacedObjectsCount(obj.Key);
-            record.placedCount = placedObjectCount;
 
             records.Add(record);
         }
@@ -190,14 +185,6 @@ public class BuildObjectStore : MonoBehaviour, ISaveable
         foreach (var record in records) 
         {
             unlockedObjects[BuildObjectData.GetFromID(record.ID)] = record.isUnlocked;
-            int placedCount = record.placedCount;
-            if (placedCount > 0)
-            {
-                for (int i = 0; i < placedCount; i++)
-                {
-                    placedObjects.Add(BuildObjectData.GetFromID(record.ID));
-                }
-            }
         }
     }
 }

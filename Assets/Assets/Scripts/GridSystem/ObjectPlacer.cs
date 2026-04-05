@@ -6,12 +6,16 @@ using UnityEngine;
 
 public class ObjectPlacer : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> placedGameObject = new List<GameObject>();
+    public List<GameObject> placedGameObject = new List<GameObject>();
 
-    public int PlaceObject(GameObject prefab, Vector3 position, Quaternion rotation)
+    public event Action objectPlacerUpdated;
+
+    public int PlaceObject(GameObject prefab, Vector3 position, Quaternion rotation, BuildObjectData buildData)
     {
         GameObject newObject = Instantiate(prefab, position, rotation);
         placedGameObject.Add(newObject);
+        objectPlacerUpdated?.Invoke();
+
         return placedGameObject.Count - 1;
     }
 
@@ -23,6 +27,8 @@ public class ObjectPlacer : MonoBehaviour
         }
         Destroy(placedGameObject[gameObjectIndex]);
         placedGameObject[gameObjectIndex] = null;
+
+        objectPlacerUpdated?.Invoke();
     }
 
     public GameObject GetPlacedObject(int index)
@@ -44,5 +50,6 @@ public class ObjectPlacer : MonoBehaviour
             }
         }
         placedGameObject.Clear();
+        objectPlacerUpdated?.Invoke();
     }
 }

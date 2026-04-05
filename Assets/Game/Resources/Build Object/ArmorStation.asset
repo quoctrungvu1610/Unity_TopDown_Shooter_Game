@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18501131284b4b44bcc6c3dd0e408db, type: 3}
+  m_Name: ArmorStation
+  m_EditorClassIdentifier: 
+  objectType: 3
+  objectID: 91ba02b0-c480-492a-9302-2662eee29134
+  objectName: Armor Station
+  objectDescription: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+    do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  objectPrice: 300
+  objectIcon: {fileID: 21300000, guid: 820d28edbe5b6c140ae3d5e6e68866bc, type: 3}
+  objectSize: {x: 5, y: 6}
+  objectPrefab: {fileID: 3484598534862231955, guid: ba6ea9ecee5d2b748a4d32a98dd35d13, type: 3}
+  ingredients:
+  - item: {fileID: 11400000, guid: 0f77455d1e8ee7448b836ac2b663bf0c, type: 2}
+    quantity: 1
+  - item: {fileID: 11400000, guid: b4419573a4fc7fc41949f075ec98ab43, type: 2}
+    quantity: 1
+  maxObjectToPlace: 1

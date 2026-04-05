@@ -6,6 +6,7 @@ using System;
 
 public class BuildObjectStore : MonoBehaviour, ISaveable
 {
+
     private PlacementSystem placementSystem;
     private Inventory inventory;
     private Dictionary<BuildObjectData, bool> unlockedObjects = new Dictionary<BuildObjectData, bool>();
@@ -21,8 +22,24 @@ public class BuildObjectStore : MonoBehaviour, ISaveable
 
     private void Start()
     {
-        BuildObjectData defaultData = BuildObjectData.GetFromID("902b4f17-e5d7-4ac7-aaee-900a7fc18178");
-        AddUnlockedObjects(defaultData, true);
+        List<string> defaultDatas = new List<string>() 
+        {
+            "902b4f17-e5d7-4ac7-aaee-900a7fc18178",
+            "91ba02b0-c480-492a-9302-2662eee29134",
+            "0f79714b-89d5-40b5-b45c-4f0819a40a20",
+            "cf3c0593-8374-45eb-8e29-4e051a80a017",
+            "defd98f2-8d07-432d-8756-82956200f84a",
+            "fdec0758-e02f-4ff2-912e-0c69a82f64bc",
+            "869d509d-e650-48f9-8bf6-3f01961d0a51"
+        };
+        foreach (var data in defaultDatas) 
+        {
+            BuildObjectData defaultData = BuildObjectData.GetFromID(data);
+            AddUnlockedObjects(defaultData, CanUnlockBuildObject(defaultData));
+        }
+        //BuildObjectData defaultData = BuildObjectData.GetFromID("902b4f17-e5d7-4ac7-aaee-900a7fc18178");
+        //AddUnlockedObjects(defaultData, true);
+        buildStoreUpdated?.Invoke();
     }
 
     private void Update()
@@ -55,7 +72,11 @@ public class BuildObjectStore : MonoBehaviour, ISaveable
 
     public bool CanUnlockBuildObject(BuildObjectData objectData) 
     {
-        if (objectData.GetObjectIngredients() == null) return true;
+        if (objectData.GetObjectIngredients().Count == 0) 
+        {
+            Debug.Log("True" + objectData.GetObjectName());
+            return true;
+        }
         bool canUnlock = false;
         foreach (var ingredient in objectData.GetObjectIngredients()) 
         {

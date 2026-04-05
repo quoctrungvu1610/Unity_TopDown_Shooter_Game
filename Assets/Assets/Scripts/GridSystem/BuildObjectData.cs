@@ -16,6 +16,11 @@ public enum BuildObjectType
     BlueprintResearchStation,
     ArmorStation,
     RepairStation,
+    Warehouse,
+    BuildStation,
+    VendingMachine_1,
+    VendingMachine_2,
+    BankStation,
 
 }
 
@@ -92,7 +97,7 @@ public class BuildObjectData : ScriptableObject, ISerializationCallbackReceiver
         return objectPrefab;
     }
 
-    public IEnumerable<ObjectIngredient> GetObjectIngredients() 
+    public List<ObjectIngredient> GetObjectIngredients() 
     {
         return ingredients;
     }

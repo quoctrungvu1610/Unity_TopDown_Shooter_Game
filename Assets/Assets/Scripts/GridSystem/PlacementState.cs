@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlacementState : IBuildingState
 {
     private int currentRotationAngle = 0;
-    private int selectedObjectIndex = -1;
+    //private int selectedObjectIndex = -1;
     private Vector2Int originalSize;
     private Vector2Int activeSize;
 

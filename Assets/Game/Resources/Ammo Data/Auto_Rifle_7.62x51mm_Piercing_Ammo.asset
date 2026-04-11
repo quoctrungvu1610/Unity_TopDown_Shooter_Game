@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ce384642b9b7fd4bb5ae9cdc3ff40c8, type: 3}
+  m_Name: Auto_Rifle_7.62x51mm_Piercing_Ammo
+  m_EditorClassIdentifier: 
+  bulletName: Auto Rifle 7.62x51mm Piercing Ammo
+  bulletType: 2
+  caliber: 7.62x51mm
+  bulletDamage: 0
+  bulletSpeed: 0
+  imactForce: 0
+  bulletPrefab: {fileID: 2013379177329433488, guid: 7ef1a95cf860b1242994a41c271c11fa, type: 3}

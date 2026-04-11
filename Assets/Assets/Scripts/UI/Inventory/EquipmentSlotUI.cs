@@ -40,12 +40,12 @@ public class EquipmentSlotUI : MonoBehaviour, IItemHolder, IDragContainer<Invent
         if (GetItem() != null) return 0;
         
 
-        return 1;
+        return int.MaxValue;
     }
 
     public void AddItems(InventoryItem item, int number)
     {
-        playerEquipment.AddItem(equipLocation, (EquipableItem)item);
+        playerEquipment.AddItem(equipLocation, (EquipableItem)item, number);
     }
 
     public InventoryItem GetItem()
@@ -57,7 +57,7 @@ public class EquipmentSlotUI : MonoBehaviour, IItemHolder, IDragContainer<Invent
     {
         if (GetItem() != null)
         {
-            return 1;
+            return playerEquipment.GetNumberInSlot(equipLocation);
         }
         else
         {
@@ -74,6 +74,6 @@ public class EquipmentSlotUI : MonoBehaviour, IItemHolder, IDragContainer<Invent
 
     void RedrawUI()
     {
-        icon.SetItem(playerEquipment.GetItemInSlot(equipLocation));
+        icon.SetItem(playerEquipment.GetItemInSlot(equipLocation), playerEquipment.GetNumberInSlot(equipLocation));
     }
 }

@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+﻿using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]// This attribute makes the class serializable in Unity
@@ -27,6 +27,7 @@ public class Weapon
     public int magazineCapacity;
     public int totalReserveAmmo;
 
+
     #region Weapon Spread Variables
     [Header("Spread Amount")]
     private float baseSpread = .5f;
@@ -46,13 +47,14 @@ public class Weapon
     public int damage { get; private set; }
     #endregion
 
-    public Weapon_Data weaponData { get; private set; } //Serve as default data reference
+    public WeaponData weaponData { get; private set; } //Serve as default data reference
+    public BulletData currentBulletData { get; private set; }
 
-    public Weapon(Weapon_Data weaponData) 
+    public Weapon(WeaponData weaponData)
     {
         bulletsInMagazine = weaponData.bulletsInMagazine;
         magazineCapacity = weaponData.magazineCapacity;
-        totalReserveAmmo = weaponData.totalReserveAmmo;
+        //this.totalReserveAmmo = totalReserveAmmo;
 
         fireRate = weaponData.fireRate;
         weaponType = weaponData.weaponType;
@@ -80,6 +82,7 @@ public class Weapon
         damage = weaponData.damage;
 
         this.weaponData = weaponData;
+        //this.currentBulletData = bulletData;
     }
 
 
@@ -119,6 +122,7 @@ public class Weapon
 
     public bool CanShoot() 
     {
+        //Debug.Log($"Checking if {weaponData.name} can shoot. Bullets in magazine: {bulletsInMagazine}, Total reserve ammo: {totalReserveAmmo}");
         return HaveEnoughBullets() && ReadyToFire();
     }
 
@@ -130,6 +134,37 @@ public class Weapon
             return true;
         }
         return false;
+    }
+
+    //public void UpdateCurrentAmmo(int value) 
+    //{
+    //    //bulletsInMagazine -= value;
+    //    Debug.Log($"{weaponData.name} Bullets left in magazine: {bulletsInMagazine}, Bullet in Capacity{totalReserveAmmo}");
+    //}
+
+    public BulletData GetCurrentBulletData() 
+    {
+        return currentBulletData;
+    }
+
+    public void SetCurrentBulletData(BulletData bulletData) 
+    {
+        if (weaponData.compatibleBullets.Contains(bulletData)) 
+        {
+            currentBulletData = bulletData;
+        }
+    }
+
+    public int GetTotalReserveAmmo()
+    {
+        Debug.Log($"Total reserve ammo for {weaponData.name}: {totalReserveAmmo}");
+        return totalReserveAmmo;
+    }
+
+    public void SetTotalReserveAmmo(int ammo) 
+    {
+        Debug.Log($"Setting total reserve ammo for {weaponData.name} to {ammo}");
+        totalReserveAmmo = ammo;
     }
 
     private bool HaveEnoughBullets()
@@ -153,6 +188,7 @@ public class Weapon
     }
     public void RefillBullets() 
     {
+        Debug.Log($"Reloading {weaponData.name}...");
         int bulletToReload = magazineCapacity;
 
         if (bulletToReload > totalReserveAmmo) 
@@ -202,6 +238,41 @@ public class Weapon
     }
 
     #endregion
+
+    public void UpdateWeaponStats(WeaponData newData)
+    {
+        bulletsInMagazine = newData.bulletsInMagazine;
+        magazineCapacity = newData.magazineCapacity;
+        //this.totalReserveAmmo = totalReserveAmmo;
+
+        fireRate = newData.fireRate;
+        weaponType = newData.weaponType;
+
+        bulletsPerShot = newData.bulletPerShot;
+        shootType = newData.shootType;
+
+        burstAvailable = newData.burstAvailable;
+        burstActive = newData.burstActive;
+        burstBulletPerShot = newData.burstBulletPerShot;
+        burstFireRate = newData.burstFireRate;
+        burstFireDelay = newData.burstFireDelay;
+
+        baseSpread = newData.baseSpread;
+        maximumSpread = newData.maxSpread;
+        spreadIncreaseRate = newData.spreadIncreaseRate;
+
+        reloadSpeed = newData.reloadSpeed;
+        equipmentSpeed = newData.equipmentSpeed;
+        gunDistance = newData.gunDistance;
+        cameraDistance = newData.cameraDistance;
+
+        defaultFireRate = fireRate;
+
+        damage = newData.damage;
+
+        this.weaponData = newData;
+
+    }
 }
 
 

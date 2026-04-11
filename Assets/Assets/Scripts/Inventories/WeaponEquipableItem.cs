@@ -5,10 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = ("Inventory/Equipable Weapon"))]
 public class WeaponEquipableItem : EquipableItem
 {
-    [SerializeField] private Weapon_Data weapon_Data;
+    [SerializeField] private WeaponData weaponData;
 
-    public Weapon_Data GetWeaponData()
+    public WeaponData GetWeaponData()
     {
-        return weapon_Data;
+        return weaponData;
     }
 }

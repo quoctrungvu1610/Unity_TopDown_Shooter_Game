@@ -22,7 +22,7 @@ public class PlayerAnimationEvents : MonoBehaviour
         visualController.MaximizeRigWeight();
         weaponController.CurrentWeapon().RefillBullets();
         
-
+        weaponController.UpdateEquipmentData();
         weaponController.SetWeaponReady(true);
     }
 

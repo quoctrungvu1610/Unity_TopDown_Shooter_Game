@@ -160,7 +160,6 @@ public class PlayerWeaponVisual : MonoBehaviour
             }
             if (player.weapon.BackupWeapon() != null)
             {
-                Debug.Log("Comparing backup weapon model: " + backupModel.weaponType + " to backup weapon: " + player.weapon.BackupWeapon().weaponType);
                 if (backupModel.weaponType == player.weapon.BackupWeapon().weaponType)
                 {
                     if (backupModel.HangTypeIs(HangType.LowBackHang))

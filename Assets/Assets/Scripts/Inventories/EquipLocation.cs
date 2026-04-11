@@ -16,4 +16,6 @@ public enum EquipLocation
     BackupWeapon,
     Shield,
     Gloves,
+    MainWeaponAmmo,
+    BackupWeaponAmmo,
 }

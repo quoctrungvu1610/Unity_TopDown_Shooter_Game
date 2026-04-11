@@ -18,11 +18,7 @@ public class ItemTooltipSpawner : TooltipSpawner
 
     public override bool IsWeaponTooltip()
     {
-        var item = GetComponent<IItemHolder>().GetItem();
-        WeaponEquipableItem weaponInventoryItem = item as WeaponEquipableItem;
-        if (weaponInventoryItem == null) return false;
-
-        return true;
+        return this.GetComponent<IItemHolder>().GetItem() as WeaponEquipableItem;
     }
 
     public override void UpdateTooltip(GameObject tooltip)

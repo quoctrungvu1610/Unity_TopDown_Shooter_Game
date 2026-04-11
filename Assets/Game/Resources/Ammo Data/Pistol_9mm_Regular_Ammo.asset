@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ce384642b9b7fd4bb5ae9cdc3ff40c8, type: 3}
+  m_Name: Pistol_9mm_Regular_Ammo
+  m_EditorClassIdentifier: 
+  bulletName: Pistol 9mm Regular
+  bulletType: 0
+  caliber: 9mm
+  bulletDamage: 0
+  bulletSpeed: 0
+  imactForce: 0
+  bulletPrefab: {fileID: 2518894319488266876, guid: 7f4944e28c1283e48a24aaf65859eeef, type: 3}

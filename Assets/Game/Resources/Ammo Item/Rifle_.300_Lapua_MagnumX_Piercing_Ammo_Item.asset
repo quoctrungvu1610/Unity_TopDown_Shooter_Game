@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0876b2794a51a374d9367ef711114f46, type: 3}
+  m_Name: Rifle_.300_Lapua_MagnumX_Piercing_Ammo_Item
+  m_EditorClassIdentifier: 
+  itemID: 53243a1b-958a-4414-beaa-42f9412dd984
+  displayName: Rifle .300 Lapua MagnumX Piercing Ammo
+  description: 'Very strong and powerful Ammo
+
+'
+  icon: {fileID: 21300000, guid: 7d7c5e8e38237a8489aba5a0a0981341, type: 3}
+  pickup: {fileID: 5971387042095017424, guid: b8afbba6f35975249a23a97cc27a04df, type: 3}
+  stackable: 1
+  price: 0
+  category: 2
+  allowedEquipLocation: 9
+  bulletData: {fileID: 11400000, guid: 410d687bdcac9324692e2caafb098b2f, type: 2}

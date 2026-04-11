@@ -23,6 +23,7 @@ public class WeaponTooltip : MonoBehaviour
     [SerializeField] TextMeshProUGUI equipmentSpeedText = null;
     [SerializeField] TextMeshProUGUI gunDistanceText = null;
     [SerializeField] TextMeshProUGUI bulletDamageText = null;
+    [SerializeField] TextMeshProUGUI compatibleBulletsText = null;
 
     // PUBLIC
 
@@ -46,5 +47,10 @@ public class WeaponTooltip : MonoBehaviour
         equipmentSpeedText.text = weaponInventoryItem.GetWeaponData().equipmentSpeed.ToString();
         gunDistanceText.text = weaponInventoryItem.GetWeaponData().gunDistance.ToString();
         baseSpreadText.text = weaponInventoryItem.GetWeaponData().baseSpread.ToString();
+
+        foreach (var data in weaponInventoryItem.GetWeaponData().GetCompatibleBullets()) 
+        {
+            compatibleBulletsText.text += "- " + data.GetBulletName() + "\n";
+        }
     }
 }

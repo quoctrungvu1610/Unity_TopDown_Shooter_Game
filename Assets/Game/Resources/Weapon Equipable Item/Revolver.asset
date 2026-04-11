@@ -22,4 +22,4 @@ MonoBehaviour:
   price: 99
   category: 1
   allowedEquipLocation: 5
-  weapon_Data: {fileID: 11400000, guid: 2e280aeab2f109e43a15df63433b1e43, type: 2}
+  weaponData: {fileID: 11400000, guid: 2e280aeab2f109e43a15df63433b1e43, type: 2}

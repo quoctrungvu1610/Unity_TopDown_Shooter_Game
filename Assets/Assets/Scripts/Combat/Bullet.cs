@@ -32,7 +32,7 @@ public class Bullet : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
     }
 
-    public void BulletSetup(LayerMask allyLayer, float flyDistance = 100, float impactForce = 100, int damage = 1)
+    public virtual void BulletSetup(LayerMask allyLayer, float flyDistance = 100, float impactForce = 100, int damage = 1)
     {
         this.impactForce = impactForce;
         this.allyLayerMask = allyLayer;
@@ -56,7 +56,7 @@ public class Bullet : MonoBehaviour
         ReturnToPoolIfNeeded();
     }
 
-    protected void ReturnToPoolIfNeeded()
+    protected virtual void ReturnToPoolIfNeeded()
     {
         if (trailRenderer.time < 0f)
         {
@@ -64,12 +64,12 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    protected void ReturnBulletToPool(float delay = 0)
+    protected virtual void ReturnBulletToPool(float delay = 0)
     {
         ObjectPool.instance.ReturnObject(gameObject, delay);
     }
 
-    protected void DisableBulletIfNeeded()
+    protected virtual void DisableBulletIfNeeded()
     {
         if (Vector3.Distance(startPosition, transform.position) > flyDistance && !bulletDisabled)
         {
@@ -79,7 +79,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void FadeTrailIfNeeded()
+    protected virtual void FadeTrailIfNeeded()
     {
         if (Vector3.Distance(startPosition, transform.position) > flyDistance - 2f)
         {
@@ -108,7 +108,7 @@ public class Bullet : MonoBehaviour
         ApplyBulletImpactToEnemy(collision);
     }
 
-    private void ApplyBulletImpactToEnemy(Collision collision)
+    protected virtual void ApplyBulletImpactToEnemy(Collision collision)
     {
         Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
 
@@ -121,10 +121,10 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    protected void CreateImpactFX()
+    protected virtual void CreateImpactFX()
     {
-            GameObject impactFX = ObjectPool.instance.GetObject(bulletImpactFX, transform);
-            ObjectPool.instance.ReturnObject(impactFX, 1f);
+        GameObject impactFX = ObjectPool.instance.GetObject(bulletImpactFX, transform);
+        ObjectPool.instance.ReturnObject(impactFX, 1f);
     }
 
     private bool FriendlyFireEnabled()

@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class ItemPickup : MonoBehaviour
 {
-    [SerializeField] private Weapon_Data weaponData;
+    [SerializeField] private WeaponData weaponData;
   
 }

@@ -121,11 +121,7 @@ public class Inventory : MonoBehaviour, ISaveable, IPredicateEvaluator
         //TODO
         slots[i].item = item;
         slots[i].number += number;
-        Debug.Log("Added " + item.name + " to inventory slot " + i + ":" + slots[i].number );
-        if (inventoryUpdated != null)
-        {
-            inventoryUpdated();
-        }
+        inventoryUpdated?.Invoke();
         return true;
     }
 
@@ -180,15 +176,11 @@ public class Inventory : MonoBehaviour, ISaveable, IPredicateEvaluator
             slots[slot].number = 0;
             slots[slot].item = null;
         }
-        if (inventoryUpdated != null)
-        {
-            inventoryUpdated();
-        }
+        inventoryUpdated?.Invoke();
     }
 
     public void RemoveItem(InventoryItem item, int number) 
     {
-        Debug.Log("Call Remove Item");
         for (int i = 0; i < slots.Length; i++) 
         {
             if (object.ReferenceEquals(slots[i].item, item)) 
@@ -278,7 +270,6 @@ public class Inventory : MonoBehaviour, ISaveable, IPredicateEvaluator
         {
             i = FindEmptySlot();
         }
-        Debug.Log($"Find Slot name : {item.name} - slot number : {i}");
         return i;
     }
 

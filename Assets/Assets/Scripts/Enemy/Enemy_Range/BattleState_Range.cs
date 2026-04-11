@@ -13,7 +13,7 @@ public class BattleState_Range : EnemyState
 
     private float coverCheckTimer;
     private bool firstTimeAttack = true;
-    private bool isShooting = false;
+    //private bool isShooting = false;
 
 
     public BattleState_Range(Enemy enemyBase, EnemyStateMachine stateMachine, string animBoolName) : base(enemyBase, stateMachine, animBoolName)

@@ -12,7 +12,6 @@ public class PlayerWeaponController : MonoBehaviour
     private Player player;
     private const float REFERENCE_BULLET_SPEED = 10f;
 
-    [SerializeField] private Weapon_Data defaulteaponData;
     [SerializeField] private Weapon currentWeapon;
     [SerializeField] private Weapon backupWeapon;
     private bool weaponReady;
@@ -31,10 +30,21 @@ public class PlayerWeaponController : MonoBehaviour
     private Equipment equipment;
     private Inventory inventory;
 
+    private BulletItem mainWeaponAmmoItem;
+    private BulletItem backUpWeaponAmmoItem;
+
+    private WeaponEquipableItem weaponInMainSlot;
+    private WeaponEquipableItem weaponInBackupSlot;
+
+    private Weapon mainWeaponInstance;
+    private Weapon backupWeaponInstance;
+
+
     private void Awake()
     {
         equipment = GetComponent<Equipment>();
         inventory = GetComponent<Inventory>();
+        player = GetComponent<Player>();
 
         if (equipment && inventory)
         {
@@ -45,11 +55,11 @@ public class PlayerWeaponController : MonoBehaviour
 
     private void Start()
     {
-        player = GetComponent<Player>();
         AsignInputEvents();
 
         Invoke("EquipStartingWeapon", 0.1f);
     }
+
 
     private void Update()
     {
@@ -66,19 +76,6 @@ public class PlayerWeaponController : MonoBehaviour
         return (weaponInSlot != null && weaponInSlotBackupSlot == null) || (weaponInSlot == null && weaponInSlotBackupSlot != null);
     }
 
-    public Weapon WeaponInSlots(WeaponType weaponType)
-    {
-        WeaponEquipableItem[] inventoryItems = inventory.GetWeaponInventoryItems();
-
-        foreach (WeaponEquipableItem item in inventoryItems)
-        {
-            if (item.GetWeaponData().weaponType == weaponType)
-            {
-                return new Weapon(item.GetWeaponData());
-            }
-        }
-        return null;
-    }
 
     public Weapon CurrentWeapon()
     {
@@ -101,99 +98,104 @@ public class PlayerWeaponController : MonoBehaviour
     #region Slots management - Pickup/Equip/Drop/Ready
     private void EquipWeapon(int i)
     {
+        SetWeaponReady(false);
+
         if (i == 1)
         {
-            if (equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponEquipableItem == null)
-            {
-                EquipWeapon(null);
-                return;
-            }
-            Weapon_Data weaponData = (equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponEquipableItem).GetWeaponData();
-            EquipWeapon(new Weapon(weaponData));
+            if (backupWeapon == null) return;
+            currentWeapon = backupWeaponInstance;
+            backupWeapon = mainWeaponInstance;
+            
         }
         else
         {
-            if (equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponEquipableItem == null)
-            {
-                EquipWeapon(null);
-                return;
-            }
-            Weapon_Data weaponData = (equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponEquipableItem).GetWeaponData();
-            EquipWeapon(new Weapon(weaponData));
+            if (currentWeapon == null) return;
+            currentWeapon = mainWeaponInstance;
+            backupWeapon = backupWeaponInstance;
         }
+        player.weaponVisuals.PlayWeaponEquipAnimation();
+        ChangeCameraDistance(currentWeapon != null ? currentWeapon.cameraDistance : defaultCameraDistance);
     }
 
     private void EquipWeapon()
     {
-        WeaponEquipableItem weaponInSlot = equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponEquipableItem;
-        WeaponEquipableItem weaponInBackupSlot = equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponEquipableItem;
-
         SetWeaponReady(false);
 
-        if (weaponInSlot)
-        {
-            currentWeapon = new Weapon(weaponInSlot.GetWeaponData());
-            player.weaponVisuals.PlayWeaponEquipAnimation();
-            CameraManager.instance.ChangeCameraDistance(currentWeapon.cameraDistance);
-        }
-        else
-        {
-            CameraManager.instance.ChangeCameraDistance(defaultCameraDistance);
-            currentWeapon = null;
-        }
+        weaponInMainSlot = equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponEquipableItem;
+        weaponInBackupSlot = equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponEquipableItem;
 
-        if (weaponInBackupSlot)
-        {
-            backupWeapon = new Weapon(weaponInBackupSlot.GetWeaponData());
-        }
-        else
-        {
-            backupWeapon = null;
-        }
+        //mainWeaponAmmoItem = CheckIfAmmoIsCompatible(weaponInMainSlot, equipment.GetBulletDataInSlot(EquipLocation.MainWeaponAmmo)) ? equipment.GetBulletDataInSlot(EquipLocation.MainWeaponAmmo) : null;
+        //backUpWeaponAmmoItem = CheckIfAmmoIsCompatible(weaponInBackupSlot, equipment.GetBulletDataInSlot(EquipLocation.BackupWeaponAmmo)) ? equipment.GetBulletDataInSlot(EquipLocation.BackupWeaponAmmo) : null; ;
+
+        mainWeaponInstance = CreateOrUpdateWeapon(weaponInMainSlot, EquipLocation.MainWeaponAmmo, mainWeaponInstance); 
+        backupWeaponInstance = CreateOrUpdateWeapon(weaponInBackupSlot, EquipLocation.BackupWeaponAmmo, backupWeaponInstance);
+
+        currentWeapon = mainWeaponInstance;
+        backupWeapon = backupWeaponInstance;
+
+        if (weaponInMainSlot != null)
+            player.weaponVisuals.PlayWeaponEquipAnimation();
+
+        ChangeCameraDistance(currentWeapon != null ? currentWeapon.cameraDistance : defaultCameraDistance);
+
         player.weaponVisuals.SwitchOnBackupWeaponModel();
         player.weaponVisuals.SwitchOnCurrentWeaponModel();
     }
 
-    private void EquipWeapon(Weapon weapon)
+    private bool CheckIfAmmoIsCompatible(WeaponEquipableItem weaponItem, BulletItem bulletItem) 
     {
-        SetWeaponReady(false);
+        if (weaponItem == null || bulletItem == null) return false;
+        return weaponItem.GetWeaponData().compatibleBullets.Contains(bulletItem.GetBulletData());
+    }
 
-        if (weapon != null)
+    private void ChangeCameraDistance(float distance) 
+    {
+        CameraManager.instance.ChangeCameraDistance(distance);
+    }
+
+    private Weapon CreateWeaponInstance(WeaponEquipableItem weaponItem, BulletItem bulletItem, EquipLocation equipLocation) 
+    {
+        if(weaponItem == null) return null;
+        Weapon weapon = new Weapon(weaponItem.GetWeaponData());
+        if(bulletItem != null) 
         {
-            Weapon main = null;
-            Weapon backup = null;
+            weapon.SetCurrentBulletData(bulletItem.GetBulletData());
+            weapon.SetTotalReserveAmmo(equipment.GetNumberInSlot(equipLocation == EquipLocation.Weapon ? EquipLocation.MainWeaponAmmo : EquipLocation.BackupWeaponAmmo));
+        }
 
-            if ((equipment.GetItemInSlot(EquipLocation.Weapon) != null))
-            {
-                main = new Weapon((equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponEquipableItem).GetWeaponData());
-            }
+        return weapon;
+    }
 
-            if ((equipment.GetItemInSlot(EquipLocation.BackupWeapon) != null))
-            {
-                backup = new Weapon((equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponEquipableItem).GetWeaponData());
-            }
+    private Weapon CreateOrUpdateWeapon(WeaponEquipableItem weaponItem, EquipLocation ammoSlot, Weapon existingWeapon)
+    {
+        if (weaponItem == null) return null;
 
-            currentWeapon = weapon;
+        WeaponData data = weaponItem.GetWeaponData();
+        BulletItem ammoItem = equipment.GetBulletDataInSlot(ammoSlot);
+        BulletData validBullet = null;
 
+        if (CheckIfAmmoIsCompatible(weaponItem, ammoItem) == false && ammoItem != null) 
+        {
+            validBullet = ammoItem.GetBulletData();
+            inventory.AddToFirstEmptySlot(ammoItem, equipment.GetNumberInSlot(ammoSlot));
+            equipment.RemoveItem(ammoSlot);
+        }
 
-            if (main != null && weapon.weaponType == main.weaponType)
-            {
-                backupWeapon = backup;
+        int reserveAmmo = equipment.GetNumberInSlot(ammoSlot);
 
-            }
-            else if (backup != null && weapon.weaponType == backup.weaponType)
-            {
-                backupWeapon = main;
-            }
-
-            player.weaponVisuals.PlayWeaponEquipAnimation();
-            CameraManager.instance.ChangeCameraDistance(currentWeapon.cameraDistance);
+        if (existingWeapon == null)
+        {
+            existingWeapon = new Weapon(data);
         }
         else
         {
-            CameraManager.instance.ChangeCameraDistance(defaultCameraDistance);
-            currentWeapon = null;
+            existingWeapon.UpdateWeaponStats(data);
         }
+
+        existingWeapon.SetCurrentBulletData(validBullet);
+        existingWeapon.SetTotalReserveAmmo(reserveAmmo);
+
+        return existingWeapon;
     }
 
 
@@ -211,6 +213,12 @@ public class PlayerWeaponController : MonoBehaviour
     public bool WeaponReady()
     {
         return weaponReady;
+    }
+
+    public void UpdateEquipmentData() 
+    {
+        equipment.UpdateNumberInSlot(EquipLocation.MainWeaponAmmo, mainWeaponInstance.GetTotalReserveAmmo());
+        equipment.UpdateNumberInSlot(EquipLocation.BackupWeaponAmmo, backupWeaponInstance != null ? backupWeaponInstance.GetTotalReserveAmmo() : 0);
     }
 
     #endregion
@@ -275,13 +283,12 @@ public class PlayerWeaponController : MonoBehaviour
 
         FireSingleBullet();
         TriggerEnemyDodge();
-
     }
 
     private void FireSingleBullet()
     {
         currentWeapon.bulletsInMagazine--;
-
+     
         GameObject newBullet = ObjectPool.instance.GetObject(bulletPrefab, GunPoint());
         newBullet.transform.position = GunPoint().position;
         newBullet.transform.rotation = Quaternion.LookRotation(GunPoint().forward);
@@ -352,6 +359,7 @@ public class PlayerWeaponController : MonoBehaviour
         controls.Character.ToggleWeaponMode.performed += context => currentWeapon.ToggleBurstMode();
 
     }
+
 
     #endregion
 }

@@ -151,7 +151,6 @@ public class PlacementSystem : MonoBehaviour, ISaveable
 
     public void RestoreState(object state)
     {
-        Debug.Log("Restore");
         if (state is PlacementSaveData data)
         {
             ClearCurrentPlacement();
@@ -172,7 +171,6 @@ public class PlacementSystem : MonoBehaviour, ISaveable
 
     private void RestoreObject(ObjectSaveData objData)
     {
-        Debug.Log($"Restoring object {objData.ID} at {objData.position} with rotation {objData.rotation} and isFloor: {objData.isFloor}");
         BuildObjectData itemData = BuildObjectData.GetFromID(objData.ID);
 
         if (itemData == null) return;

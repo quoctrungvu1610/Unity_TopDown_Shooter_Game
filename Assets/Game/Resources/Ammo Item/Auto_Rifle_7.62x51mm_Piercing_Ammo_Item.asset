@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0876b2794a51a374d9367ef711114f46, type: 3}
+  m_Name: Auto_Rifle_7.62x51mm_Piercing_Ammo_Item
+  m_EditorClassIdentifier: 
+  itemID: 9fc8b825-79ef-4af6-bd25-d85fc51cba14
+  displayName: Auto Rifle 7.62x51mm Piercing Ammo
+  description: 'Very strong and powerful Ammo
+
+'
+  icon: {fileID: 21300000, guid: cbe219247c173cb4a84eed07586250fb, type: 3}
+  pickup: {fileID: 5971387042095017424, guid: ed2d168595e8e42498d0727e7ae2be7a, type: 3}
+  stackable: 1
+  price: 0
+  category: 2
+  allowedEquipLocation: 9
+  bulletData: {fileID: 11400000, guid: 0fc1747abffbaaf4788c01d3c611f57c, type: 2}

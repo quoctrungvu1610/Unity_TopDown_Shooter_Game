@@ -4,53 +4,53 @@ using UnityEngine;
 
 public class Pickup_Weapon : Interactable
 {
-    [SerializeField] private Weapon_Data weaponData;
-    [SerializeField] private Weapon weapon;
+    //[SerializeField] private WeaponData weaponData;
+    //[SerializeField] private Weapon weapon;
 
-    [SerializeField] private BackupWeaponModel[] models;
+    //[SerializeField] private BackupWeaponModel[] models;
 
-    private bool oldWeapon = false;
+    //private bool oldWeapon = false;
 
-    private void Start()
-    {
-        if (oldWeapon == false) 
-        {
-            weapon = new Weapon(weaponData);
-        }
-        SetupGameObject();
+    //private void Start()
+    //{
+    //    if (oldWeapon == false) 
+    //    {
+    //        weapon = new Weapon(weaponData);
+    //    }
+    //    SetupGameObject();
 
-    }
+    //}
 
-    public void SetupPickupWeapon(Weapon weapon, Transform transform)
-    {
-        oldWeapon = true;
+    //public void SetupPickupWeapon(Weapon weapon, Transform transform)
+    //{
+    //    oldWeapon = true;
 
-        this.weapon = weapon;
-        weaponData = weapon.weaponData;
+    //    this.weapon = weapon;
+    //    weaponData = weapon.weaponData;
 
-        this.transform.position = transform.position + new Vector3(0, 0.75f, 0); 
-    }
+    //    this.transform.position = transform.position + new Vector3(0, 0.75f, 0); 
+    //}
 
-    [ContextMenu("Update Item Model")]
-    public void SetupGameObject()
-    {
-        gameObject.name = "Pickup_Weapon - " + weaponData.weaponType.ToString();
-        SetupWeaponModel();
-    }
+    //[ContextMenu("Update Item Model")]
+    //public void SetupGameObject()
+    //{
+    //    gameObject.name = "Pickup_Weapon - " + weaponData.weaponType.ToString();
+    //    SetupWeaponModel();
+    //}
 
-    private void SetupWeaponModel() 
-    {
-        foreach (BackupWeaponModel model in models) 
-        {
-            model.gameObject.SetActive(false);
+    //private void SetupWeaponModel() 
+    //{
+    //    foreach (BackupWeaponModel model in models) 
+    //    {
+    //        model.gameObject.SetActive(false);
 
-            if(model.weaponType == weaponData.weaponType) 
-            {
-                model.gameObject.SetActive(true);
-                UpdateMeshAndMaterial(model.GetComponent<MeshRenderer>());
-            }
-        }
-    }
+    //        if(model.weaponType == weaponData.weaponType) 
+    //        {
+    //            model.gameObject.SetActive(true);
+    //            UpdateMeshAndMaterial(model.GetComponent<MeshRenderer>());
+    //        }
+    //    }
+    //}
     public override void Interaction()
     {
         base.Interaction();

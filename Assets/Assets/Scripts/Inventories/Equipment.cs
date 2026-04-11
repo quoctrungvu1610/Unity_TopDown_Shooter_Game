@@ -3,6 +3,20 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct EquipmentSlot
+{
+    public EquipableItem item;
+    public int number;
+
+    public void SetItem(EquipableItem item, int number)
+    {
+        this.item = item;
+        this.number = number;
+    }
+}
+
+
 /// <summary>
 /// Provides a store for the items equipped to a player. Items are stored by
 /// their equip locations.
@@ -12,7 +26,7 @@ using UnityEngine;
 public class Equipment : MonoBehaviour, ISaveable
 {
     // STATE
-    Dictionary<EquipLocation, EquipableItem> equippedItems = new Dictionary<EquipLocation, EquipableItem>();
+    Dictionary<EquipLocation, EquipmentSlot> equippedItems = new Dictionary<EquipLocation, EquipmentSlot>();
 
     // PUBLIC
 
@@ -39,27 +53,57 @@ public class Equipment : MonoBehaviour, ISaveable
             return null;
         }
 
-        return equippedItems[equipLocation];
+        return equippedItems[equipLocation].item;
+    }
+
+    public int GetNumberInSlot(EquipLocation equipLocation)
+    {
+        if (!equippedItems.ContainsKey(equipLocation))
+        {
+            return 0;
+        }
+        return equippedItems[equipLocation].number;
+    }
+
+    //Get the bullet data in the given equip location. Return null if there is no item or the item is not a bullet item.
+    public BulletItem GetBulletDataInSlot(EquipLocation equipLocation)
+    {
+        if (!equippedItems.ContainsKey(equipLocation))
+        {
+            return null;
+        }
+        var equipableItem = equippedItems[equipLocation].item as BulletItem;
+        if (equipableItem == null) return null;
+        return equipableItem;
     }
 
     /// <summary>
     /// Add an item to the given equip location. Do not attempt to equip to
     /// an incompatible slot.
     /// </summary>
-    public void AddItem(EquipLocation slot, EquipableItem item)
+    public void AddItem(EquipLocation slot, EquipableItem item, int number)
     {
-        //Debug.Assert(item.GetAllowedEquipLocation() == slot);
+        Debug.Log($"Adding item {item} to slot {slot} with number {number}");
+        var equipmentSlot = new EquipmentSlot();
+        equipmentSlot.item = item;
+        equipmentSlot.number = number;
+        equippedItems[slot] = equipmentSlot;
 
-        equippedItems[slot] = item;
-        if (slot != EquipLocation.Weapon && slot != EquipLocation.BackupWeapon)
-        {
-            player.health.UpdateCurrentEquipmentData(item as StatEquipableItem);
-            player.health.OnAddEquipment();
-        }
-        if (equipmentUpdated != null)
-        {
-            equipmentUpdated();
-        }
+        //if (slot != EquipLocation.Weapon && slot != EquipLocation.BackupWeapon)
+        //{
+        //    player.health.UpdateCurrentEquipmentData(item as StatEquipableItem);
+        //    player.health.OnAddEquipment();
+        //}
+        equipmentUpdated?.Invoke();
+    }
+
+    public void UpdateNumberInSlot(EquipLocation slot, int number)
+    {
+        if (!equippedItems.ContainsKey(slot)) return;
+        var equipmentSlot = equippedItems[slot];
+        equipmentSlot.number = number;
+        equipmentSlot.item = equippedItems[slot].item;
+        equippedItems[slot] = equipmentSlot;
     }
 
     /// <summary>
@@ -67,17 +111,15 @@ public class Equipment : MonoBehaviour, ISaveable
     /// </summary>
     public void RemoveItem(EquipLocation slot)
     {
-        if (slot != EquipLocation.Weapon && slot != EquipLocation.BackupWeapon) 
-        {
-            StatEquipableItem item = GetItemInSlot(slot) as StatEquipableItem;
-            player.health.UpdateCurrentEquipmentData(item);
-            player.health.OnRemoveEquipment();
-        }
+        //if (slot != EquipLocation.Weapon && slot != EquipLocation.BackupWeapon) 
+        //{
+        //    StatEquipableItem item = GetItemInSlot(slot) as StatEquipableItem;
+        //    player.health.UpdateCurrentEquipmentData(item);
+        //    player.health.OnRemoveEquipment();
+        //}
+        Debug.Log($"Removing item in slot {slot}");
         equippedItems.Remove(slot);
-        if (equipmentUpdated != null)
-        {
-            equipmentUpdated();
-        }
+        equipmentUpdated?.Invoke();
     }
 
     /// <summary>
@@ -90,28 +132,41 @@ public class Equipment : MonoBehaviour, ISaveable
 
     // PRIVATE
 
+    [System.Serializable]
+    private struct EquipmentSlotRecord
+    {
+        public string itemID;
+        public int number;
+    }
+
     object ISaveable.CaptureState()
     {
-        var equippedItemsForSerialization = new Dictionary<EquipLocation, string>();
+        var equippedItemsForSerialization = new Dictionary<EquipLocation, EquipmentSlotRecord>();
         foreach (var pair in equippedItems)
         {
-            equippedItemsForSerialization[pair.Key] = pair.Value.GetItemID();
+            var equipmentRecord = new EquipmentSlotRecord();
+            equipmentRecord.itemID = pair.Value.item.GetItemID();
+            equipmentRecord.number = pair.Value.number;
+            equippedItemsForSerialization[pair.Key] = equipmentRecord;
         }
         return equippedItemsForSerialization;
     }
 
     void ISaveable.RestoreState(object state)
     {
-        equippedItems = new Dictionary<EquipLocation, EquipableItem>();
+        equippedItems = new Dictionary<EquipLocation, EquipmentSlot>();
 
-        var equippedItemsForSerialization = (Dictionary<EquipLocation, string>)state;
+        var equippedItemsForSerialization = (Dictionary<EquipLocation, EquipmentSlotRecord>)state;
 
         foreach (var pair in equippedItemsForSerialization)
         {
-            var item = (EquipableItem)InventoryItem.GetFromID(pair.Value);
-            if (item != null)
+            var item = (EquipableItem)InventoryItem.GetFromID(pair.Value.itemID);
+            var number = pair.Value.number;
+            if (item != null && number > 0)
             {
-                equippedItems[pair.Key] = item;
+                var equipmentSlot = new EquipmentSlot();
+                equipmentSlot.SetItem(item, number);
+                equippedItems[pair.Key] = equipmentSlot;
             }
         }
     }

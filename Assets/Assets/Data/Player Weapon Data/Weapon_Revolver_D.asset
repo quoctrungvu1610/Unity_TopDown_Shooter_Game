@@ -9,27 +9,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00e2f971a13de514389ca7006e902801, type: 3}
+  m_Script: {fileID: 11500000, guid: e0d94ce1f64ebba4a9667aaeb278ad3c, type: 3}
   m_Name: Weapon_Revolver_D
   m_EditorClassIdentifier: 
-  weaponName: Bolt R-7
-  bulletsInMagazine: 2
-  magazineCapacity: 2
-  totalReserveAmmo: 999
+  weaponName: 
+  bulletsInMagazine: 0
+  magazineCapacity: 0
+  totalReserveAmmo: 0
   shootType: 0
   bulletPerShot: 1
-  fireRate: 2.5
+  fireRate: 0
   burstAvailable: 0
   burstActive: 0
-  burstBulletPerShot: 0
-  burstFireRate: 0
+  burstBulletPerShot: 3
+  burstFireRate: 0.5
   burstFireDelay: 0.1
-  baseSpread: 0.2
-  maxSpread: 3
-  spreadIncreaseRate: 0.3
+  baseSpread: 0
+  maxSpread: 0
+  spreadIncreaseRate: 0.15
   weaponType: 1
-  reloadSpeed: 3
+  reloadSpeed: 1
   equipmentSpeed: 1
-  gunDistance: 10
+  gunDistance: 4
   cameraDistance: 6
-  damage: 999
+  damage: 0
+  compatibleBullets:
+  - {fileID: 11400000, guid: 9dfd09be51f5c2248bfc436e6ebad123, type: 2}
+  - {fileID: 11400000, guid: 99252da5a76e8dc41adf708644462b05, type: 2}
+  - {fileID: 11400000, guid: 4ffecf279e9027749b5f1ba9cba29cf4, type: 2}
+  - {fileID: 11400000, guid: 7e6811b19ba5fe54f82ad8f34d4e856e, type: 2}

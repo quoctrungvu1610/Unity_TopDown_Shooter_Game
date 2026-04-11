@@ -18,10 +18,10 @@ public class InventoryItemIcon : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemName = null;
     [SerializeField] private GameObject backImage = null;
     // PUBLIC
-    public void SetItem(InventoryItem item)
-    {
-        SetItem(item, 0);
-    }
+    //public void SetItem(InventoryItem item, int number)
+    //{
+    //    SetItem(item, number);
+    //}
 
     public void SetItem(InventoryItem item, int number)
     {

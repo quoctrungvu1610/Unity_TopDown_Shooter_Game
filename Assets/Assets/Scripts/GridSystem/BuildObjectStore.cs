@@ -61,7 +61,6 @@ public class BuildObjectStore : MonoBehaviour, ISaveable
     {
         if (unlockedObjects.ContainsKey(objectData)) 
         {
-            Debug.Log("Already Contains Blueprint");
             return;
         }
 
@@ -74,7 +73,6 @@ public class BuildObjectStore : MonoBehaviour, ISaveable
     {
         if (objectData.GetObjectIngredients().Count == 0) 
         {
-            Debug.Log("True" + objectData.GetObjectName());
             return true;
         }
         bool canUnlock = false;

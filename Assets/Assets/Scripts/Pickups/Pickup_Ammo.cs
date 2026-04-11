@@ -18,68 +18,68 @@ public enum AmmoBoxType
 
 public class Pickup_Ammo : Interactable
 {
-    [SerializeField] private AmmoBoxType boxType;
+    //[SerializeField] private AmmoBoxType boxType;
 
-    [SerializeField] private List<AmmoData> smallBoxAmmo;
-    [SerializeField] private List<AmmoData> bigBoxAmmo;
+    //[SerializeField] private List<AmmoData> smallBoxAmmo;
+    //[SerializeField] private List<AmmoData> bigBoxAmmo;
 
-    [SerializeField] private GameObject[] boxModel;
+    //[SerializeField] private GameObject[] boxModel;
 
 
-    private void Start()
-    {
-        SetupBoxModel();
-    }
+    //private void Start()
+    //{
+    //    SetupBoxModel();
+    //}
 
-    public override void Interaction()
-    {
-        base.Interaction();
-        List<AmmoData> currentAmmoList = smallBoxAmmo;
+    //public override void Interaction()
+    //{
+    //    base.Interaction();
+    //    List<AmmoData> currentAmmoList = smallBoxAmmo;
 
-        if(boxType == AmmoBoxType.bigBox) 
-        {
-            currentAmmoList = bigBoxAmmo;
-        }
+    //    if(boxType == AmmoBoxType.bigBox) 
+    //    {
+    //        currentAmmoList = bigBoxAmmo;
+    //    }
 
-        foreach(AmmoData ammo in currentAmmoList) 
-        {
-            Weapon weapon = weaponController.WeaponInSlots(ammo.weaponType);
-            AddBulletToWeapon(weapon, GetBulletAmount(ammo));
-        }
+    //    foreach(AmmoData ammo in currentAmmoList) 
+    //    {
+    //        Weapon weapon = weaponController.WeaponInSlots(ammo.weaponType);
+    //        AddBulletToWeapon(weapon, GetBulletAmount(ammo));
+    //    }
 
-        ObjectPool.instance.ReturnObject(gameObject);
-    }
+    //    ObjectPool.instance.ReturnObject(gameObject);
+    //}
 
-    private int GetBulletAmount(AmmoData ammoData) 
-    {
-        float min = Mathf.Min(ammoData.minAmount, ammoData.maxAmount);
-        float max = Mathf.Max(ammoData.minAmount, ammoData.maxAmount);
+    //private int GetBulletAmount(AmmoData ammoData) 
+    //{
+    //    float min = Mathf.Min(ammoData.minAmount, ammoData.maxAmount);
+    //    float max = Mathf.Max(ammoData.minAmount, ammoData.maxAmount);
 
-        float randomAmmoAmount = Random.Range(min, max);
-        return Mathf.RoundToInt(randomAmmoAmount);
-    }
+    //    float randomAmmoAmount = Random.Range(min, max);
+    //    return Mathf.RoundToInt(randomAmmoAmount);
+    //}
 
-    private void AddBulletToWeapon(Weapon weapon, int amount) 
-    {
-        if(weapon == null) 
-        {
-            return;
-        }
+    //private void AddBulletToWeapon(Weapon weapon, int amount) 
+    //{
+    //    if(weapon == null) 
+    //    {
+    //        return;
+    //    }
 
-        weapon.totalReserveAmmo += amount;
-    }
+    //    weapon.totalReserveAmmo += amount;
+    //}
 
-    private void SetupBoxModel()
-    {
-        for (int i = 0; i < boxModel.Length; i++)
-        {
-            boxModel[i].SetActive(false);
+    //private void SetupBoxModel()
+    //{
+    //    for (int i = 0; i < boxModel.Length; i++)
+    //    {
+    //        boxModel[i].SetActive(false);
 
-            if (i == (int)boxType)
-            {
-                boxModel[i].SetActive(true);
-                UpdateMeshAndMaterial(boxModel[i].GetComponent<MeshRenderer>());
-            }
-        }
-    }
+    //        if (i == (int)boxType)
+    //        {
+    //            boxModel[i].SetActive(true);
+    //            UpdateMeshAndMaterial(boxModel[i].GetComponent<MeshRenderer>());
+    //        }
+    //    }
+    //}
 }

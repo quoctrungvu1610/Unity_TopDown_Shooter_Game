@@ -115,6 +115,7 @@ public class PlayerWeaponVisual : MonoBehaviour
 
     public void SwitchOnCurrentWeaponModel()
     {
+        Debug.Log("111");
         if (CurrentWeaponModel() == null) return;
 
         SwitchOffBackupWeaponModels();

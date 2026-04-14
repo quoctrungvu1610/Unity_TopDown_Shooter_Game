@@ -53,6 +53,7 @@ public class Enemy_Range : Enemy
 
     [Header("Weapon Details")]
     public float attackDelay;
+    public BulletData bulletData;
     public Enemy_RangeWeaponType weaponType;
     public Enemy_RangeWeaponData weaponData;
 
@@ -279,7 +280,7 @@ public class Enemy_Range : Enemy
 
         newBullet.transform.rotation = Quaternion.LookRotation(gunPoint.forward);
 
-        newBullet.GetComponent<Bullet>().BulletSetup(whatIsAlly);
+        newBullet.GetComponent<Bullet>().BulletSetup(whatIsAlly, bulletData, bulletDirection, gunPoint);
 
         Rigidbody rbNewBullet = newBullet.GetComponent<Rigidbody>();
 

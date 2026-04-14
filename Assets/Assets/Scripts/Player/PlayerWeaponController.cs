@@ -124,9 +124,6 @@ public class PlayerWeaponController : MonoBehaviour
         weaponInMainSlot = equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponEquipableItem;
         weaponInBackupSlot = equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponEquipableItem;
 
-        //mainWeaponAmmoItem = CheckIfAmmoIsCompatible(weaponInMainSlot, equipment.GetBulletDataInSlot(EquipLocation.MainWeaponAmmo)) ? equipment.GetBulletDataInSlot(EquipLocation.MainWeaponAmmo) : null;
-        //backUpWeaponAmmoItem = CheckIfAmmoIsCompatible(weaponInBackupSlot, equipment.GetBulletDataInSlot(EquipLocation.BackupWeaponAmmo)) ? equipment.GetBulletDataInSlot(EquipLocation.BackupWeaponAmmo) : null; ;
-
         mainWeaponInstance = CreateOrUpdateWeapon(weaponInMainSlot, EquipLocation.MainWeaponAmmo, mainWeaponInstance); 
         backupWeaponInstance = CreateOrUpdateWeapon(weaponInBackupSlot, EquipLocation.BackupWeaponAmmo, backupWeaponInstance);
 
@@ -171,12 +168,11 @@ public class PlayerWeaponController : MonoBehaviour
         if (weaponItem == null) return null;
 
         WeaponData data = weaponItem.GetWeaponData();
-        BulletItem ammoItem = equipment.GetBulletDataInSlot(ammoSlot);
-        BulletData validBullet = null;
+        BulletItem ammoItem = equipment.GetBulletItemInSlot(ammoSlot);
+        BulletData validBullet = ammoItem?.GetBulletData();
 
         if (CheckIfAmmoIsCompatible(weaponItem, ammoItem) == false && ammoItem != null) 
         {
-            validBullet = ammoItem.GetBulletData();
             inventory.AddToFirstEmptySlot(ammoItem, equipment.GetNumberInSlot(ammoSlot));
             equipment.RemoveItem(ammoSlot);
         }
@@ -289,19 +285,20 @@ public class PlayerWeaponController : MonoBehaviour
     {
         currentWeapon.bulletsInMagazine--;
      
-        GameObject newBullet = ObjectPool.instance.GetObject(bulletPrefab, GunPoint());
+        Debug.Log(currentWeapon.GetCurrentBulletData().GetBulletPrefab().name);
+        GameObject newBullet = ObjectPool.instance.GetObject(currentWeapon.GetCurrentBulletData().GetBulletPrefab(), GunPoint());
         newBullet.transform.position = GunPoint().position;
         newBullet.transform.rotation = Quaternion.LookRotation(GunPoint().forward);
 
         Rigidbody rbNewBullet = newBullet.GetComponent<Rigidbody>();
 
         Bullet bulletScript = newBullet.GetComponent<Bullet>();
-        bulletScript.BulletSetup(whatIsAlly, currentWeapon.gunDistance, bulletImpactForce, currentWeapon.damage);
-
         Vector3 bulletDirection = currentWeapon.ApplySpread(BulletDirection());
+        bulletScript.BulletSetup(whatIsAlly, currentWeapon.GetCurrentBulletData(), -bulletDirection, GunPoint());
 
-        rbNewBullet.mass = REFERENCE_BULLET_SPEED / bulletSpeed;
-        rbNewBullet.velocity = bulletDirection * bulletSpeed;
+
+        rbNewBullet.mass = REFERENCE_BULLET_SPEED / currentWeapon.GetCurrentBulletData().GetBulletSpeed();
+        rbNewBullet.velocity = bulletDirection * currentWeapon.GetCurrentBulletData().GetBulletSpeed();
 
         if (currentWeapon.bulletsInMagazine <= 0)
         {

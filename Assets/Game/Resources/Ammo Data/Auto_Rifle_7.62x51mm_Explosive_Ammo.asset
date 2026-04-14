@@ -15,7 +15,8 @@ MonoBehaviour:
   bulletName: Auto Rifle 7.62x51mm Explosive Ammo
   bulletType: 1
   caliber: 7.62x51mm
-  bulletDamage: 0
-  bulletSpeed: 0
-  imactForce: 0
-  bulletPrefab: {fileID: 4292842395839031357, guid: 0cad44909a6b62c4db6ad7ce92385c47, type: 3}
+  bulletDamage: 1
+  bulletSpeed: 100
+  imactForce: 200
+  flyDistance: 100
+  bulletPrefab: {fileID: 1479792290806866601, guid: ce27f51842538bf48bb710daf5769c11, type: 3}

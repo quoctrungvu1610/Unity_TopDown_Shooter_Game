@@ -15,7 +15,8 @@ MonoBehaviour:
   bulletName: Shotgun 12 GaugeX Buckshot Ammo
   bulletType: 3
   caliber: 12 GaugeX
-  bulletDamage: 100
+  bulletDamage: 1
   bulletSpeed: 100
-  imactForce: 100
-  bulletPrefab: {fileID: 1180446332425250291, guid: 18a34d3b88cb1e043a7875dd7572ca6d, type: 3}
+  imactForce: 200
+  flyDistance: 100
+  bulletPrefab: {fileID: 1479792290806866601, guid: aff191fd22d28934aa613caff93f126f, type: 3}

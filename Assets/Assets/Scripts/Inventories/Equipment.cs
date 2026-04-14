@@ -66,7 +66,7 @@ public class Equipment : MonoBehaviour, ISaveable
     }
 
     //Get the bullet data in the given equip location. Return null if there is no item or the item is not a bullet item.
-    public BulletItem GetBulletDataInSlot(EquipLocation equipLocation)
+    public BulletItem GetBulletItemInSlot(EquipLocation equipLocation)
     {
         if (!equippedItems.ContainsKey(equipLocation))
         {

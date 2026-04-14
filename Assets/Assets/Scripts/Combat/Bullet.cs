@@ -1,28 +1,25 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
+[RequireComponent(typeof(TrailRenderer))]
 public class Bullet : MonoBehaviour
 {
-    private float impactForce;
-
-    private BoxCollider cd;
-    private Rigidbody rb;
-    private TrailRenderer trailRenderer;
-    private MeshRenderer meshRenderer;
-
-
+    protected float impactForce;
+    protected BoxCollider cd;
+    protected Rigidbody rb;
+    protected TrailRenderer trailRenderer;
+    protected MeshRenderer meshRenderer;
+    protected Vector3 startPosition;
+    protected float flyDistance;
+    protected bool bulletDisabled = false;
+    protected int bulletDamage;
+    protected LayerMask allyLayerMask;
+    protected Vector3 bulletDirection;
+    protected Transform origin;
     [SerializeField] private GameObject bulletImpactFX;
-   
-    private Vector3 startPosition;
-    private float flyDistance;
-    public bool bulletDisabled = false;
 
-
-    private int bulletDamage;
-
-
-    private LayerMask allyLayerMask;
 
     protected virtual void Awake()
     {
@@ -32,11 +29,15 @@ public class Bullet : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
     }
 
-    public virtual void BulletSetup(LayerMask allyLayer, float flyDistance = 100, float impactForce = 100, int damage = 1)
+    public virtual void BulletSetup(LayerMask allyLayer, BulletData data, Vector3 direction, Transform point)
     {
-        this.impactForce = impactForce;
         this.allyLayerMask = allyLayer;
-        this.bulletDamage = damage;
+
+        this.impactForce = data.GetImpactForce();
+        this.bulletDamage = data.GetBulletDamage();
+        this.flyDistance = data.GetFlyDistance();
+        this.bulletDirection = direction.normalized;
+        this.origin = point;
 
         bulletDisabled = false;
         cd.enabled = true;
@@ -46,7 +47,6 @@ public class Bullet : MonoBehaviour
         trailRenderer.time = 0.2f;
 
         startPosition = transform.position;
-        this.flyDistance = flyDistance;
     }
 
     protected virtual void Update()
@@ -97,8 +97,8 @@ public class Bullet : MonoBehaviour
                 return;
             }
         }
-
-        CreateImpactFX();
+        ContactPoint contact = collision.contacts[0];
+        CreateImpactFX(contact.point, contact.normal);
         ReturnBulletToPool();
 
         IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
@@ -121,11 +121,17 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    protected virtual void CreateImpactFX()
+    protected virtual void CreateImpactFX(Vector3 pos, Vector3 normal)
     {
         GameObject impactFX = ObjectPool.instance.GetObject(bulletImpactFX, transform);
+
+        impactFX.transform.position = pos;
+
+        impactFX.transform.rotation = Quaternion.LookRotation(normal);
+
         ObjectPool.instance.ReturnObject(impactFX, 1f);
     }
+
 
     private bool FriendlyFireEnabled()
     {

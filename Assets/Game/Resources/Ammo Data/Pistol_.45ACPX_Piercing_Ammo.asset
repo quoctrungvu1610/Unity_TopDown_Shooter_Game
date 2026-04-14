@@ -15,7 +15,8 @@ MonoBehaviour:
   bulletName: Pistol .45ACPX Piercing Ammo
   bulletType: 2
   caliber: .45ACPX
-  bulletDamage: 0
-  bulletSpeed: 0
-  imactForce: 0
-  bulletPrefab: {fileID: 2839827753654556621, guid: b560a31f49920494686580e73c114708, type: 3}
+  bulletDamage: 1
+  bulletSpeed: 100
+  imactForce: 200
+  flyDistance: 100
+  bulletPrefab: {fileID: 1479792290806866601, guid: ffa2bd82e3799894987d5ce795f1e27b, type: 3}

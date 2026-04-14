@@ -149,8 +149,11 @@ public class Weapon
 
     public void SetCurrentBulletData(BulletData bulletData) 
     {
+        //if (weaponData == null) return;
+        //Debug.Log($"Attempting to set current bullet data for {weaponData.name} to {bulletData.name}");
         if (weaponData.compatibleBullets.Contains(bulletData)) 
         {
+            //Debug.Log($"Setting current bullet data for {weaponData.name} to {bulletData.name}");
             currentBulletData = bulletData;
         }
     }

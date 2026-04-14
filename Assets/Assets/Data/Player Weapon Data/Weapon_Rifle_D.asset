@@ -28,8 +28,8 @@ MonoBehaviour:
   maxSpread: 0
   spreadIncreaseRate: 0.15
   weaponType: 4
-  reloadSpeed: 1
-  equipmentSpeed: 1
+  reloadSpeed: 3
+  equipmentSpeed: 3
   gunDistance: 4
   cameraDistance: 6
   damage: 0

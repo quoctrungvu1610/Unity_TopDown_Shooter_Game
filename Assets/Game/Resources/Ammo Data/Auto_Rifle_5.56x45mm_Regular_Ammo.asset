@@ -15,7 +15,8 @@ MonoBehaviour:
   bulletName: Auto Rifle 5.56x45mm Regular Ammo
   bulletType: 0
   caliber: 5.56x45mm
-  bulletDamage: 0
-  bulletSpeed: 0
-  imactForce: 0
-  bulletPrefab: {fileID: 8081184568738378561, guid: 61016cdf931a31d49a2445ce85b9fdb8, type: 3}
+  bulletDamage: 1
+  bulletSpeed: 100
+  imactForce: 200
+  flyDistance: 100
+  bulletPrefab: {fileID: 1479792290806866601, guid: ffa2bd82e3799894987d5ce795f1e27b, type: 3}

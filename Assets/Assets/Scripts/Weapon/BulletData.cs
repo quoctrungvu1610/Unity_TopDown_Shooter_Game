@@ -17,10 +17,10 @@ public class BulletData : ScriptableObject
     [SerializeField] private string bulletName;
     [SerializeField] private BulletType bulletType;
     [SerializeField] private string caliber;
-    [SerializeField] private float bulletDamage;
+    [SerializeField] private int bulletDamage;
     [SerializeField] private float bulletSpeed;
     [SerializeField] private float imactForce;
-
+    [SerializeField] private float flyDistance;
     [SerializeField] private GameObject bulletPrefab;
 
     public BulletType GetBulletType() 
@@ -28,7 +28,7 @@ public class BulletData : ScriptableObject
         return bulletType;
     }
 
-    public float GetBulletDamage() 
+    public int GetBulletDamage() 
     {
         return bulletDamage;
     }
@@ -48,4 +48,13 @@ public class BulletData : ScriptableObject
         return bulletName;
     }
 
+    public float GetFlyDistance() 
+    {
+        return flyDistance;
+    }
+
+    public GameObject GetBulletPrefab() 
+    {
+        return bulletPrefab;
+    }
 }

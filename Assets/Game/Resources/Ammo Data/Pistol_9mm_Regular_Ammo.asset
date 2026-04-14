@@ -15,7 +15,8 @@ MonoBehaviour:
   bulletName: Pistol 9mm Regular
   bulletType: 0
   caliber: 9mm
-  bulletDamage: 0
-  bulletSpeed: 0
-  imactForce: 0
-  bulletPrefab: {fileID: 2518894319488266876, guid: 7f4944e28c1283e48a24aaf65859eeef, type: 3}
+  bulletDamage: 1
+  bulletSpeed: 100
+  imactForce: 200
+  flyDistance: 100
+  bulletPrefab: {fileID: 1479792290806866601, guid: ffa2bd82e3799894987d5ce795f1e27b, type: 3}

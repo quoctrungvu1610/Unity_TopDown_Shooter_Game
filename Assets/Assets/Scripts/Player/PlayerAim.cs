@@ -30,7 +30,7 @@ public class PlayerAim : MonoBehaviour
     [Space]
 
     [SerializeField] private LayerMask aimLayerMask;
-    
+
     private Vector2 mouseInput;
     private RaycastHit lastKnownMouseHit;
 
@@ -42,7 +42,7 @@ public class PlayerAim : MonoBehaviour
 
     private void Update()
     {
-        if(player.health.isDead)
+        if (player.health.isDead)
         {
             return;
         }
@@ -75,8 +75,12 @@ public class PlayerAim : MonoBehaviour
 
         WeaponModel weaponModel = player.weaponVisuals.CurrentWeaponModel();
 
-        if (weaponModel == null)
+        if (weaponModel == null || player.weapon.CurrentWeapon().GetCurrentBulletData() == null) 
+        {
+            aimLaser.enabled = false;
+            laserImpactDot.SetActive(false);
             return;
+        }
 
         weaponModel.transform.LookAt(aim);
         weaponModel.gunPoint.LookAt(aim);
@@ -84,7 +88,8 @@ public class PlayerAim : MonoBehaviour
         Transform gunPoint = player.weapon.GunPoint();
         Vector3 laserDirection = player.weapon.BulletDirection();
 
-        float gunDistance = player.weapon.CurrentWeapon().gunDistance;
+
+        float gunDistance = player.weapon.CurrentWeapon().GetCurrentBulletData().GetFlyDistance();
         Vector3 endPoint = gunPoint.position + laserDirection * gunDistance;
 
         bool hitSomething = false;
@@ -106,7 +111,6 @@ public class PlayerAim : MonoBehaviour
                 laserImpactDot.SetActive(true);
                 laserImpactDot.transform.position = endPoint;
 
-                // Xoay theo normal để nhìn đẹp hơn
                 laserImpactDot.transform.rotation = Quaternion.LookRotation(hitInfo.normal);
             }
             else

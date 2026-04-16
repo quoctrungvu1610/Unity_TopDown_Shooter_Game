@@ -15,10 +15,10 @@ MonoBehaviour:
   progress:
   - stat: 0
     statData:
-    - 10
-    - 15
-    - 20
-    - 25
+    - 999999
+    - 99999
+    - 99999
+    - 9999
     - 30
     - 35
     - 40

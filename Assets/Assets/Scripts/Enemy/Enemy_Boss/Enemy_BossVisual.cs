@@ -53,7 +53,7 @@ public class Enemy_BossVisual : MonoBehaviour
         Debug.Log("Place Missile Landing Zone");
         GameObject newFx = ObjectPool.instance.GetObject(missileLandingFx.gameObject, transform);
 
-        newFx.transform.position = target;
+        newFx.transform.position = new Vector3(target.x, 0.1f, target.z);
 
         var mainModule = landingZoneFx.main;
         mainModule.duration = duration;

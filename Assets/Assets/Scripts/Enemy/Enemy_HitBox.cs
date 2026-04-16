@@ -16,7 +16,7 @@ public class Enemy_HitBox : HitBox
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
-
+        CrosshairManager.Instance.TriggerHit();
         enemy.GetHit(damage);
     }
 

@@ -15,8 +15,8 @@ MonoBehaviour:
   bulletName: Rifle .300 Lapua MagnumX Piercing Ammo
   bulletType: 2
   caliber: .300 Lapua MagnumX
-  bulletDamage: 1
+  bulletDamage: 5
   bulletSpeed: 100
-  imactForce: 200
-  flyDistance: 100
+  imactForce: 400
+  flyDistance: 10
   bulletPrefab: {fileID: 1479792290806866601, guid: fb39297baef07ce4bb1d150a573df202, type: 3}

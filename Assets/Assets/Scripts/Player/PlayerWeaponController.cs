@@ -283,9 +283,9 @@ public class PlayerWeaponController : MonoBehaviour
 
     private void FireSingleBullet()
     {
+        CrosshairManager.Instance.RegisterShotfired();
         currentWeapon.bulletsInMagazine--;
-     
-        Debug.Log(currentWeapon.GetCurrentBulletData().GetBulletPrefab().name);
+        CinemachineShake.Instance.ShakeCamera(1f, 0.1f);
         GameObject newBullet = ObjectPool.instance.GetObject(currentWeapon.GetCurrentBulletData().GetBulletPrefab(), GunPoint());
         newBullet.transform.position = GunPoint().position;
         newBullet.transform.rotation = Quaternion.LookRotation(GunPoint().forward);

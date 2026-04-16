@@ -15,8 +15,8 @@ MonoBehaviour:
   bulletName: Auto Rifle 7.62x51mm Piercing Ammo
   bulletType: 2
   caliber: 7.62x51mm
-  bulletDamage: 1
+  bulletDamage: 5
   bulletSpeed: 100
   imactForce: 200
-  flyDistance: 100
+  flyDistance: 10
   bulletPrefab: {fileID: 1479792290806866601, guid: fb39297baef07ce4bb1d150a573df202, type: 3}

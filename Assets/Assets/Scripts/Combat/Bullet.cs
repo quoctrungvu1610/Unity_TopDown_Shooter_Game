@@ -81,9 +81,9 @@ public class Bullet : MonoBehaviour
 
     protected virtual void FadeTrailIfNeeded()
     {
-        if (Vector3.Distance(startPosition, transform.position) > flyDistance - 2f)
+        if (Vector3.Distance(startPosition, transform.position) > flyDistance - 1f)
         {
-            trailRenderer.time -= 2 * Time.deltaTime;
+            trailRenderer.time -= 1 * Time.deltaTime;
         }
     }
 

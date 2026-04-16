@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Unity.VisualScripting;
@@ -87,6 +87,14 @@ public class PlayerWeaponVisual : MonoBehaviour
 
         anim.SetFloat("ReloadSpeed", reloadSpeed);
         anim.SetTrigger("Reload");
+
+        AnimatorClipInfo[] clipInfo = anim.GetCurrentAnimatorClipInfo(0);
+
+        if (clipInfo.Length > 0)
+        {
+            float originalLength = clipInfo[0].clip.length;
+            CrosshairManager.Instance.StartReload(originalLength, reloadSpeed);
+        }
         ReduceRigWeight();
     }
 
@@ -115,7 +123,6 @@ public class PlayerWeaponVisual : MonoBehaviour
 
     public void SwitchOnCurrentWeaponModel()
     {
-        Debug.Log("111");
         if (CurrentWeaponModel() == null) return;
 
         SwitchOffBackupWeaponModels();

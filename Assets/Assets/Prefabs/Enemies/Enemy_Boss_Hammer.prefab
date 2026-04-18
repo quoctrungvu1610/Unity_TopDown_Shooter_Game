@@ -23938,9 +23938,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1586650028674700538, guid: 6b9445624e060d148b9d90f5e0b89832, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368740465870404319, guid: 6b9445624e060d148b9d90f5e0b89832, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6110306547786188123, guid: 6b9445624e060d148b9d90f5e0b89832, type: 3}
       propertyPath: m_Name
       value: Healthbar Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6110306547786188123, guid: 6b9445624e060d148b9d90f5e0b89832, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7394139436134167437, guid: 6b9445624e060d148b9d90f5e0b89832, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

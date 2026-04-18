@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum EquipType { SideEquipAnimation, BackEquipAnimation };
 
-public enum HoldType { CommonHold = 1, LowHold,  HighHold};
+public enum HoldType { CommonHold = 1, LowHold,  HighHoldd, Unarmed};
 
 
 public class WeaponModel : MonoBehaviour
@@ -19,7 +19,7 @@ public class WeaponModel : MonoBehaviour
     public ParticleSystem muzzleFlash;
     public GameObject muzzleLight;
 
-    public void AddLight() 
+    public void AddMuzzleLight() 
     {
         muzzleLight.gameObject.SetActive(true);
 

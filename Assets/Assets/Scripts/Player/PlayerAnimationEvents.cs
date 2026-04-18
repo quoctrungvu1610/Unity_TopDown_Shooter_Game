@@ -24,6 +24,7 @@ public class PlayerAnimationEvents : MonoBehaviour
         
         weaponController.UpdateEquipmentData();
         weaponController.SetWeaponReady(true);
+        weaponController.SetIsReloading(false);
 
         CrosshairManager.Instance.FinishReload();
     }

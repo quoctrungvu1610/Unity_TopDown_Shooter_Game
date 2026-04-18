@@ -1178,7 +1178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2090152891078387434}
   - component: {fileID: 1568514931015599808}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: LeftHand_IK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1395,7 +1395,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1900409778158802334}
   - component: {fileID: 260124301015941666}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rig 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2344,7 +2344,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 618381247037991086}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: LeftHand_IK_target_hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3754,7 +3754,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7693943395599294707}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: LeftHand_IK_hint_elbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5478,7 +5478,7 @@ GameObject:
   - component: {fileID: 6136815425715019289}
   - component: {fileID: 405015272611704372}
   - component: {fileID: 2001196978588215867}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy's_Grenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6459,7 +6459,7 @@ GameObject:
   - component: {fileID: 9011328478339325432}
   - component: {fileID: 6868133648584756599}
   - component: {fileID: 1231663495544674731}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: granade_1_emission_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7252,7 +7252,7 @@ GameObject:
   - component: {fileID: 5028759958598488121}
   - component: {fileID: 1934381764280452677}
   - component: {fileID: 3989004853213330765}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: granade_1_emission_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7334,7 +7334,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8486838223530337496}
   - component: {fileID: 5997422548478198581}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WeaponAim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9039,6 +9039,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1586650028674700538, guid: 6b9445624e060d148b9d90f5e0b89832, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368740465870404319, guid: 6b9445624e060d148b9d90f5e0b89832, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 4488871761379783504, guid: 6b9445624e060d148b9d90f5e0b89832, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1
@@ -9046,6 +9054,14 @@ PrefabInstance:
     - target: {fileID: 6110306547786188123, guid: 6b9445624e060d148b9d90f5e0b89832, type: 3}
       propertyPath: m_Name
       value: Healthbar Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6110306547786188123, guid: 6b9445624e060d148b9d90f5e0b89832, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7394139436134167437, guid: 6b9445624e060d148b9d90f5e0b89832, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

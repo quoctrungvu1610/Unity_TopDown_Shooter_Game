@@ -48,4 +48,10 @@ public class WeaponData : ScriptableObject
     {
         return compatibleBullets;
     }
+
+    [Header("Gap")]
+    [Range(10, 100)]
+    public float minGap = 10f;
+    [Range(10, 100)]
+    public float maxGap = 100f;
 }

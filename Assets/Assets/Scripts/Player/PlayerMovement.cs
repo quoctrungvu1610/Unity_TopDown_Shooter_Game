@@ -5,37 +5,55 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
 using static UnityEngine.EventSystems.EventTrigger;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Player player;
-
-    private PlayerControls controls;
-    private CharacterController characterController;
-    private Animator animator;
-
-    [Header("Movement Info")]
-    private float speed;
-    private float verticalVelocity = 0f;
-
+    [SerializeField] private float maxDodgeTime = 0.4f;
     [SerializeField] private float walkSpeed = 1.5f;
     [SerializeField] private float runSpeed = 3.0f;
     [SerializeField] private float turnSpeed = 7f;
     [SerializeField] private float dodgeSpeed;
     [SerializeField] private float dodgeDistance;
     [SerializeField] private LayerMask obstacleLayer;
+    [SerializeField] private float gravityScale = 9.81f;
+    [SerializeField] private Image dodgeCooldownImage;
 
+    private Player player;
+    private PlayerControls controls;
+    private CharacterController characterController;
+    private Animator animator;
+
+    private float speed;
+    private float verticalVelocity = 0f;
     private Vector3 movementDirection;
     private Vector3 dodgeTarget;
     private Vector3 dodgeDirection;
-    [SerializeField] private float maxDodgeTime = 0.4f;
     private float dodgeTimer;
-    public Vector2 moveInput { get; private set; }
-
     private bool isRunning;
+    private bool isDodgeCooldown = false;
+    private float dodgeCooldownTime = 1f;
+    private float dodgeCooldownTimer = 0f;
+
+    public Vector2 moveInput { get; private set; }
     public bool isDodging;
 
-    [SerializeField] private float gravityScale = 9.81f;
+    private Vector3 toTarget;
+    private float remainingDistance;
+    private float moveDistance;
+    private float radius;
+    private Vector3 castOrigin;
+    private Vector3 beforePosition;
+    private float movedDistance;
+
+    private Vector3 flatDirection;
+    private Vector3 normalizedDir;
+
+    private Vector3 lookingDirection;
+    private Quaternion desireRotation;
+
+    private Vector3 horizontalMovement;
+    private Vector3 finalMovement;
 
     private void Start()
     {
@@ -44,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
 
         speed = walkSpeed;
+        dodgeCooldownImage.gameObject.SetActive(false);
         AssignInputEvents();
     }
 
@@ -61,29 +80,26 @@ public class PlayerMovement : MonoBehaviour
             AnimatorController();
             return;
         }
+        ApplyDodge();
+    }
 
-        // ===== DODGE LOGIC =====
-        Vector3 toTarget = dodgeTarget - transform.position;
-        float remainingDistance = toTarget.magnitude;
+    private bool ApplyDodge()
+    {
+        toTarget = dodgeTarget - transform.position;
+        remainingDistance = toTarget.magnitude;
 
 
         if (remainingDistance <= 0.05f)
         {
             StopDodge();
-            return;
+            return false;
         }
 
-
-        Vector3 dodgeDirection = toTarget.normalized;
-
-        float moveDistance = dodgeSpeed * Time.deltaTime;
-
-
+        dodgeDirection = toTarget.normalized;
+        moveDistance = dodgeSpeed * Time.deltaTime;
         moveDistance = Mathf.Min(moveDistance, remainingDistance);
-
-
-        float radius = characterController.radius * 0.9f;
-        Vector3 castOrigin = transform.position + characterController.center;
+        radius = characterController.radius * 0.9f;
+        castOrigin = transform.position + characterController.center;
 
         if (Physics.SphereCast(
             castOrigin,
@@ -96,49 +112,64 @@ public class PlayerMovement : MonoBehaviour
         {
 
             StopDodge();
-            return;
+            return false;
         }
 
-        // ===== ANTI-STUCK CHECK =====
-        Vector3 beforePosition = transform.position;
+        beforePosition = transform.position;
 
         CollisionFlags flags = characterController.Move(
             dodgeDirection * moveDistance
         );
 
-        float movedDistance = Vector3.Distance(beforePosition, transform.position);
-
+        movedDistance = Vector3.Distance(beforePosition, transform.position);
 
         if (movedDistance < 0.001f)
         {
             StopDodge();
-            return;
+            return false;
         }
 
         if ((flags & CollisionFlags.Sides) != 0)
         {
             StopDodge();
-            return;
+            return false;
         }
+
+        return true;
     }
 
-    void StopDodge()
+    private void StopDodge()
     {
         animator.SetBool("Dodge", false);
         isDodging = false;
+        isDodgeCooldown = true;
+        StartCoroutine(StartCooldownDodge());
+    }
+
+    private IEnumerator StartCooldownDodge() {    
+        dodgeCooldownImage.gameObject.SetActive(true);
+        dodgeCooldownTimer = 0f;
+        while (dodgeCooldownTimer < dodgeCooldownTime)
+        {
+            dodgeCooldownTimer += Time.deltaTime;
+            dodgeCooldownImage.fillAmount = dodgeCooldownTimer / dodgeCooldownTime;
+            yield return null;
+        }
+        dodgeCooldownImage.fillAmount = 1f;
+        dodgeCooldownImage.gameObject.SetActive(false);
+        isDodgeCooldown = false;
     }
 
     private void AnimatorController()
     {
-
-        Vector3 flatDirection = new Vector3(movementDirection.x, 0f, movementDirection.z);
+        flatDirection = new Vector3(movementDirection.x, 0f, movementDirection.z);
 
         float xVelocity = 0f;
         float zVelocity = 0f;
 
         if (flatDirection.sqrMagnitude > 0.001f)
         {
-            Vector3 normalizedDir = flatDirection.normalized;
+            normalizedDir = flatDirection.normalized;
             xVelocity = Vector3.Dot(normalizedDir, transform.right);
             zVelocity = Vector3.Dot(normalizedDir, transform.forward);
         }
@@ -152,14 +183,36 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyRotation()
     {
-        Vector3 lookingDirection = player.aim.GetMouseHitInfo().point - transform.position;
+        if(player.weapon.HasMainWeaponEquipped() == false)
+        {
+            ApplyRotationFreeLook();
+            return;
+        }
+        ApplyRotaionHangingWeapon();
+    }
+
+    private void ApplyRotaionHangingWeapon()
+    {
+        lookingDirection = player.aim.GetMouseHitInfo().point - transform.position;
         lookingDirection.y = 0f;
 
         if (lookingDirection.sqrMagnitude < 0.001f) return;
 
         lookingDirection.Normalize();
 
-        Quaternion desireRotation = Quaternion.LookRotation(lookingDirection);
+        desireRotation = Quaternion.LookRotation(lookingDirection);
+        transform.rotation = Quaternion.Lerp(
+            transform.rotation,
+            desireRotation,
+            turnSpeed * Time.deltaTime
+        );
+    }
+
+    private void ApplyRotationFreeLook()
+    {
+        if (moveInput.sqrMagnitude < 0.001f) return;
+        Vector3 moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
+        desireRotation = Quaternion.LookRotation(moveDirection);
         transform.rotation = Quaternion.Lerp(
             transform.rotation,
             desireRotation,
@@ -169,16 +222,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyMovement()
     {
-
-        Vector3 horizontalMovement = new Vector3(moveInput.x, 0f, moveInput.y);
-
-
-        movementDirection = horizontalMovement;
-
-
         ApplyGravity();
 
-        Vector3 finalMovement = horizontalMovement * speed;
+        horizontalMovement = new Vector3(moveInput.x, 0f, moveInput.y);
+        movementDirection = horizontalMovement;
+        finalMovement = horizontalMovement * speed;
         finalMovement.y = verticalVelocity;
 
         characterController.Move(finalMovement * Time.deltaTime);
@@ -202,6 +250,7 @@ public class PlayerMovement : MonoBehaviour
     private void Dodge()
     {
         if (isDodging) return;
+        if(isDodgeCooldown) return;
 
         animator.SetBool("Dodge", true);
         isDodging = true;

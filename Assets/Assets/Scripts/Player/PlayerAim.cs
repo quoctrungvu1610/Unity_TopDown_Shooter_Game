@@ -34,6 +34,14 @@ public class PlayerAim : MonoBehaviour
     private Vector2 mouseInput;
     private RaycastHit lastKnownMouseHit;
 
+    private Transform gunPoint;
+    private Vector3 laserDirection;
+    private float gunDistance;
+    private Vector3 endPoint;
+    private bool hitSomething = false;
+    private Vector3 calculatedEndPoint;
+    private Transform target;
+
     private void Start()
     {
         player = GetComponent<Player>();
@@ -57,6 +65,23 @@ public class PlayerAim : MonoBehaviour
             isLockingToTarget = !isLockingToTarget;
         }
 
+        if (player.weapon.HasMainWeaponEquipped() == false)
+        {
+            UpdateCameraPosition();
+            aimLaser.enabled = false;
+            if (laserImpactDot != null)
+                laserImpactDot.SetActive(false);
+            return;
+        }
+        else 
+        {
+            UpdateAim();
+        }
+
+    }
+
+    private void UpdateAim() 
+    {
         UpdateAimVisuals();
         UpdateAimPosition();
         UpdateCameraPosition();
@@ -64,6 +89,7 @@ public class PlayerAim : MonoBehaviour
 
     private void UpdateAimVisuals()
     {
+        
         aimLaser.enabled = player.weapon.WeaponReady();
 
         if (!aimLaser.enabled)
@@ -85,20 +111,21 @@ public class PlayerAim : MonoBehaviour
         weaponModel.transform.LookAt(aim);
         weaponModel.gunPoint.LookAt(aim);
 
-        Transform gunPoint = player.weapon.GunPoint();
-        Vector3 laserDirection = player.weapon.BulletDirection();
+        gunPoint = player.weapon.GunPoint();
+        laserDirection = player.weapon.BulletDirection();
 
 
-        float gunDistance = player.weapon.CurrentWeapon().GetCurrentBulletData().GetFlyDistance();
-        Vector3 endPoint = gunPoint.position + laserDirection * gunDistance;
+        gunDistance = player.weapon.CurrentWeapon().GetCurrentBulletData().GetFlyDistance();
+        endPoint = gunPoint.position + laserDirection * gunDistance;
 
-        bool hitSomething = false;
+        hitSomething = false;
 
         if (Physics.Raycast(gunPoint.position, laserDirection, out RaycastHit hitInfo, gunDistance, ~layerToIgnore))
         {
             endPoint = hitInfo.point;
             hitSomething = true;
         }
+
 
         aimLaser.SetPosition(0, gunPoint.position);
         aimLaser.SetPosition(1, endPoint);
@@ -159,7 +186,7 @@ public class PlayerAim : MonoBehaviour
 
     private void UpdateAimPosition()
     {
-        Transform target = Target();
+        target = Target();
 
         if (isLockingToTarget && target != null)
         {

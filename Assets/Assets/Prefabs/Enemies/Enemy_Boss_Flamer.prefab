@@ -9863,7 +9863,7 @@ GameObject:
   - component: {fileID: 2577606127462826542}
   - component: {fileID: 7796643428635079202}
   - component: {fileID: 6636267550343376946}
-  m_Layer: 12
+  m_Layer: 11
   m_Name: DamageArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9960,6 +9960,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3242654264614334677}
     m_Modifications:
+    - target: {fileID: 305459020589927900, guid: fab087964e07ee14496696c24acc3d98, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 1283462419826757161, guid: fab087964e07ee14496696c24acc3d98, type: 3}
       propertyPath: InitialModule.maxNumParticles
       value: 100
@@ -9967,6 +9971,14 @@ PrefabInstance:
     - target: {fileID: 1449985120995404295, guid: fab087964e07ee14496696c24acc3d98, type: 3}
       propertyPath: m_Name
       value: BossFlamer_Fx
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449985120995404295, guid: fab087964e07ee14496696c24acc3d98, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213889213906760586, guid: fab087964e07ee14496696c24acc3d98, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4639924122698244451, guid: fab087964e07ee14496696c24acc3d98, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10007,6 +10019,10 @@ PrefabInstance:
     - target: {fileID: 4639924122698244451, guid: fab087964e07ee14496696c24acc3d98, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9205877996662815633, guid: fab087964e07ee14496696c24acc3d98, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10114,9 +10130,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1586650028674700538, guid: 6b9445624e060d148b9d90f5e0b89832, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368740465870404319, guid: 6b9445624e060d148b9d90f5e0b89832, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6110306547786188123, guid: 6b9445624e060d148b9d90f5e0b89832, type: 3}
       propertyPath: m_Name
       value: Healthbar Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6110306547786188123, guid: 6b9445624e060d148b9d90f5e0b89832, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7394139436134167437, guid: 6b9445624e060d148b9d90f5e0b89832, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

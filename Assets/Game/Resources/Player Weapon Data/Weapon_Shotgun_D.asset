@@ -35,3 +35,5 @@ MonoBehaviour:
   damage: 1
   compatibleBullets:
   - {fileID: 11400000, guid: ebfdc37a2b10df148be1dc1dcb22fd41, type: 2}
+  minGap: 40
+  maxGap: 100

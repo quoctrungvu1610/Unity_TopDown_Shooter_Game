@@ -35,10 +35,16 @@ public class Shop : Interactable
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    private void Start()
+    {
         foreach (var config in stockConfig) 
         {
-            stock[config.item] = config.initialStock;
+            if(config.item != null)
+                stock[config.item] = config.initialStock;
         }
+        
     }
 
 

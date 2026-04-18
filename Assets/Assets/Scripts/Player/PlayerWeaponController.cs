@@ -7,7 +7,7 @@ using UnityEngine;
 public class PlayerWeaponController : MonoBehaviour
 {
     [SerializeField] private LayerMask whatIsAlly;
-    [SerializeField] private float defaultCameraDistance = 3f;
+    [SerializeField] private float defaultCameraDistance = 6f;
     [Space]
     private Player player;
     private const float REFERENCE_BULLET_SPEED = 10f;
@@ -16,6 +16,7 @@ public class PlayerWeaponController : MonoBehaviour
     [SerializeField] private Weapon backupWeapon;
     private bool weaponReady;
     private bool isShooting;
+    private bool isReloading;
 
     [Header("Bullet details")]
     [SerializeField] private float bulletImpactForce = 100;
@@ -76,6 +77,22 @@ public class PlayerWeaponController : MonoBehaviour
         return (weaponInSlot != null && weaponInSlotBackupSlot == null) || (weaponInSlot == null && weaponInSlotBackupSlot != null);
     }
 
+    public bool HasAnyWeaponEquipped() 
+    {
+        WeaponEquipableItem weaponInSlot = equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponEquipableItem;
+        WeaponEquipableItem weaponInSlotBackupSlot = equipment.GetItemInSlot(EquipLocation.BackupWeapon) as WeaponEquipableItem;
+        return weaponInSlot != null || weaponInSlotBackupSlot != null;
+    }
+
+    public bool HasMainWeaponEquipped() 
+    {
+        return currentWeapon != null;
+    }
+
+    public bool HasBackupWeaponEquipped() 
+    {
+        return backupWeapon != null;
+    }
 
     public Weapon CurrentWeapon()
     {
@@ -98,22 +115,31 @@ public class PlayerWeaponController : MonoBehaviour
     #region Slots management - Pickup/Equip/Drop/Ready
     private void EquipWeapon(int i)
     {
-        SetWeaponReady(false);
-
+        if(isReloading) return;
         if (i == 1)
         {
-            if (backupWeapon == null) return;
+            if (backupWeaponInstance == null) return;
+            if (currentWeapon == backupWeaponInstance) return;
+
+            SetWeaponReady(false);
             currentWeapon = backupWeaponInstance;
-            backupWeapon = mainWeaponInstance;
-            
+            backupWeapon = mainWeaponInstance;  
         }
         else
         {
-            if (currentWeapon == null) return;
+            if (mainWeaponInstance == null) return;
+            if(currentWeapon == mainWeaponInstance) return;
+
+            SetWeaponReady(false);
             currentWeapon = mainWeaponInstance;
             backupWeapon = backupWeaponInstance;
         }
+        
         player.weaponVisuals.PlayWeaponEquipAnimation();
+        player.weaponVisuals.SwitchOnBackupWeaponModel();
+        player.weaponVisuals.SwitchOnCurrentWeaponModel();
+        ApplyWeaponGap();
+
         ChangeCameraDistance(currentWeapon != null ? currentWeapon.cameraDistance : defaultCameraDistance);
     }
 
@@ -134,9 +160,21 @@ public class PlayerWeaponController : MonoBehaviour
             player.weaponVisuals.PlayWeaponEquipAnimation();
 
         ChangeCameraDistance(currentWeapon != null ? currentWeapon.cameraDistance : defaultCameraDistance);
-
         player.weaponVisuals.SwitchOnBackupWeaponModel();
         player.weaponVisuals.SwitchOnCurrentWeaponModel();
+        ApplyWeaponGap();
+    }
+
+    private void ApplyWeaponGap() 
+    {
+        if (currentWeapon != null) 
+        {
+            CrosshairManager.Instance.SetupGap(currentWeapon.weaponData.minGap, currentWeapon.weaponData.maxGap);
+        }
+        else 
+        {
+            CrosshairManager.Instance.SetupGap(15, 60);
+        }
     }
 
     private bool CheckIfAmmoIsCompatible(WeaponEquipableItem weaponItem, BulletItem bulletItem) 
@@ -194,6 +232,18 @@ public class PlayerWeaponController : MonoBehaviour
         return existingWeapon;
     }
 
+    private bool CheckBulletInSlot() 
+    {
+        if(Object.ReferenceEquals(currentWeapon, mainWeaponInstance)) 
+        {
+            return equipment.GetBulletItemInSlot(EquipLocation.MainWeaponAmmo) != null;
+        }
+        else if(Object.ReferenceEquals(currentWeapon, backupWeaponInstance)) 
+        {
+            return equipment.GetBulletItemInSlot(EquipLocation.BackupWeaponAmmo) != null;
+        }
+        return false;
+    }
 
     private void EquipStartingWeapon()
     {
@@ -211,9 +261,19 @@ public class PlayerWeaponController : MonoBehaviour
         return weaponReady;
     }
 
+    public void SetIsReloading(bool value) 
+    {
+        isReloading = value;
+    }
+
+    public bool IsReloading() 
+    {
+        return isReloading;
+    }
+
     public void UpdateEquipmentData() 
     {
-        equipment.UpdateNumberInSlot(EquipLocation.MainWeaponAmmo, mainWeaponInstance.GetTotalReserveAmmo());
+        equipment.UpdateNumberInSlot(EquipLocation.MainWeaponAmmo, mainWeaponInstance != null ? mainWeaponInstance.GetTotalReserveAmmo() : 0);
         equipment.UpdateNumberInSlot(EquipLocation.BackupWeaponAmmo, backupWeaponInstance != null ? backupWeaponInstance.GetTotalReserveAmmo() : 0);
     }
 
@@ -232,6 +292,7 @@ public class PlayerWeaponController : MonoBehaviour
 
     IEnumerator BurstFire()
     {
+        if(CheckBulletInSlot() == false) yield break;
         SetWeaponReady(false);
 
         for (int i = 0; i < currentWeapon.bulletsPerShot; i++)
@@ -309,9 +370,9 @@ public class PlayerWeaponController : MonoBehaviour
     private void Reload()
     {
         SetWeaponReady(false);
+        SetIsReloading(true);
         player.weaponVisuals.PlayReloadAnimation();
     }
-
 
     public Transform GunPoint()
     {
@@ -356,7 +417,6 @@ public class PlayerWeaponController : MonoBehaviour
         controls.Character.ToggleWeaponMode.performed += context => currentWeapon.ToggleBurstMode();
 
     }
-
 
     #endregion
 }

@@ -13,19 +13,19 @@ MonoBehaviour:
   m_Name: Weapon_Pistol_D
   m_EditorClassIdentifier: 
   weaponName: 
-  bulletsInMagazine: 0
-  magazineCapacity: 0
+  bulletsInMagazine: 12
+  magazineCapacity: 12
   totalReserveAmmo: 0
   shootType: 0
   bulletPerShot: 1
-  fireRate: 0
+  fireRate: 5
   burstAvailable: 0
   burstActive: 0
   burstBulletPerShot: 3
   burstFireRate: 0.5
   burstFireDelay: 0.1
-  baseSpread: 5
-  maxSpread: 10
+  baseSpread: 1
+  maxSpread: 5
   spreadIncreaseRate: 0.15
   weaponType: 0
   reloadSpeed: 1
@@ -36,3 +36,5 @@ MonoBehaviour:
   compatibleBullets:
   - {fileID: 11400000, guid: 7e6811b19ba5fe54f82ad8f34d4e856e, type: 2}
   - {fileID: 11400000, guid: 4ffecf279e9027749b5f1ba9cba29cf4, type: 2}
+  minGap: 20
+  maxGap: 30

@@ -58,7 +58,7 @@ public class PlayerWeaponVisual : MonoBehaviour
     public WeaponModel CurrentWeaponModel()
     {
         WeaponModel weaponModel = null;
-        if (player.weapon.CurrentWeapon() != null)
+        if (player.weapon.HasMainWeaponEquipped())
         {
             WeaponType weaponType = player.weapon.CurrentWeapon().weaponType;
 
@@ -101,6 +101,8 @@ public class PlayerWeaponVisual : MonoBehaviour
 
     public void PlayWeaponEquipAnimation()
     {
+        if(player.weapon.CurrentWeapon() == null) return;
+
         EquipType equipType = CurrentWeaponModel().equipAnimationType;
 
         float equipmentSpeed = player.weapon.CurrentWeapon().equipmentSpeed;
@@ -117,14 +119,19 @@ public class PlayerWeaponVisual : MonoBehaviour
     public void PlayWeaponMuzzleFlash()
     {
         CurrentWeaponModel().muzzleFlash.Play();
-        CurrentWeaponModel().AddLight();
+        CurrentWeaponModel().AddMuzzleLight();
     }
 
 
     public void SwitchOnCurrentWeaponModel()
     {
-        if (CurrentWeaponModel() == null) return;
-
+        if (player.weapon.CurrentWeapon() == null) 
+        {
+            int animationIndex = (int)HoldType.Unarmed;
+            SwitchAnimationlayer(animationIndex);
+            rig.weight = 0;
+        }
+        
         SwitchOffBackupWeaponModels();
         SwitchOffWeaponModels();
 

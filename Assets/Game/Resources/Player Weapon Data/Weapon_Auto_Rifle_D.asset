@@ -39,3 +39,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a4c53068a5bbd2c49a7be981ff1b0e41, type: 2}
   - {fileID: 11400000, guid: 0fc1747abffbaaf4788c01d3c611f57c, type: 2}
   - {fileID: 11400000, guid: 75237c89588dd7342871e42b1600730d, type: 2}
+  minGap: 20
+  maxGap: 60

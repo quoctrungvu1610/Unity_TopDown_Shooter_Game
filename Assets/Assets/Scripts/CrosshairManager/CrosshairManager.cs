@@ -39,6 +39,8 @@ public class CrosshairManager : MonoBehaviour
     private float currentGap;
     private Coroutine currentEffectCoroutine;
     private bool isReloading = false;
+    float currentZ;
+    float newZ;
 
     public static CrosshairManager Instance { get; private set; }
 
@@ -52,20 +54,29 @@ public class CrosshairManager : MonoBehaviour
 
     void Update()
     {
-        if (!Cursor.visible)
-        {
-            transform.position = Input.mousePosition;
-        }
+        //if (!Cursor.visible)
+        //{
+        //}
+        transform.position = Input.mousePosition;
 
-        if (currentGap > minGap)
+        if (currentGap > minGap && isReloading == false)
         {
             currentGap -= restoreSpeed * Time.deltaTime;
             currentGap = Mathf.Max(minGap, currentGap);
         }
 
-        float currentZ = normalGroup.transform.localEulerAngles.z;
-        float newZ = Mathf.LerpAngle(currentZ, targetRotationZ, Time.deltaTime * rotationSpeed);
+        currentZ = normalGroup.transform.localEulerAngles.z;
+        newZ = Mathf.LerpAngle(currentZ, targetRotationZ, Time.deltaTime * rotationSpeed);
         normalGroup.transform.localEulerAngles = new Vector3(0, 0, newZ);
+
+        ApplyGap(currentGap);
+    }
+
+    public void SetupGap(float minGap, float maxGap)
+    {
+        this.minGap = minGap;
+        this.maxGap = maxGap;
+        currentGap = minGap;
 
         ApplyGap(currentGap);
     }
@@ -147,7 +158,6 @@ public class CrosshairManager : MonoBehaviour
     public void FinishReload()
     {
         isReloading = false;
-
         targetRotationZ = 0f;
 
         if (reloadCoroutine != null) StopCoroutine(reloadCoroutine);

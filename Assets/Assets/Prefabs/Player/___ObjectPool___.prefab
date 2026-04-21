@@ -45,5 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolSize: 50
-  weaponPickup: {fileID: 1768094579256483761, guid: 606b15891e00c1146abe1538f4a24055, type: 3}
-  ammoPickup: {fileID: 995841215480497802, guid: 908e28bcb0610774798f3272c8644603, type: 3}
+  prefabsToPool:
+  - {fileID: 3853473795847930971, guid: f433dd4c5bed26b4ea43fccaa98cbd5d, type: 3}
+  - {fileID: 3853473795847930971, guid: ce76196b2aebee7438087c08380c674a, type: 3}

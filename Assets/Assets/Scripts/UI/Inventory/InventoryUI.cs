@@ -13,6 +13,7 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] InventorySlotUI InventoryItemPrefab = null;
     [SerializeField] private Button quitButton;
     [SerializeField] private Transform uISLotsHolder;
+
     // CACHE
     Inventory playerInventory;
 

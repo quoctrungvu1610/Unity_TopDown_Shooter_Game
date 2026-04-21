@@ -73,7 +73,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   iterations: 12
-  downsample: 2
+  downsample: 4.06
   enableMipMaps: 0
   scale: 1
   offset: 1

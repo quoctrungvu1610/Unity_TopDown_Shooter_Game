@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventorySlotUI : MonoBehaviour, IItemHolder, IDragContainer<InventoryItem>
 {
     // CONFIG DATA
     [SerializeField] InventoryItemIcon icon = null;
-
+    [SerializeField] private Image rarityBackgroundImage = null;
     // STATE
     int index;
     InventoryItem item;
@@ -15,10 +16,12 @@ public class InventorySlotUI : MonoBehaviour, IItemHolder, IDragContainer<Invent
     // PUBLIC
 
     public void Setup(Inventory inventory, int index)
-    {
+    {  
         this.inventory = inventory;
         this.index = index;
         icon.SetItem(inventory.GetItemInSlot(index), inventory.GetNumberInSlot(index));
+        if (inventory.GetItemInSlot(index) != null)
+            rarityBackgroundImage.color = inventory.GetRarityColor(inventory.GetItemInSlot(index));
     }
 
     public int MaxAcceptable(InventoryItem item)

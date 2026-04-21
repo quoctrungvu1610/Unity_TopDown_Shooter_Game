@@ -20,5 +20,6 @@ MonoBehaviour:
   stackable: 0
   price: 99
   category: 1
+  rarity: 3
   allowedEquipLocation: 5
   weaponData: {fileID: 11400000, guid: c81b31e3935168344b89043bfaaa0fe0, type: 2}

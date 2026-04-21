@@ -24,7 +24,7 @@ public class Inventory : MonoBehaviour, ISaveable, IPredicateEvaluator
     // CONFIG DATA
     [Tooltip("Allowed size")]
     [SerializeField] int inventorySize = 16;
-
+    [SerializeField] Color[] rarityColors = null;
     // STATE
     [SerializeField] InventorySlot[] slots;
 
@@ -42,6 +42,11 @@ public class Inventory : MonoBehaviour, ISaveable, IPredicateEvaluator
     {
         var player = GameObject.FindWithTag("Player");
         return player.GetComponent<Inventory>();
+    }
+
+    public Color GetRarityColor(InventoryItem item) 
+    {
+        return rarityColors[(int)item.GetRarity()];
     }
 
     /// <summary>

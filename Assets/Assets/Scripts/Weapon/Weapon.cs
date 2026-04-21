@@ -160,13 +160,11 @@ public class Weapon
 
     public int GetTotalReserveAmmo()
     {
-        Debug.Log($"Total reserve ammo for {weaponData.name}: {totalReserveAmmo}");
         return totalReserveAmmo;
     }
 
     public void SetTotalReserveAmmo(int ammo) 
     {
-        Debug.Log($"Setting total reserve ammo for {weaponData.name} to {ammo}");
         totalReserveAmmo = ammo;
     }
 
@@ -191,7 +189,6 @@ public class Weapon
     }
     public void RefillBullets() 
     {
-        Debug.Log($"Reloading {weaponData.name}...");
         int bulletToReload = magazineCapacity;
 
         if (bulletToReload > totalReserveAmmo) 

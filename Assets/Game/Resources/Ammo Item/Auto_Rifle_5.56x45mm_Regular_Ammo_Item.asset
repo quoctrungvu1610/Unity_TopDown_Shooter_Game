@@ -22,5 +22,6 @@ MonoBehaviour:
   stackable: 1
   price: 0
   category: 2
+  rarity: 1
   allowedEquipLocation: 9
   bulletData: {fileID: 11400000, guid: 99252da5a76e8dc41adf708644462b05, type: 2}

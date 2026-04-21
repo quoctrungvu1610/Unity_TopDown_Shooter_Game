@@ -1,6 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+public enum ItemRarity 
+{
+    Common,
+    Uncommon,
+    Rare,
+    Epic,
+    Legendary
+}
 
 [CreateAssetMenu(menuName = ("Inventory/Item"))]
 public class InventoryItem : ScriptableObject, ISerializationCallbackReceiver
@@ -20,6 +28,7 @@ public class InventoryItem : ScriptableObject, ISerializationCallbackReceiver
     [SerializeField] bool stackable = false;
     [SerializeField] float price;
     [SerializeField] ItemCategory category = ItemCategory.None;
+    [SerializeField] ItemRarity rarity = ItemRarity.Common;
 
     // STATE
     static Dictionary<string, InventoryItem> itemLookupCache;
@@ -98,6 +107,11 @@ public class InventoryItem : ScriptableObject, ISerializationCallbackReceiver
     public ItemCategory GetCategoty() 
     {
         return category;
+    }
+
+    public ItemRarity GetRarity() 
+    {
+        return rarity;
     }
 
     // PRIVATE
